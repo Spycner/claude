@@ -21,6 +21,8 @@ command -v acli && acli auth status
 
 If both succeed, set `acli` as the preferred tool for this session. Skip to the **Tool Preference** section.
 
+**If acli is not installed or not authenticated, silently move to Check 2. Do NOT ask the user about acli setup — just try env vars.**
+
 ### Check 2 — Environment variables (curl fallback)
 
 ```bash

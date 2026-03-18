@@ -11,15 +11,7 @@ Interact with Confluence Cloud to search pages, read documentation, create or up
 
 **You MUST confirm authentication before making any API calls.**
 
-### Step 1 — Check acli
-
-```bash
-command -v acli && acli auth status
-```
-
-If both succeed, acli is available for **limited** Confluence operations (page view by ID, space list/view). Note: even with acli authenticated, env vars are still needed for most Confluence operations (search, create, update, comments).
-
-### Step 2 — Check env vars (REQUIRED for most operations)
+### Step 1 — Check env vars (PRIMARY — required for most operations)
 
 ```bash
 echo "ATLASSIAN_DOMAIN=${ATLASSIAN_DOMAIN:-(not set)}"
@@ -27,11 +19,21 @@ echo "ATLASSIAN_EMAIL=${ATLASSIAN_EMAIL:-(not set)}"
 echo "ATLASSIAN_API_TOKEN=${ATLASSIAN_API_TOKEN:-(not set)}"
 ```
 
-All three must be set for curl-based operations. Since acli Confluence coverage is limited, these are effectively required for any real workflow.
+All three must be set for curl-based operations. Since curl is the primary tool for Confluence, these are effectively required for any real workflow. **If env vars are set, you are good to proceed — do not wait for acli.**
 
-### If neither is available — STOP
+### Step 2 — Optionally check acli (supplementary only)
 
-Tell the user:
+```bash
+command -v acli && acli auth status
+```
+
+If available and authenticated, acli can supplement curl for a few operations (page view by ID, space list/view). But acli is **not required** and **not the primary tool** for Confluence.
+
+**Important: If acli is not installed or not authenticated, silently fall back to curl. Do NOT ask the user about acli setup. Do NOT stop or prompt — just use curl.**
+
+### If env vars are not set AND acli is not available — STOP
+
+Only stop if **neither** auth path works. Tell the user:
 
 > To use Confluence, set these environment variables:
 >
@@ -42,8 +44,6 @@ Tell the user:
 > ```
 >
 > Generate an API token at: https://id.atlassian.com/manage/api-tokens
->
-> Alternatively, install and authenticate acli: `acli auth login` (provides limited Confluence support).
 
 **Do not proceed without auth. This is a hard gate.**
 

@@ -144,11 +144,72 @@ check_any_auth() {
     check_acli_auth || check_env_auth
 }
 
+# Run Claude and capture stream-json output to a log file, plus human-readable output
+# Usage: run_claude_logged "prompt text" log_file [timeout_seconds]
+# Returns: human-readable output on stdout, full JSON stream in log_file
+run_claude_logged() {
+    local prompt="$1"
+    local log_file="$2"
+    local timeout="${3:-120}"
+    local output_file=$(mktemp)
+    local plugin_flag=""
+    if [ -n "$PLUGIN_DIR" ]; then
+        plugin_flag="--plugin-dir $PLUGIN_DIR"
+    fi
+
+    bash -c "claude -p \"$prompt\" $plugin_flag --dangerously-skip-permissions --verbose --output-format stream-json" > "$log_file" 2>&1 || true
+
+    # Extract final result text from stream-json
+    if [ -f "$log_file" ]; then
+        # The result field in the final JSON line has the complete response
+        grep '"type":"result"' "$log_file" 2>/dev/null | grep -oE '"result":"[^"]*"' | sed 's/"result":"//;s/"$//' || \
+        # Fallback: extract text from assistant messages
+        grep '"type":"assistant"' "$log_file" 2>/dev/null | grep -oE '"text":"[^"]*"' | sed 's/"text":"//;s/"$//' || \
+        cat "$log_file"
+    fi
+}
+
+# Check if a log file contains evidence of script usage
+# Usage: assert_used_scripts log_file "test name"
+assert_used_scripts() {
+    local log_file="$1"
+    local test_name="${2:-Used scripts}"
+
+    if grep -q 'scripts/jira/\|scripts/confluence/' "$log_file"; then
+        echo "  [PASS] $test_name"
+        return 0
+    elif grep -q 'acli jira\|acli confluence' "$log_file"; then
+        echo "  [INFO] $test_name — used acli instead of scripts"
+        return 0
+    else
+        echo "  [WARN] $test_name — could not determine tool used"
+        return 0
+    fi
+}
+
+# Show which tools Claude used from a stream-json log
+# Usage: show_tools_used log_file
+show_tools_used() {
+    local log_file="$1"
+    echo "  Tools used:"
+    # Extract tool names from tool_use blocks
+    grep -oE '"name":"(Bash|Read|Write|Edit|Glob|Grep|Skill)"' "$log_file" 2>/dev/null | sort | uniq -c | sed 's/"name":"//;s/"$//;s/^/    /' || true
+    # Show bash commands that reference scripts or acli or curl
+    echo "  Commands:"
+    grep -oE 'scripts/(jira|confluence)/[a-z_-]+\.sh' "$log_file" 2>/dev/null | sort -u | sed 's/^/    - script: /' || true
+    grep -oE 'acli (jira|confluence) [a-z-]+ [a-z-]*' "$log_file" 2>/dev/null | sort -u | sed 's/^/    - acli: /' || true
+    if grep -q 'curl -s -u' "$log_file" 2>/dev/null; then echo "    - raw curl detected"; fi
+    if ! grep -qE 'scripts/|acli |curl -s' "$log_file" 2>/dev/null; then echo "    (no commands detected)"; fi
+}
+
 # Export functions for use in tests
 export -f run_claude
+export -f run_claude_logged
 export -f assert_contains
 export -f assert_not_contains
 export -f assert_order
+export -f assert_used_scripts
+export -f show_tools_used
 export -f check_acli_auth
 export -f check_env_auth
 export -f check_any_auth

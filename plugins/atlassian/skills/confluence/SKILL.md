@@ -49,22 +49,32 @@ Only stop if **neither** auth path works. Tell the user:
 
 ## Script Detection
 
-Check if wrapper scripts are available:
+Locate the wrapper scripts directory. Try these in order:
 
 ```bash
-test -f "${CLAUDE_PLUGIN_ROOT}/scripts/_common.sh" && echo "SCRIPTS OK"
+# Try CLAUDE_PLUGIN_ROOT first (set when installed via marketplace)
+if [ -n "${CLAUDE_PLUGIN_ROOT:-}" ] && [ -f "${CLAUDE_PLUGIN_ROOT}/scripts/_common.sh" ]; then
+    SCRIPTS_DIR="${CLAUDE_PLUGIN_ROOT}/scripts"
+else
+    # Find scripts relative to SKILL.md location (works with --plugin-dir)
+    SKILL_DIR="$(cd "$(dirname "${BASH_SOURCE[0]:-$0}")" && pwd)"
+    CANDIDATE="$(cd "$SKILL_DIR/../.." && pwd)/scripts"
+    if [ -f "$CANDIDATE/_common.sh" ]; then
+        SCRIPTS_DIR="$CANDIDATE"
+    fi
+fi
 ```
 
-If available, prefer scripts for all curl-based operations. Scripts handle auth, URL construction, and error handling internally.
+**IMPORTANT:** You MUST run this detection at the start of every session. If `SCRIPTS_DIR` is set, use scripts for ALL operations where a script exists. Scripts handle auth, URL construction, and error handling internally.
 
 ## Tool Preference
 
-**Wrapper scripts are the preferred tool for Confluence**, followed by acli for limited operations, then raw curl as fallback.
+**MANDATORY PRIORITY ORDER — follow this strictly:**
 
 | Priority | Tool | Use for |
 |----------|------|---------|
-| 1 | **Wrapper scripts** (`${CLAUDE_PLUGIN_ROOT}/scripts/confluence/...`) | Preferred for all curl-based operations |
-| 2 | **acli** | Page view by ID, space list, space view |
+| 1 | **Wrapper scripts** (`$SCRIPTS_DIR/confluence/...`) | ALWAYS use if detected — handles auth, URLs, errors internally |
+| 2 | **acli** | Page view by ID, space list, space view (only if no scripts) |
 | 3 | **Raw curl** | Fallback if scripts aren't available |
 
 ### Curl base URLs
@@ -91,7 +101,7 @@ curl -s -u "$ATLASSIAN_EMAIL:$ATLASSIAN_API_TOKEN" \
 **script:**
 
 ```bash
-${CLAUDE_PLUGIN_ROOT}/scripts/confluence/search.sh <cql> [--limit N]
+$SCRIPTS_DIR/confluence/search.sh <cql> [--limit N]
 ```
 
 **curl** (v1 API) — acli does not support CQL search.
@@ -109,7 +119,7 @@ See `cql-recipes.md` for common CQL patterns.
 **script:**
 
 ```bash
-${CLAUDE_PLUGIN_ROOT}/scripts/confluence/get-page.sh <page-id> [--body-format storage|atlas_doc_format|view]
+$SCRIPTS_DIR/confluence/get-page.sh <page-id> [--body-format storage|atlas_doc_format|view]
 ```
 
 **acli:**
@@ -141,7 +151,7 @@ curl -s -u "$ATLASSIAN_EMAIL:$ATLASSIAN_API_TOKEN" \
 **script:**
 
 ```bash
-${CLAUDE_PLUGIN_ROOT}/scripts/confluence/list-spaces.sh [--limit N]
+$SCRIPTS_DIR/confluence/list-spaces.sh [--limit N]
 ```
 
 **acli:**
@@ -193,7 +203,7 @@ All write operations require curl. acli does not support Confluence page create,
 **script:**
 
 ```bash
-${CLAUDE_PLUGIN_ROOT}/scripts/confluence/create-page.sh --space-id ID --title "..." --body "..."
+$SCRIPTS_DIR/confluence/create-page.sh --space-id ID --title "..." --body "..."
 ```
 
 **curl:**
@@ -222,7 +232,7 @@ See `storage-format.md` for how to construct the body value.
 **script:**
 
 ```bash
-${CLAUDE_PLUGIN_ROOT}/scripts/confluence/update-page.sh <page-id> --body "..." [--title "..."]
+$SCRIPTS_DIR/confluence/update-page.sh <page-id> --body "..." [--title "..."]
 ```
 
 **curl** — You MUST GET the page first to obtain the current version number, then PUT with `version.number + 1`.

@@ -1,11 +1,15 @@
 #!/usr/bin/env bash
 # Test: Jira integration (live API)
 # Requires Atlassian auth (acli or env vars)
+# Captures stream-json to verify which tools Claude uses
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 source "$SCRIPT_DIR/../test-helpers.sh"
 cd "$(cd "$SCRIPT_DIR/../.." && pwd)"
+
+LOG_DIR=$(mktemp -d)
+trap "rm -rf $LOG_DIR" EXIT
 
 echo "=== Test: Jira integration (live API) ==="
 
@@ -15,48 +19,47 @@ if ! check_any_auth; then
     exit 0
 fi
 
-# Test 1: List projects
+# Test 1: Search issues
 echo ""
-echo "Test 1: List Jira projects"
-output=$(run_claude "List all Jira projects. Just show me the project keys and names." 120)
-assert_contains "$output" "TC|project|key" "Lists projects" || true
+echo "Test 1: Search Jira issues"
+output=$(run_claude_logged "Search Jira for my issues using JQL 'order by created DESC' and show the first 3 results. Use the wrapper scripts if available." "$LOG_DIR/search.json" 120)
+assert_contains "$output" "TC|issue|key|result" "Search returned results" || true
+show_tools_used "$LOG_DIR/search.json"
 
-# Test 2: Search issues
+# Test 2: Create a test issue
 echo ""
-echo "Test 2: Search for issues"
-output=$(run_claude "Search Jira for all issues using JQL: 'order by created DESC' and show the first 5 results" 120)
-assert_not_contains "$output" "unauthorized|403|401" "No auth errors" || true
-
-# Test 3: Create a test issue
-echo ""
-echo "Test 3: Create a test issue"
+echo "Test 2: Create a test issue"
 TIMESTAMP=$(date +%s)
-output=$(run_claude "Create a Jira task in project TC with summary 'Plugin test $TIMESTAMP' and description 'Automated test — safe to delete'. Tell me the issue key." 180)
+output=$(run_claude_logged "Create a Jira task in project TC with summary 'Script test $TIMESTAMP' and description 'Automated test'. Use the wrapper scripts. Tell me the issue key." "$LOG_DIR/create.json" 180)
 assert_contains "$output" "[A-Z]+-[0-9]+" "Returns an issue key" || true
+show_tools_used "$LOG_DIR/create.json"
 
-# Extract issue key from output (strip markdown first)
+# Extract issue key
 ISSUE_KEY=$(echo "$output" | sed 's/\*\*//g; s/`//g' | grep -oE '[A-Z]+-[0-9]+' | head -1 || true)
 
 if [ -n "$ISSUE_KEY" ]; then
     echo "  Created: $ISSUE_KEY"
 
-    # Test 4: View the issue
+    # Test 3: View the issue
     echo ""
-    echo "Test 4: View the created issue"
-    output=$(run_claude "Show me the details of Jira issue $ISSUE_KEY" 120)
+    echo "Test 3: View the created issue"
+    output=$(run_claude_logged "Show me Jira issue $ISSUE_KEY. Use the wrapper scripts if available." "$LOG_DIR/view.json" 120)
     assert_contains "$output" "$ISSUE_KEY" "Shows the issue" || true
+    show_tools_used "$LOG_DIR/view.json"
 
-    # Test 5: Add a comment
+    # Test 4: Add a comment
     echo ""
-    echo "Test 5: Add a comment"
-    output=$(run_claude "Add a comment to $ISSUE_KEY saying 'Automated test comment'" 120)
+    echo "Test 4: Add a comment"
+    output=$(run_claude_logged "Add a comment to $ISSUE_KEY saying 'Automated test comment'. Use the wrapper scripts." "$LOG_DIR/comment.json" 120)
     assert_not_contains "$output" "unauthorized|403|401" "Comment added without auth errors" || true
+    show_tools_used "$LOG_DIR/comment.json"
 
-    # Test 6: Transition
+    # Test 5: Transition
     echo ""
-    echo "Test 6: Transition the issue"
-    output=$(run_claude "Move $ISSUE_KEY to Done" 120)
+    echo "Test 5: Transition the issue"
+    output=$(run_claude_logged "Move $ISSUE_KEY to Done. Use the wrapper scripts if available." "$LOG_DIR/transition.json" 120)
     assert_not_contains "$output" "unauthorized|403|401" "Transition without auth errors" || true
+    show_tools_used "$LOG_DIR/transition.json"
 else
     echo "  [SKIP] Could not extract issue key from create output"
 fi

@@ -53,22 +53,32 @@ This is a hard gate. No API calls without auth.
 
 ## Script Detection
 
-Check if wrapper scripts are available:
+Locate the wrapper scripts directory. Try these in order:
 
 ```bash
-test -f "${CLAUDE_PLUGIN_ROOT}/scripts/_common.sh" && echo "SCRIPTS OK"
+# Try CLAUDE_PLUGIN_ROOT first (set when installed via marketplace)
+if [ -n "${CLAUDE_PLUGIN_ROOT:-}" ] && [ -f "${CLAUDE_PLUGIN_ROOT}/scripts/_common.sh" ]; then
+    SCRIPTS_DIR="${CLAUDE_PLUGIN_ROOT}/scripts"
+else
+    # Find scripts relative to SKILL.md location (works with --plugin-dir)
+    SKILL_DIR="$(cd "$(dirname "${BASH_SOURCE[0]:-$0}")" && pwd)"
+    CANDIDATE="$(cd "$SKILL_DIR/../.." && pwd)/scripts"
+    if [ -f "$CANDIDATE/_common.sh" ]; then
+        SCRIPTS_DIR="$CANDIDATE"
+    fi
+fi
 ```
 
-If available, prefer scripts for all curl-based operations. Scripts handle auth, ADF construction, and error handling internally.
+**IMPORTANT:** You MUST run this detection at the start of every session. If `SCRIPTS_DIR` is set, use scripts for ALL operations. Scripts handle auth, ADF construction, and error handling internally — they are simpler and more reliable than raw curl.
 
 ---
 
 ## Tool Preference
 
-Priority order:
+**MANDATORY PRIORITY ORDER — follow this strictly:**
 
-1. **Wrapper scripts** (`${CLAUDE_PLUGIN_ROOT}/scripts/jira/...`) — preferred, handles auth and ADF internally
-2. **`acli`** — for bulk operations (`--jql` + `--yes`), sprint management, `@me` shorthand
+1. **Wrapper scripts** (`$SCRIPTS_DIR/jira/...`) — ALWAYS use if detected. Handles auth, ADF, errors internally. No manual JSON construction needed.
+2. **`acli`** — ONLY for operations scripts don't cover: bulk operations (`--jql` + `--yes`), sprint management, `@me` shorthand
 3. **Raw curl** — fallback if scripts aren't available
 
 ### When scripts are available — prefer them for ALL operations
@@ -112,7 +122,7 @@ For write operations, add:
 
 **script:**
 ```bash
-"${CLAUDE_PLUGIN_ROOT}/scripts/jira/search.sh" "assignee = currentUser() AND resolution = Unresolved" --limit 50
+"$SCRIPTS_DIR/jira/search.sh" "assignee = currentUser() AND resolution = Unresolved" --limit 50
 ```
 
 **acli:**
@@ -133,7 +143,7 @@ curl -s -u "$ATLASSIAN_EMAIL:$ATLASSIAN_API_TOKEN" \
 
 **script:**
 ```bash
-"${CLAUDE_PLUGIN_ROOT}/scripts/jira/view.sh" KEY-123
+"$SCRIPTS_DIR/jira/view.sh" KEY-123
 ```
 
 **acli:**
@@ -198,7 +208,7 @@ For sprint operations without acli, use the Jira Agile REST API (`/rest/agile/1.
 
 **script:**
 ```bash
-"${CLAUDE_PLUGIN_ROOT}/scripts/jira/create.sh" --project PROJ --type Task --summary "Implement rate limiting" --description "Add rate limiting to auth endpoints to prevent brute-force attacks."
+"$SCRIPTS_DIR/jira/create.sh" --project PROJ --type Task --summary "Implement rate limiting" --description "Add rate limiting to auth endpoints to prevent brute-force attacks."
 ```
 
 **acli** (plain text, no ADF needed):
@@ -239,7 +249,7 @@ curl -s -u "$ATLASSIAN_EMAIL:$ATLASSIAN_API_TOKEN" \
 
 **script:**
 ```bash
-"${CLAUDE_PLUGIN_ROOT}/scripts/jira/comment.sh" KEY-123 "Investigated the issue. Root cause identified. Fix incoming."
+"$SCRIPTS_DIR/jira/comment.sh" KEY-123 "Investigated the issue. Root cause identified. Fix incoming."
 ```
 
 **acli** (plain text):
@@ -271,7 +281,7 @@ curl -s -u "$ATLASSIAN_EMAIL:$ATLASSIAN_API_TOKEN" \
 
 **script:**
 ```bash
-"${CLAUDE_PLUGIN_ROOT}/scripts/jira/edit.sh" KEY-123 --summary "Updated summary" --description "New description" --labels "backend,urgent"
+"$SCRIPTS_DIR/jira/edit.sh" KEY-123 --summary "Updated summary" --description "New description" --labels "backend,urgent"
 ```
 
 **acli:**
@@ -301,7 +311,7 @@ curl -s -u "$ATLASSIAN_EMAIL:$ATLASSIAN_API_TOKEN" \
 
 **script:**
 ```bash
-"${CLAUDE_PLUGIN_ROOT}/scripts/jira/transition.sh" KEY-123 "Done"
+"$SCRIPTS_DIR/jira/transition.sh" KEY-123 "Done"
 ```
 
 **acli** (uses status name directly):
@@ -328,7 +338,7 @@ curl -s -u "$ATLASSIAN_EMAIL:$ATLASSIAN_API_TOKEN" \
 
 **script:**
 ```bash
-"${CLAUDE_PLUGIN_ROOT}/scripts/jira/assign.sh" KEY-123 --me
+"$SCRIPTS_DIR/jira/assign.sh" KEY-123 --me
 ```
 
 **acli:**
@@ -351,7 +361,7 @@ Note: with curl, you must know the user's `accountId`. Use `GET /rest/api/3/myse
 
 **script:**
 ```bash
-"${CLAUDE_PLUGIN_ROOT}/scripts/jira/link.sh" KEY-123 "Blocks" KEY-456
+"$SCRIPTS_DIR/jira/link.sh" KEY-123 "Blocks" KEY-456
 ```
 
 **acli:**
@@ -440,8 +450,8 @@ curl -s -u "$ATLASSIAN_EMAIL:$ATLASSIAN_API_TOKEN" \
 - **Prefer wrapper scripts when available.** They handle auth, ADF, and errors internally. Use acli for bulk operations and sprint management.
 - **Use `--json` with acli** when you need to parse structured output programmatically.
 - **Use `--yes` for bulk operations** to skip interactive confirmation prompts.
-- **Map natural language to operations directly:**
-  - "Move PROJ-123 to done" = `acli jira workitem transition --key PROJ-123 --status "Done"`
-  - "Assign this to me" = `acli jira workitem assign --key PROJ-123 --assignee "@me"`
-  - "What am I working on?" = `acli jira workitem search --jql "assignee = currentUser() AND statusCategory = 'In Progress'" --json`
-  - "Create a bug for the login issue" = `acli jira workitem create --project PROJ --type Bug --summary "..."`
+- **Map natural language to operations directly (use scripts when available):**
+  - "Move PROJ-123 to done" = `"$SCRIPTS_DIR/jira/transition.sh" PROJ-123 "Done"` (or `acli jira workitem transition --key PROJ-123 --status "Done"`)
+  - "Assign this to me" = `"$SCRIPTS_DIR/jira/assign.sh" PROJ-123 --me` (or `acli jira workitem assign --key PROJ-123 --assignee "@me"`)
+  - "What am I working on?" = `"$SCRIPTS_DIR/jira/search.sh" "assignee = currentUser() AND statusCategory = 'In Progress'"` (or `acli jira workitem search --jql "..." --json`)
+  - "Create a bug for the login issue" = `"$SCRIPTS_DIR/jira/create.sh" --project PROJ --type Bug --summary "..."` (or `acli jira workitem create ...`)

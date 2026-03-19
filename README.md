@@ -20,12 +20,21 @@ Gmail and Calendar skills for Google Workspace — powered by the `gws` CLI.
 - `/spycner-tools:gmail` — Search, read, send, and manage Gmail messages, drafts, labels, and filters
 - `/spycner-tools:calendar` — View agenda, create and manage events, check availability, manage calendars
 
+### research
+
+Comprehensive web research with multi-perspective analysis, or optimized prompt generation for external AI tools.
+
+**Skills:**
+- `/spycner-tools:research` — Deep web research with source synthesis, fact-checking, and structured reports
+- `/spycner-tools:deep-research` — Generate optimized prompts for external AI research tools (e.g. Perplexity, Gemini)
+
 ## Installation
 
 ```
 /plugin marketplace add Spycner/spycner-tools
 /plugin install atlassian@spycner-tools
 /plugin install google-workspace@spycner-tools
+/plugin install research@spycner-tools
 ```
 
 ## Setup
@@ -60,3 +69,7 @@ gws auth login -s gmail,calendar
 ```
 
 For full setup instructions, see: https://github.com/googleworkspace/cli
+
+### Research Plugin
+
+No authentication required. The research plugin uses WebSearch and WebFetch which work out of the box.

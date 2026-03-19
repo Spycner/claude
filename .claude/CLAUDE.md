@@ -83,8 +83,8 @@ description: Use when the user wants to <what this skill does>
 
 ---
 
-## Auth Gate
-<How to verify credentials before any operation>
+## Auth Approach
+<Lazy auth: do not check upfront, just run the command. Diagnose auth failures in Self-Healing>
 
 ## Tool Preference
 <What tools to use and in what priority order>
@@ -107,7 +107,7 @@ description: Use when the user wants to <what this skill does>
 
 Key principles:
 - **Exact commands** — show copy-pasteable commands, not pseudocode
-- **Auth gate is a hard stop** — no operations proceed without auth
+- **Auth is lazy** — attempt the operation first, diagnose auth failures in Self-Healing. Never print credential values.
 - **Prefer helpers over raw API** — if the CLI has convenience commands, use them
 - **Confirm before destructive ops** — always ask the user before delete operations
 - **Self-healing is critical** — tell Claude how to debug when things go wrong
@@ -168,3 +168,4 @@ PLUGIN_DIR=plugins/<plugin> bash tests/skill-triggering/run-test.sh <skill> test
 - **Skills are self-contained.** Each SKILL.md should contain everything Claude needs to use the service without reading other files (except reference docs it explicitly links to).
 - **Tests run Claude in a subprocess.** Unit tests use `run_claude` with `--dangerously-skip-permissions`. Integration tests use `run_claude_logged` with `--output-format stream-json` to capture tool usage.
 - **Agents for long-running, context-heavy operations.** When a skill's execution would consume significant context (e.g. dozens of web pages for research), define an agent in `agents/` and have the skill dispatch it via the Agent tool. The agent runs in an isolated subagent context. Use skills for everything else.
+- **Lazy auth, never print secrets.** Skills do not check authentication upfront. They attempt the operation and only diagnose auth issues when commands fail (in Self-Healing). Credentials, tokens, and API keys are NEVER printed or echoed — only check whether they are set (`test -n`), never display values.

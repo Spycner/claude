@@ -9,45 +9,11 @@ Interact with Jira Cloud: search issues, create and update tickets, transition w
 
 ---
 
-## Auth Gate
+## Auth Approach
 
-You MUST confirm authentication before making any API calls. Run both checks in order.
+Do NOT check authentication upfront. Just run the command. If it fails with an auth error, see the **Self-Healing** section for diagnostics.
 
-### Check 1 — acli (preferred)
-
-```bash
-command -v acli && acli auth status
-```
-
-If both succeed, set `acli` as the preferred tool for this session. Skip to the **Tool Preference** section.
-
-**If acli is not installed or not authenticated, silently move to Check 2. Do NOT ask the user about acli setup — just try env vars.**
-
-### Check 2 — Environment variables (curl fallback)
-
-```bash
-test -n "$ATLASSIAN_DOMAIN" && test -n "$ATLASSIAN_EMAIL" && test -n "$ATLASSIAN_API_TOKEN" && echo "ENV OK"
-```
-
-If this succeeds, use curl as the tool for this session. Skip to the **Tool Preference** section.
-
-### Neither available — STOP
-
-Do not proceed. Tell the user:
-
-> I cannot connect to Jira. You need one of these:
->
-> **Option A (recommended):** Install and authenticate the Atlassian CLI:
-> ```
-> acli auth login
-> ```
->
-> **Option B:** Set these environment variables:
-> - `ATLASSIAN_DOMAIN` — your subdomain (e.g., `mycompany` for `mycompany.atlassian.net`)
-> - `ATLASSIAN_EMAIL` — your Atlassian account email
-> - `ATLASSIAN_API_TOKEN` — generate one at https://id.atlassian.com/manage/api-tokens
-
-This is a hard gate. No API calls without auth.
+**NEVER print, echo, or log the values of `ATLASSIAN_API_TOKEN`, `ATLASSIAN_EMAIL`, or any credentials.** Only check whether they are set (e.g., `test -n`), never display their contents.
 
 ---
 
@@ -418,6 +384,38 @@ ADF is **only needed when using raw curl** for write operations (create issue de
 ## Self-Healing
 
 When an API call or acli command fails:
+
+### Auth Errors (401, 403, or "not authenticated")
+
+Check which auth paths are available — **never print token or credential values**:
+
+```bash
+# Check if acli is available and authenticated
+command -v acli && acli auth status
+```
+
+```bash
+# Check if env vars are set (NOT their values)
+test -n "${ATLASSIAN_DOMAIN:-}" && echo "ATLASSIAN_DOMAIN is set" || echo "ATLASSIAN_DOMAIN is NOT set"
+test -n "${ATLASSIAN_EMAIL:-}" && echo "ATLASSIAN_EMAIL is set" || echo "ATLASSIAN_EMAIL is NOT set"
+test -n "${ATLASSIAN_API_TOKEN:-}" && echo "ATLASSIAN_API_TOKEN is set" || echo "ATLASSIAN_API_TOKEN is NOT set"
+```
+
+If neither auth path is available, tell the user:
+
+> I cannot connect to Jira. You need one of these:
+>
+> **Option A (recommended):** Install and authenticate the Atlassian CLI:
+> ```
+> acli auth login
+> ```
+>
+> **Option B:** Set these environment variables:
+> - `ATLASSIAN_DOMAIN` — your subdomain (e.g., `mycompany` for `mycompany.atlassian.net`)
+> - `ATLASSIAN_EMAIL` — your Atlassian account email
+> - `ATLASSIAN_API_TOKEN` — generate one at https://id.atlassian.com/manage/api-tokens
+
+### Other Errors
 
 1. **For acli errors:** check `acli [command] --help` for current flags and syntax
 2. **For REST API errors:** check the response body for error details and verify the endpoint

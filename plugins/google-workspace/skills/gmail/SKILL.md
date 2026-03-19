@@ -9,15 +9,9 @@ Search, read, send, and manage Gmail messages, drafts, labels, and filters using
 
 ---
 
-## Auth Gate
+## Auth Approach
 
-Before any operation, verify the gws CLI is available and authenticated:
-
-1. Check gws is on PATH: `which gws`
-2. Check auth is valid: `gws auth status`
-
-If either check fails, stop and tell the user:
-> "The gws CLI is not installed or not authenticated. Install and configure it: https://github.com/googleworkspace/cli"
+Do NOT check authentication upfront. Just run the command. If it fails with an auth error (exit code 2), see the **Self-Healing** section for diagnostics.
 
 ---
 
@@ -155,11 +149,23 @@ See `gmail-search-recipes.md`
 
 When a command fails:
 
+### Auth Errors (exit code 2)
+
+Check if gws is available and authenticated:
+
+```bash
+which gws && gws auth status
+```
+
+If gws is not installed or not authenticated, tell the user:
+> "The gws CLI is not installed or not authenticated. Install and configure it: https://github.com/googleworkspace/cli"
+
+### Other Errors
+
 - Check the command's help: `gws gmail <command> --help`
 - Inspect the API schema: `gws schema gmail.<resource>.<method>`
 - Use `--dry-run` to preview requests without executing
 - Exit codes: 0=success, 1=API error, 2=auth error, 3=validation, 4=discovery, 5=internal
-- Auth errors (exit 2): re-run `gws auth status` and direct user to https://github.com/googleworkspace/cli
 - Validation errors (exit 3): check `--params` JSON syntax and required fields
 
 ---

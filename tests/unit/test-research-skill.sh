@@ -55,4 +55,9 @@ echo "Test: Deep research agent mentions author estimate labeling"
 result=$(run_claude "I want to research AI adoption metrics. What would you do if you derived a threshold yourself during research?" 30)
 assert_contains "$result" "author estimate" "Should mention author estimate labeling for derived numbers" || true
 
+echo ""
+echo "Test: Deep research agent describes creative synthesis phase"
+result=$(run_claude "I want to do creative research on remote work trends. What does creative mode do?" 30)
+assert_contains "$result" "original analysis" "Should mention original analysis tagging in creative mode" || true
+
 echo "=== research skill tests complete ==="

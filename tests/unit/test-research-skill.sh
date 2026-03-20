@@ -70,4 +70,9 @@ echo "Test: Deep research agent mentions single-source transparency"
 result=$(run_claude "Can I include a key finding that only has one source?" 30)
 assert_contains "$result" "single source" "Should mention flagging single-source status for key findings" || true
 
+echo ""
+echo "Test: Deep research agent mentions threshold integrity in self-audit"
+result=$(run_claude "What does the deep research agent check during self-audit before writing the report?" 30)
+assert_contains "$result" "author estimate|threshold|source" "Should mention threshold integrity in self-audit" || true
+
 echo "=== research skill tests complete ==="

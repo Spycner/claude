@@ -54,7 +54,8 @@ Agent tool (general-purpose):
 
     ## Output Format — plan.md
 
-    Write the following to `{OUTPUT_PATH}/research/plan.md`:
+    Write the following to `{OUTPUT_PATH}/research/plan.md`.
+    Note: `{topic}`, `{scope}`, etc. below are values you extract from the research brief — they are NOT literal placeholders to leave as-is. Replace them with actual values.
 
     ```markdown
     # Research Plan

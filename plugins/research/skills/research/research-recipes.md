@@ -44,9 +44,21 @@ Not all categories apply to every topic. Pick 3-5 that are most relevant.
 
 Before synthesis, verify:
 
+**Evidence quality:**
 - [ ] Every section has at least one specific data point or direct quote
-- [ ] At least one perspective you personally find unconvincing is represented
 - [ ] Someone could fact-check this report using only the provided citations
 - [ ] sources.md has 8+ entries (if fewer, breadth pass was too narrow — go back)
 - [ ] Key claims have 2+ independent sources
 - [ ] Recent sources (last 2 years) are prioritized where the topic is evolving
+
+**Analytical rigor:**
+- [ ] You can state your thesis in one sentence
+- [ ] You identified at least one contradiction between sources and took a position on which is more credible
+- [ ] Vendor/consulting sources are flagged where incentive bias may distort findings
+- [ ] At least one perspective you personally find unconvincing is represented
+
+**Report quality:**
+- [ ] Findings are ranked by importance — the top 5-7 are front and center, not buried in a list of 30
+- [ ] The Limitations section honestly addresses what your proposed solutions cannot solve
+- [ ] Practical guidance exists for the most common starting point (no baselines, no infrastructure, limited resources)
+- [ ] Analysis & Insights is the strongest section, not the thinnest — it synthesizes, compares, and judges rather than summarizing

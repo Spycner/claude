@@ -60,4 +60,14 @@ echo "Test: Deep research agent describes creative synthesis phase"
 result=$(run_claude "I want to do creative research on remote work trends. What does creative mode do?" 30)
 assert_contains "$result" "original analysis" "Should mention original analysis tagging in creative mode" || true
 
+echo ""
+echo "Test: Deep research agent mentions bias consistency for reused data"
+result=$(run_claude "When writing a research report, how should I handle vendor data that I cite multiple times?" 30)
+assert_contains "$result" "credibility" "Should mention credibility tagging on reuse of biased sources" || true
+
+echo ""
+echo "Test: Deep research agent mentions single-source transparency"
+result=$(run_claude "Can I include a key finding that only has one source?" 30)
+assert_contains "$result" "single source" "Should mention flagging single-source status for key findings" || true
+
 echo "=== research skill tests complete ==="

@@ -57,6 +57,8 @@ When sources contradict each other, note the contradiction explicitly in notes.m
 
 Save extractions to `{output-path}/research/notes.md`. When fetching, extract only relevant sections — do not load entire documents into context.
 
+**Threshold integrity rule:** Never present a numeric range, threshold, or benchmark without citing its empirical source. If you derived a number yourself (from reasoning, interpolation, or synthesis), label it explicitly as `[author estimate]` with the reasoning shown. Example: "Based on [Source]'s finding of X and [Source]'s finding of Y, a reasonable range might be 10-30% [author estimate]" is acceptable. "The optimal range is 10-30%" without citation is forbidden.
+
 ### Phase 5: Adversarial Pass (deep mode only)
 
 Explicitly search for counterarguments, limitations, and criticism of the findings so far. Look for:

@@ -192,8 +192,8 @@ Follow the existing patterns in `tests/`:
 - Check it describes its capabilities
 - Verify it mentions the correct tool
 - Check supporting references are mentioned
-- Pattern: `run_claude "<prompt>" | assert_contains "<pattern>"`
-- Note: the version-bump lockstep (Design Decisions) uses the glob `test-<plugin>-*-skill.sh`, which matches both forms. Multi-skill plugins like `workbench` and `frontend-design` use the long form (`test-workbench-autopilot-skill.sh`); single-skill plugins like `playground`, `terminal`, `runtime-bridge` use the short form (`test-playground-skill.sh`).
+- Pattern: filesystem checks (`jq`, `grep`, `[ -s "$f" ]`) for structure; `run_claude "<prompt>" | assert_contains "<pattern>"` only when actual model output must be exercised. See the "Prefer filesystem-check unit tests" decision below.
+- Note on naming: the version-bump lockstep (Design Decisions) uses the glob `test-<plugin>-*-skill.sh`, which matches the long form (e.g. `test-workbench-autopilot-skill.sh`) used by `workbench`, `frontend-design`, and `agent-system-management`. Single-skill plugins like `playground`, `terminal`, `runtime-bridge` use the short form (`test-playground-skill.sh`), where `<plugin>` and `<service>` collapse to one word; the glob still matches. The `writing` plugin is an exception: it is multi-skill but its unit tests use the short form (`test-writing-skill.sh`, `test-pyramid-skill.sh`, `test-tech-doc-skill.sh`), so the `test-writing-*-skill.sh` glob matches only `test-writing-skill.sh`. The `writing` plugin does not pin version in its unit tests today, so the gap is dormant; if you ever add a version pin to a `writing` skill test, either rename the test to the long form (`test-writing-pyramid-skill.sh`) or widen the lockstep check for that plugin.
 
 **Integration tests** (`tests/integration/test-<service>-integration.sh`):
 - Require live auth (skip gracefully if not available)

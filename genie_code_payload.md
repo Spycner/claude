@@ -73,45 +73,61 @@ Tool calls arrive as `delta.tool_calls[*]` chunks; thinking arrives as separate 
 
 ## The 18 tools (function names + intent)
 
-These are sent verbatim on every turn — they aren't server-registered. Full JSON schemas (parameters, types, descriptions) live in the captured cURL in the conversation transcript that produced this file; use that as the source of truth when you copy them into code.
+These are sent verbatim on every turn — they aren't server-registered. Each row links to a dedicated reference file with the verbatim JSON Schema captured from a live `llmproxy` POST body (`.workbench/genie_llmproxy_body.json`).
 
 | # | Tool | Intent | Key params |
 |---|---|---|---|
-| 1 | `recommendDataroom` | Recommend relevant Genie spaces for a natural-language question | `query` (3–5 keywords) |
-| 2 | `askDataroom` | Ask a question against a specific Genie space (SQL is auto-generated) | `question`, `dataroomId` |
-| 3 | `runDatabricksCli` | Run a Databricks CLI subcommand on the attached compute | `summary`, `command` |
-| 4 | `renderChart` | Render inline charts on the chat page (deep schema: 20+ chart types, filter widgets, conditional formatting) | `datasets[]`, `chartSpecifications[]` |
-| 5 | `docSearch` | Search the public Databricks documentation | `searchQuery` |
-| 6 | `readTable` | Get column types, sample queries, joins, optional Delta/Spark properties for a UC table | `catalog`, `schema`, `name`, `extraDetails` |
-| 7 | `tableSearch` | Search tables/datasets by keywords or natural language; falls back to `readTable` for known FQNs | `keywords[]`, `searchQuery`, `dataCatalog`, `dataSchema` |
-| 8 | `querySearch` | Find saved queries by intent + keywords, scoped to specific tables | `sentence`, `keywords`, `tablesToFilterOn[]` |
-| 9 | `forYouAssets` | Pull personalized / favorited / recent assets for the current user | `numResults`, `includeFavorites`, `includeSuggestedAssets`, `includePopularAssets`, `assetTypes[]`, `page`, `interface`, `keywords` |
-| 10 | `searchAssets` | Unified search across notebooks, dashboards, pipelines, jobs, datarooms, files, alerts, apps, endpoints, models, folders | `searchQuery`, `assetTypes[]`, `numResultsPerAssetType`, `sortBy`, `ownerOnly`, `pageToken` |
-| 11 | `manageTodoList` | Read / replace the agent's structured todo list | `operation` (read|write), `todoList[]` |
-| 12 | `readSkillFile` | Load a domain Skill markdown by path (`skills/<name>/SKILL.md`) | `filePath` |
-| 13 | `readAssetById` | Open a notebook / pipeline / dashboard / query / file / directory / job / MLflow asset by id and range | `assetType`, `assetId`, `startLine`, `endLine` |
-| 14 | `fetchOmittedContent` | Drill into a prior tool result's omitted `__more` blocks via a jq-style path | `toolCallId`, `path` |
-| 15 | `createAsset` | Create an empty notebook / dashboard / file / job / query / pipeline / directory / genie / app / designerFile | `assetType`, `name`, `tableIdentifiers[]` (genie only) |
-| 16 | `openAsset` | Navigate to an asset, or return its URL; supports a `continueMessage` handoff to the destination page | `assetType`, `assetId`, `assetName`, `navigate`, `continueMessage` |
-| 17 | `executeCode` | Run a short snippet on the attached compute (`python`, `sh`, `r`, `scala`, `sql`) | `summary`, `code`, `language`, `timeoutMinutes` |
-| 18 | `findReferencesTool` | Get UC lineage (upstream/downstream tables, dependent notebooks/jobs/dashboards) for a table or column | `tableName`, `columnName`, `includeEntityLineage` |
+| 1 | [`recommendDataroom`](genie_code_tool_recommendDataroom.md) | Recommend relevant Genie spaces for a natural-language question | `query` (3–5 keywords) |
+| 2 | [`askDataroom`](genie_code_tool_askDataroom.md) | Ask a question against a specific Genie space (SQL is auto-generated) | `question`, `dataroomId` |
+| 3 | [`runDatabricksCli`](genie_code_tool_runDatabricksCli.md) | Run a Databricks CLI subcommand on the attached compute | `summary`, `command` |
+| 4 | [`renderChart`](genie_code_tool_renderChart.md) | Render inline charts on the chat page (deep schema: 20+ chart types, filter widgets, conditional formatting) | `datasets[]`, `chartSpecifications[]` |
+| 5 | [`docSearch`](genie_code_tool_docSearch.md) | Search the public Databricks documentation | `searchQuery` |
+| 6 | [`readTable`](genie_code_tool_readTable.md) | Get column types, sample queries, joins, optional Delta/Spark properties for a UC table | `catalog`, `schema`, `name`, `extraDetails` |
+| 7 | [`tableSearch`](genie_code_tool_tableSearch.md) | Search tables/datasets by keywords or natural language; falls back to `readTable` for known FQNs | `keywords[]`, `searchQuery`, `dataCatalog`, `dataSchema` |
+| 8 | [`querySearch`](genie_code_tool_querySearch.md) | Find saved queries by intent + keywords, scoped to specific tables | `sentence`, `keywords`, `tablesToFilterOn[]` |
+| 9 | [`forYouAssets`](genie_code_tool_forYouAssets.md) | Pull personalized / favorited / recent assets for the current user | `numResults`, `includeFavorites`, `includeSuggestedAssets`, `includePopularAssets`, `assetTypes[]`, `page`, `interface`, `keywords` |
+| 10 | [`searchAssets`](genie_code_tool_searchAssets.md) | Unified search across notebooks, dashboards, pipelines, jobs, datarooms, files, alerts, apps, endpoints, models, folders | `searchQuery`, `assetTypes[]`, `numResultsPerAssetType`, `sortBy`, `ownerOnly`, `pageToken` |
+| 11 | [`manageTodoList`](genie_code_tool_manageTodoList.md) | Read / replace the agent's structured todo list | `operation` (read|write), `todoList[]` |
+| 12 | [`readSkillFile`](genie_code_tool_readSkillFile.md) | Load a domain Skill markdown by path (`skills/<name>/SKILL.md`) | `filePath` |
+| 13 | [`readAssetById`](genie_code_tool_readAssetById.md) | Open a notebook / pipeline / dashboard / query / file / directory / job / MLflow asset by id and range | `assetType`, `assetId`, `startLine`, `endLine` |
+| 14 | [`fetchOmittedContent`](genie_code_tool_fetchOmittedContent.md) | Drill into a prior tool result's omitted `__more` blocks via a jq-style path | `toolCallId`, `path` |
+| 15 | [`createAsset`](genie_code_tool_createAsset.md) | Create an empty notebook / dashboard / file / job / query / pipeline / directory / genie / app / designerFile | `assetType`, `name`, `tableIdentifiers[]` (genie only) |
+| 16 | [`openAsset`](genie_code_tool_openAsset.md) | Navigate to an asset, or return its URL; supports a `continueMessage` handoff to the destination page | `assetType`, `assetId`, `assetName`, `navigate`, `continueMessage` |
+| 17 | [`executeCode`](genie_code_tool_executeCode.md) | Run a short snippet on the attached compute (`python`, `sh`, `r`, `scala`, `sql`) | `summary`, `code`, `language`, `timeoutMinutes` |
+| 18 | [`findReferencesTool`](genie_code_tool_findReferencesTool.md) | Get UC lineage (upstream/downstream tables, dependent notebooks/jobs/dashboards) for a table or column | `tableName`, `columnName`, `includeEntityLineage` |
 
 `cache_control: {type: "ephemeral"}` is attached to the LAST tool definition (`findReferencesTool`) — this signals Anthropic prompt caching for the whole tool block, again to save on retransmission cost.
 
 ## Skill files referenced from the system prompt
 
-The system prompt's **Skill Registry** lists 4 modular skills it loads on demand via `readSkillFile`. These files live in the user's workspace at `/Workspace/Users/<email>/.assistant/skills/<name>/SKILL.md`:
+The captured system prompt's **Skill Registry** section lists 4 modular skills, but the SPA actually ships 11 in total — the others are hidden behind feature flags or attached to different agent modes (`chatAgent` for read-only chat, `lakeAgent` for the agent-mode flow that uses `runDatabricksCli`). Skills are **not** workspace files: `GET /ajax-api/2.0/workspace/list?path=/Users/<email>/.assistant/skills` returns 404, and no `*/assistant/skills` path exists in the Workspace API. Instead, each skill (and each of its sidecar markdown files) is bundled into its own webpack chunk and exported as a raw string `module.exports`. The SkillRegistry definition lives in chunk `19604.5ae31ee5cc.chunk.js`; the SPA loads a file via `r.e(<chunkId>).then(r.t.bind(r, <moduleId>, 17))` when `readSkillFile` fires with a path like `skills/<name>/<filename>`.
 
-* `databricks-cli-public` — CLI command patterns for jobs/pipelines/clusters/secrets/Apps/Lakebase/etc.
-* `data-sampling` — How to query/sample tables without silently truncating
-* `sql-functions` — SQL AI functions (`ai_forecast`, `ai_parse_document`, ...)
-* `writing-sql` — Databricks SQL patterns (AI functions, geospatial, recursive CTEs, governance, Liquid Clustering, ...)
+Full content for all 11 skills (66 sidecar markdown files in total) has been extracted into per-skill reference files. The 4 in the captured chatAgent Skill Registry:
+
+* [`genie_code_skill_databricks-cli-public.md`](genie_code_skill_databricks-cli-public.md) — CLI command patterns for jobs/pipelines/clusters/secrets/Apps/Lakebase/etc. (10 files)
+* [`genie_code_skill_data-sampling.md`](genie_code_skill_data-sampling.md) — How to query/sample tables without silently truncating (4 files)
+* [`genie_code_skill_sql-functions.md`](genie_code_skill_sql-functions.md) — SQL AI functions (`ai_forecast`, `ai_parse_document`, ...) (18 files including legacy variants)
+* [`genie_code_skill_writing-sql.md`](genie_code_skill_writing-sql.md) — Databricks SQL patterns (AI functions, geospatial, recursive CTEs, governance, Liquid Clustering, ...) (19 files)
+
+The 7 additional skills (mostly feature-flag gated, but their content ships in every release):
+
+* [`genie_code_skill_migration-orchestrator.md`](genie_code_skill_migration-orchestrator.md) — SQL migration orchestration; drives the migrationConverterSubagent. Gated on `databricks.fe.assistant.enableMigrationSkills`. (1 file)
+* [`genie_code_skill_diagnose-error.md`](genie_code_skill_diagnose-error.md) — `/fix` / "Diagnose Error" workflow with python/sql/environment debugging guides. Gated on `databricks.fe.editor.enableDiagnoseErrorSkill`. (4 files)
+* [`genie_code_skill_query-performance.md`](genie_code_skill_query-performance.md) — Performance audit playbook across compute, table type, data layout, and ingestion. (1 file)
+* [`genie_code_skill_external-access.md`](genie_code_skill_external-access.md) — UC table eligibility for open-API external access. Gated on `databricks.fe.assistant.enableExternalAccessSkill`. (2 files)
+* [`genie_code_skill_using-metric-views.md`](genie_code_skill_using-metric-views.md) — UC metric views: creation, MEASURE() querying, materialization. (3 files)
+* [`genie_code_skill_asset-discovery.md`](genie_code_skill_asset-discovery.md) — Find existing dashboards/notebooks/queries before building from scratch; has a separate subagent-mode SKILL.md gated on `databricks.fe.assistant.enableAssetDiscoverySubagents`. (5 files)
+* [`genie_code_skill_data-quality-rca.md`](genie_code_skill_data-quality-rca.md) — Root cause analysis for unhealthy tables; precomputed RCA → lineage traversal → job investigation. Gated on `databricks.fe.assistant.enableDataQualityRcaSkill`. (4 files)
+
+Each per-skill file carries the registry record, the file manifest with chunk/module ids, any feature-flag gating, and the verbatim markdown of every sidecar. Chunk hashes change per release; re-derive them from the live asset manifest before re-extracting.
 
 Plus three free-floating workspace files Genie Code reads at session start (and tolerates 404 on):
 
 * `.assistant_instructions.md` — user-level long-term memory (Genie Code is told to write here)
 * `.assistant_workspace_instructions.md` — workspace-level shared instructions
 * `.github_mcp_config.json` — MCP server configuration for GitHub integration
+
+On the inspected workspace only `/Users/pgoellner@deloitte.de/.assistant/.mcp_servers.json` exists; the two `.assistant_*instructions.md` files genuinely 404.
 
 ## Driver skeleton
 

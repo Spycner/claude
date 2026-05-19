@@ -7,6 +7,7 @@ Investigation of Databricks **Genie Code** (the new agentic assistant with a web
 * Workspace uses Databricks OAuth (u2m flow).
 * Profile in `~/.databrickscfg` named `learning-new` for this host.
 * Bearer token obtained via `databricks auth token --profile learning-new` (1h TTL, scope `all-apis offline_access`).
+* OAuth bearer works on `/api/2.0/...` and `/serving-endpoints/...`. The `/ajax-api/...` prefix used by the SPA is **cookie-session only** (DBAUTH + CSRF) — bearer is rejected with a 303 to `/login.html`.
 
 ## How the SPA is laid out
 
@@ -17,7 +18,7 @@ Investigation of Databricks **Genie Code** (the new agentic assistant with a web
 ## How Genie Code is wired
 
 * **UI route:** `/editor/folders/workspace?mode=chat`. Triggered by feature flag `databricks.fe.assistant.useHomeFullPageGenieCode`.
-* **Internal name:** `Workspace.Assistant` (this is the agent name in the GraphQL backend).
+* **Internal names:** `Workspace.Assistant` in some chunks, `LakeAgent` in the live request. Client-id constant: `editor-assistant-agent-mode`.
 * Client-side state events (postMessage / redux):
   * `MFE_CREATE_NEW_THREAD`
   * `MFE_LOAD_CHAT_THREAD`
@@ -26,139 +27,11 @@ Investigation of Databricks **Genie Code** (the new agentic assistant with a web
   * `PAGE_TRIGGERED_CHAT_EVENT`
   * `TOGGLE_ASSISTANT`
 
-There is **no server `POST /threads` endpoint**. A "new chat" is a client-side action: rotate `sessionId`, dispatch `CREATE_NEW_THREAD`. Persistence likely flows through GraphQL (see direction 2 below).
+There is **no server `POST /threads` endpoint**. A "new chat" is a client-side action: rotate `session_id`, dispatch `CREATE_NEW_THREAD`. Persistence likely flows through GraphQL (see below).
 
-## Chat REST endpoints (chunk `35758.41da1ca0fb.chunk.js`)
+## The Genie Code chat endpoint
 
-All are `POST`, all support `stream: true` (SSE-style), all use a uniform body envelope.
-
-| Endpoint | Purpose |
-|---|---|
-| `/ajax-api/2.0/conversation/assistant/editor-chat` | **Main Genie Code chat in the editor** |
-| `/ajax-api/2.0/conversation/assistant/general-chat` | Generic assistant chat |
-| `/ajax-api/2.0/conversation/assistant/assistant-card` | Card-style suggestions |
-| `/ajax-api/2.0/conversation/assistant/suggest-fix` | Suggest fix on errors |
-| `/ajax-api/2.0/conversation-v2/assistant/inline-quick-fix` | Inline code quick-fix (v2 path) |
-| `/ajax-api/2.0/conversation/assistant/merlin-support-chat` | Support chatbot |
-| `/ajax-api/2.0/conversation/flow/partnerhub` | Partner Hub flow |
-| `/ajax-api/2.0/conversation/internal-completions` | Generic completions; wraps GraphQL `agent(name:"Workspace.Assistant"){ conversationAssistantChatCompletion(input:$input){ _json } }` |
-| `/ajax-api/2.0/conversation/proxy/chat/completions` | OpenAI-compatible direct LLM proxy |
-
-### Request envelope (observed pattern)
-
-```jsonc
-{
-  // ...spread of assistantApiArgs[<flow_key>], e.g. editor_chat
-  //    expected to be OpenAI-shaped (messages, model, tools, ...)
-  "stream":  true | false,
-  "debug":   false,
-  "metadata": "{\"sessionId\":\"<uuid>\", ...}"   // JSON-stringified nested
-}
-```
-
-Headers:
-* `Content-Type: application/json`
-* `x-databricks-agent-version: <ver>`   (taken from a frontend constant)
-* `Authorization: Bearer <oauth_token>`
-
-### Non-streaming response
-
-OpenAI-shaped — code unwraps:
-
-```js
-JSON.parse(JSON.parse(body).completion).choices[0].message
-```
-
-i.e. the outer payload is `{ completion: "<json-string>" }`, the inner is OpenAI `{ choices: [{ message: { role, content } }] }`.
-
-## GraphQL backend
-
-* Endpoint: `/api/2.0/genai-mapi/universegraphql` (single Apollo client, configured in `63192.368e9181cf.chunk.js`).
-* Notable ops found across chunks: `GetClientConfig`, `GetSessionQuery`, `ConversationModelStatuses`, `GetAssistantEnabled`, `GetAssistantEnabledWorkspace`, `GetGenieSpaceNameByUuid`.
-* This is almost certainly where thread/session persistence and model listing live.
-
-## What's NOT in scope of Genie Code
-
-* `/ajax-api/2.0/data-rooms/...` and `/genie/rooms/<id>` belong to the **legacy Genie** (data-rooms / spaces / SQL Q&A) feature, not Genie Code.
-
----
-
-## Next directions
-
-1. **Hit `editor-chat` live** with the OAuth bearer to confirm the request body and observe streamed responses. Pins down the schema for the wrapper.
-2. **Introspect `/api/2.0/genai-mapi/universegraphql`** (`{ __schema { types { name } } }`) to enumerate agent/session/thread types and find thread CRUD / history operations.
-3. **Trace the `assistantApiArgs.editor_chat` builder** in the bundles to extract the exact input shape (model, tool list, MCP servers, user / workspace instructions, attachments).
-
-Current direction: **#1 — say "hello world" via editor-chat.**
-
----
-
-## Direction #1 — live probe of `editor-chat`
-
-### Auth discovery
-
-* `/ajax-api/2.0/conversation/assistant/editor-chat` rejects the OAuth bearer (303 redirect to `/login.html`). The `ajax-api` prefix is cookie-session only.
-* The **same endpoint exists at `/api/2.0/conversation/assistant/editor-chat`** and accepts the OAuth bearer for body validation. Use this path for programmatic access.
-
-### Body schema (validation passes)
-
-Server returns `400 BAD_REQUEST: "Request purpose field not specified for flow request"` until `common_params.request_purpose` is supplied. Wire format is snake_case (chunk `35758` runs the body through a recursive snake-case key transformer `d = o(e, snakeCase)` before posting).
-
-Minimum body that passes validation:
-
-```jsonc
-{
-  "common_params": { "request_purpose": "STANDARD_USAGE" },
-  "messages":      [{ "role": "user", "content": "hello" }],
-  "stream":        false,
-  "debug":         false,
-  "metadata":      "{\"sessionId\":\"<uuid>\"}"
-}
-```
-
-Headers actually used by the SPA:
-* `Content-Type: application/json`
-* `x-databricks-agent-version: oai`   (string `"oai"` is the default for OpenAI-shaped flows)
-* `Authorization: Bearer <oauth_token>`
-
-### Downstream block: Lakesense
-
-Once validation passes the conversation gateway returns:
-
-```
-HTTP 500
-INTERNAL_ERROR: isDatabricksModelServing=false; code=404;
-content=Lakesense not enabled: failed token auth and tls certificate auth
-```
-
-* **Lakesense** is the internal AI router that the conversation gateway proxies to.
-* Our CLI OAuth bearer (client `databricks-cli`, audience `7474644141110056`, scope `all-apis offline_access`) is accepted by the gateway but **rejected by Lakesense** ("failed token auth and tls certificate auth").
-* The web SPA's OAuth client id is different (`cef6a689-ce26-45d0-bc87-17bef342fbba`). It is plausible Lakesense requires either:
-  1. A token issued for the web client (different audience or scopes), or
-  2. The web session cookie that carries an additional internal credential / proxy cert.
-
-The conversation gateway routing tag `isDatabricksModelServing=false` suggests Lakesense classified our request as "not from Model Serving" and then fell back to a token check it could not satisfy.
-
-### Verdict for direction #1
-
-* The HTTP surface is fully decoded — request shape, snake-case rule, mandatory `common_params.request_purpose`, response envelope (`{ completion: "<json>" }` wrapping OpenAI `choices[0].message`).
-* Calling Genie Code end-to-end with a CLI OAuth bearer is **blocked at the model-serving layer**, not at the conversation API.
-
-### Open questions / things to try next
-
-* Mint a token via the web client id (`cef6a689-ce26-45d0-bc87-17bef342fbba`) and retry.
-* Replay the call with the real Chrome session cookies (would prove the gateway works end-to-end and isolate the failure to token scope vs. workspace config).
-* Confirm Lakesense enablement on this workspace via admin settings (`databricks.assistant` family flags).
-* Re-attempt direction #2 (GraphQL introspection at `/api/2.0/genai-mapi/universegraphql`) — bearer returns 404 there; may need a different path or POST-with-query-string variant.
-
----
-
-## Direction #1, revised — the real Genie Code endpoint
-
-> The `editor-chat` / Lakesense path was a dead end: **Genie Code does not use it.**
-> Captured DevTools traffic on a live message showed the real call.
-
-### The endpoint
+### Endpoint
 
 * `POST /ajax-api/2.0/conversation/llmproxy/`
 * `accept: text/event-stream`
@@ -168,7 +41,7 @@ The conversation gateway routing tag `isDatabricksModelServing=false` suggests L
 ### Auth
 
 * **DBAUTH cookie** (the Databricks Web Session JWT) — not an OAuth bearer.
-* **`x-csrf-token` header** — paired with the DBAUTH cookie.
+* **`x-csrf-token` header** — paired with the DBAUTH cookie. Available in the SPA at `window.settings.csrfToken` or via `window.__debug__getCsrfToken()`.
 * `cf_clearance` cookie for Cloudflare.
 * `x-databricks-org-id` and `x-databricks-self: true` headers.
 
@@ -222,13 +95,7 @@ Notes:
 }
 ```
 
-**Verified working** on workspace `dbc-df321db9-486f.cloud.databricks.com` with a captured DBAUTH cookie. Model responded `Hello, World! 👋` via SSE. No system prompt, no tools, no Genie Code persona — just raw Claude Opus 4.6 with Databricks routing metadata.
-
-### What the SPA bundles got wrong / what we missed earlier
-
-* The chunks we decoded (`35758.*`, `8802.*`, `23308.*`) are the **legacy Workspace Assistant** code path. They are still loaded by the workspace shell but Genie Code does not actually call them.
-* Genie Code's send-message logic is in a different chunk we didn't grep for — it builds the Anthropic-shape body and posts to `llmproxy/`. The chunks listing `editor-chat` etc. are dead code paths from the older assistant.
-* The `MFE_CREATE_NEW_THREAD` / `MFE_LOAD_CHAT_THREAD` events likely *are* still how Genie Code manages a "new chat" client-side — the server has no thread CRUD; `session_id` is just a string the client picks.
+**Verified working** on workspace `dbc-df321db9-486f.cloud.databricks.com` with a captured DBAUTH cookie. Model responded `Hello, World! 👋` via SSE (5 chunks, 10 in / 10 out tokens). No system prompt, no tools, no Genie Code persona — just raw Claude Opus 4.6 with Databricks routing metadata.
 
 ### What's still unmapped
 
@@ -237,16 +104,26 @@ Notes:
 * **The `assistant-settings.json` GET** and the `update_mask=assistant_*` PATCH against the numeric workspace id (`324464905642538`) — these are the per-user / per-workspace Genie Code settings. Worth mapping for a full driver.
 * **Streaming response format details**: the SSE chunks are OpenAI `chat.completion.chunk` shape, but tool-use streaming with interleaved thinking will produce richer events (`tool_use_start`, `thinking_delta` etc.) — needs a real tool-calling turn to capture.
 
-### Practical conclusion for a programmatic API
+## GraphQL backend
 
-Building a Python driver for Genie Code now reduces to:
+* Endpoint: `/api/2.0/genai-mapi/universegraphql` (single Apollo client, configured in `63192.368e9181cf.chunk.js`).
+* Notable ops found across chunks: `GetClientConfig`, `GetSessionQuery`, `ConversationModelStatuses`, `GetAssistantEnabled`, `GetAssistantEnabledWorkspace`, `GetGenieSpaceNameByUuid`.
+* Almost certainly where thread/session persistence and model listing live. Bearer returns 404; may need a different path or POST-with-query-string variant.
+
+## What's NOT in scope of Genie Code
+
+* `/ajax-api/2.0/data-rooms/...` and `/genie/rooms/<id>` belong to the **legacy Genie** (data-rooms / spaces / SQL Q&A) feature, not Genie Code.
+* `/ajax-api/2.0/conversation/assistant/*` and `/api/2.0/conversation/assistant/*` belong to the **legacy Workspace Assistant** code path. The chunks at `35758.*`, `8802.*`, `23308.*` still ship them and the workspace shell still loads them, but Genie Code does not call them. **Don't conflate the two.** See Appendix A for the endpoint list and Appendix B for the dead-end investigation that confirmed this.
+
+## Building a programmatic driver
+
 1. Obtain a DBAUTH cookie (either by automating the OAuth-to-DBAUTH exchange the SPA does, or by accepting a copy-paste cookie from the user as in this session).
 2. Generate UUIDs for `trace_id`, `call_id`, and a stable `session_id` per conversation.
 3. POST Anthropic-shape `messages` + the tool defs you want the agent to use (or omit tools for plain chat) to `/ajax-api/2.0/conversation/llmproxy/`.
 4. Parse the OpenAI-style SSE chunks and reassemble the assistant turn.
 5. Reuse the same `session_id` across turns to mirror the SPA's "thread" behavior.
 
-Open question for productionising: the DBAUTH cookie has a short TTL. We need to understand the OAuth → DBAUTH exchange (the SPA does this transparently) to mint cookies from a long-lived credential.
+The DBAUTH cookie has a short TTL but the SPA itself auto-refreshes it via `POST /auth/session/refresh` (observed firing every ~30s on a live tab). As long as a browser tab on the workspace stays open, DBAUTH stays valid until the underlying accounts session expires (~weeks on most workspaces). See the OAuth → DBAUTH section below for the full minting flow and for productionised refresh options.
 
 ---
 
@@ -347,10 +224,6 @@ The OAuth→DBAUTH endpoint is now fully mapped; we now know exactly why a pure 
 
 ## Better path: skip the SPA, call the model directly
 
----
-
-## Better path: skip the SPA, call the model directly
-
 A `GET /api/2.0/serving-endpoints` with the OAuth bearer returns 31 documented model-serving endpoints on this workspace, including:
 
 | Endpoint | Task | Notes |
@@ -444,7 +317,7 @@ For client-facing decisions this becomes a clean two-option pitch:
 | Path | LLM cost | Auth complexity | Recommended when |
 |---|---|---|---|
 | Direct serving endpoint (this section) | Per-token billing | OAuth bearer only — trivial | Client wants a clean, documented, supported API surface and is fine paying for inference. Best for productionised customer-facing deployments where the cost is observable and predictable. |
-| `llmproxy` replay (next section) | Bundled in workspace subscription | DBAUTH cookie — non-trivial bootstrap | Client wants Genie Code parity with zero incremental inference cost (internal automations, demos, sandbox tooling). Cost trade-off is operational complexity around session bootstrap. |
+| `llmproxy` replay (the chat endpoint section above) | Bundled in workspace subscription | DBAUTH cookie — non-trivial bootstrap | Client wants Genie Code parity with zero incremental inference cost (internal automations, demos, sandbox tooling). Cost trade-off is operational complexity around session bootstrap. |
 
 Recommend leading with the `llmproxy` path for cost-sensitive internal use cases and falling back to the serving-endpoint path when the client wants a supported / documented surface or when programmatic session bootstrap is too brittle.
 
@@ -455,3 +328,56 @@ Recommend leading with the `llmproxy` path for cost-sensitive internal use cases
 * Streaming (`stream: true`) on the serving endpoint — the OpenAI SSE chunk format is the same, but worth confirming `tool_use_delta` / `thinking_delta` chunks behave as expected.
 
 The original "OAuth → DBAUTH" question stays open as an academic curiosity, but does not block building a programmatic Genie Code driver.
+
+---
+
+## Appendix A — Legacy Workspace Assistant endpoints (not used by Genie Code)
+
+> Recorded so future investigation doesn't re-discover them as Genie Code endpoints. **They are not.**
+
+The chunks at `35758.41da1ca0fb.chunk.js`, `8802.*`, `23308.*` define a family of REST endpoints used by the *Workspace Assistant* (the previous in-editor assistant). They are still bundled and loaded by the workspace shell, but Genie Code does not call them.
+
+| Endpoint | Purpose |
+|---|---|
+| `/ajax-api/2.0/conversation/assistant/editor-chat` | Workspace Assistant editor chat |
+| `/ajax-api/2.0/conversation/assistant/general-chat` | Generic assistant chat |
+| `/ajax-api/2.0/conversation/assistant/assistant-card` | Card-style suggestions |
+| `/ajax-api/2.0/conversation/assistant/suggest-fix` | Suggest fix on errors |
+| `/ajax-api/2.0/conversation-v2/assistant/inline-quick-fix` | Inline code quick-fix (v2 path) |
+| `/ajax-api/2.0/conversation/assistant/merlin-support-chat` | Support chatbot |
+| `/ajax-api/2.0/conversation/flow/partnerhub` | Partner Hub flow |
+| `/ajax-api/2.0/conversation/internal-completions` | Generic completions; wraps GraphQL `agent(name:"Workspace.Assistant"){ conversationAssistantChatCompletion(input:$input){ _json } }` |
+| `/ajax-api/2.0/conversation/proxy/chat/completions` | OpenAI-compatible direct LLM proxy |
+
+All `POST`, all support `stream: true` (SSE-style). Uniform body envelope: `{...assistantApiArgs[<flow_key>], stream, debug, metadata: "<json-string>"}`. Wire format is snake_case (chunk `35758` runs the body through a recursive snake-case key transformer `d = o(e, snakeCase)` before posting). Headers: `Content-Type: application/json`, `x-databricks-agent-version: <ver>`, `Authorization: Bearer <oauth_token>`.
+
+Non-streaming response is wrapped as `{completion: "<json-string>"}` where the inner JSON is OpenAI-shaped: `JSON.parse(JSON.parse(body).completion).choices[0].message`.
+
+These all route through an internal AI router called **Lakesense** — see Appendix B.
+
+## Appendix B — Investigation: editor-chat / Lakesense dead end
+
+> Kept so we don't repeat the chase.
+
+We initially probed `/ajax-api/2.0/conversation/assistant/editor-chat` assuming it was the Genie Code endpoint (the chunks shipping it used Genie-adjacent naming). It isn't.
+
+**Findings from that probe:**
+
+1. `/ajax-api/2.0/conversation/assistant/editor-chat` rejects the OAuth bearer (303 redirect to `/login.html`). The `ajax-api` prefix is cookie-session only.
+2. The **same endpoint exists at `/api/2.0/conversation/assistant/editor-chat`** and accepts the OAuth bearer for body validation.
+3. Server returns `400 BAD_REQUEST: "Request purpose field not specified for flow request"` until `common_params.request_purpose` is supplied. Minimum body that passes validation:
+
+   ```jsonc
+   {
+     "common_params": { "request_purpose": "STANDARD_USAGE" },
+     "messages":      [{ "role": "user", "content": "hello" }],
+     "stream":        false,
+     "debug":         false,
+     "metadata":      "{\"sessionId\":\"<uuid>\"}"
+   }
+   ```
+
+4. Once validation passes, the conversation gateway returns `HTTP 500 INTERNAL_ERROR: isDatabricksModelServing=false; code=404; content=Lakesense not enabled: failed token auth and tls certificate auth`. Our CLI OAuth bearer (client `databricks-cli`, audience `7474644141110056`, scope `all-apis offline_access`) is accepted by the gateway but **rejected by Lakesense** ("failed token auth and tls certificate auth"). The web SPA's OAuth client id is different (`cef6a689-ce26-45d0-bc87-17bef342fbba`); plausible Lakesense requires either a token issued for the web client (different audience or scopes) or the web session cookie that carries an additional internal credential / proxy cert.
+5. Capturing DevTools traffic on a live Genie Code message revealed Genie Code does **not** call editor-chat at all — it calls `/ajax-api/2.0/conversation/llmproxy/` (documented in the main section). The editor-chat chunks (`35758.*`, `8802.*`, `23308.*`) are the **legacy Workspace Assistant** code path, still loaded by the workspace shell but unused by Genie Code.
+
+So the editor-chat HTTP surface is fully decoded but unreachable for our use case, and Genie Code doesn't go through it. **Don't re-attempt.**

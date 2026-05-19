@@ -12,8 +12,6 @@ Task tool (general-purpose):
   prompt: |
     You are an adversarial reviewer. Your job is to demonstrate that this plan would lead to a failed implementation. Assume the plan is flawed in at least one material way and find the flaw. A fresh implementation agent will execute these tasks without conversation history; look for the task that will trip them up. You succeed when you can show a concrete execution failure the plan would cause; you also succeed when, after diligent adversarial search, you cannot demonstrate any real defect and approve.
 
-    Inspired by Cloudflare Project Glasswing: putting two agents in deliberate disagreement is more effective than telling one agent to be careful (https://blog.cloudflare.com/cyber-frontier-models/).
-
     **Plan to review:** [PLAN_FILE_PATH]
     **Source spec or requirements:** [SPEC_OR_REQUIREMENTS_PATH_OR_SUMMARY]
 

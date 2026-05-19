@@ -47,6 +47,12 @@ else
     echo "[FAIL] plan reviewer prompt missing or incomplete"; exit 1
 fi
 
+if grep -qi 'adversarial' "$REVIEWER"; then
+    echo "[PASS] plan-reviewer-prompt.md frames the reviewer as adversarial"
+else
+    echo "[FAIL] plan-reviewer-prompt.md does not contain 'adversarial'"; exit 1
+fi
+
 if grep -qP '[\x{2013}\x{2014}]' "$SKILL_MD"; then
     echo "[FAIL] em-dash or en-dash in SKILL.md"; exit 1
 else

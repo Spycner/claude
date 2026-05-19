@@ -47,7 +47,14 @@ else
     echo "[FAIL] spec reviewer prompt missing or incomplete"; exit 1
 fi
 
-# Test 5: No em or en-dash in SKILL.md body
+# Test 5: Reviewer prompt uses adversarial framing
+if grep -qi 'adversarial' "$REVIEWER"; then
+    echo "[PASS] spec-document-reviewer-prompt.md frames the reviewer as adversarial"
+else
+    echo "[FAIL] spec-document-reviewer-prompt.md does not contain 'adversarial'"; exit 1
+fi
+
+# Test 6: No em or en-dash in SKILL.md body
 if grep -qP '[\x{2013}\x{2014}]' "$SKILL_MD"; then
     echo "[FAIL] em-dash or en-dash in SKILL.md"; exit 1
 else

@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkdatabricks_monolith=self.webpackChunkdatabricks_monolith||[]).push([[75030],{375030:(t,e,h)=>{h.r(e),h.d(e,{RouteComponent:()=>o});var i=h(610435),n=h(648782);function o(){let{catalog:t,schema:e,name:h}=(0,n.g)();return(0,i.FD)("div",{css:{height:"100vh",width:"100vw",padding:24},children:["hello, ",t,".",e,".",h]})}}}]);
+//# sourceMappingURL=https://sourcemaps.dev.databricks.com/monolith/static/js/75030.9f510444ff.chunk.js.map

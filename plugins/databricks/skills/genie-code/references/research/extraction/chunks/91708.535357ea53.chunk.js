@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkdatabricks_monolith=self.webpackChunkdatabricks_monolith||[]).push([[91708],{191708:(e,t,n)=>{n.r(t),n.d(t,{RouteComponent:()=>h});var o=n(610435),i=n(692738),r=n(648782);let a=i.memo(function(){return(0,o.Y)("div",{css:{height:"100%","@media(max-height: 768px)":{overflow:"auto"}},children:(0,o.Y)(r.sv,{})})});function h(){return(0,o.Y)(a,{})}}}]);
+//# sourceMappingURL=https://sourcemaps.dev.databricks.com/monolith/static/js/91708.535357ea53.chunk.js.map

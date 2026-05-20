@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkdatabricks_monolith=self.webpackChunkdatabricks_monolith||[]).push([[55243],{55243:(t,r,e)=>{e.r(r),e.d(r,{DbtPlatformTaskColumnDropdownRenderer:()=>o});var n=e(610435);function o({task:t}){let r=t?.dbtPlatformTask?.connectionResourceName,e=t?.dbtPlatformTask?.dbtPlatformJobId;if(r&&e)return(0,n.Y)("div",{children:`${r}/${e}`});return null}e(692738)}}]);
+//# sourceMappingURL=https://sourcemaps.dev.databricks.com/monolith/static/js/55243.f016ed2fb3.chunk.js.map

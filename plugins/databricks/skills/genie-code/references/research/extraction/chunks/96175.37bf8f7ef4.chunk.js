@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkdatabricks_monolith=self.webpackChunkdatabricks_monolith||[]).push([[96175],{418556:(e,t,n)=>{n.r(t),n.d(t,{RouteComponent:()=>r});var l=n(692738),o=n(488655),a=n(648782),s=n(737358),i=n(342816);let r=()=>{let e=(0,o.Zp)(),{model_name:t,model_version:n}=(0,a.g)();return(0,l.useEffect)(()=>{e(`/${(0,s.tW)(i.q6.ReviewChain,{model_name:t??"",model_version:n??""})}`)},[e,t,n]),null}}}]);
+//# sourceMappingURL=https://sourcemaps.dev.databricks.com/monolith/static/js/96175.37bf8f7ef4.chunk.js.map

@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkdatabricks_monolith=self.webpackChunkdatabricks_monolith||[]).push([[61843],{561843:e=>{e.exports="PARQUET-Specific Options\n\n| Option              | Type    |\n| ------------------- | ------- |\n| datetimeRebaseMode  | String  |\n| int96RebaseMode     | String  |\n| mergeSchema         | Boolean |\n| readerCaseSensitive | Boolean |\n| rescuedDataColumn   | String  |\n"}}]);
+//# sourceMappingURL=https://sourcemaps.dev.databricks.com/monolith/static/js/61843.31e380de58.chunk.js.map

@@ -1,0 +1,50 @@
+[
+  {
+    "chunk": "19604.5ae31ee5cc.chunk.js",
+    "letter": "a",
+    "factory_pos": 321819,
+    "name_raw": "f",
+    "tools_raw": "j",
+    "model_raw": "D",
+    "flow_raw": "\"default\"",
+    "toolUseBehavior_raw": "\"run_llm_again\"",
+    "instr_raw_head": "()=>Y(function*(){let e=(0,h.g)(v).startsWith(\"claude\"),t=er();return e&&(t=`${t}\n\n${m.p}`),t})()",
+    "body_len": 514
+  },
+  {
+    "chunk": "28513.74b0ddd74a.chunk.js",
+    "letter": "I",
+    "factory_pos": 160368,
+    "name_raw": "ea",
+    "tools_raw": "g",
+    "model_raw": null,
+    "flow_raw": null,
+    "toolUseBehavior_raw": "\"run_llm_again\"",
+    "instr_raw_head": "y",
+    "body_len": 414
+  },
+  {
+    "chunk": "71329.2394daf786.chunk.js",
+    "letter": "S",
+    "factory_pos": 55332,
+    "name_raw": "$.I",
+    "tools_raw": "f",
+    "model_raw": null,
+    "flow_raw": null,
+    "toolUseBehavior_raw": "\"run_llm_again\"",
+    "instr_raw_head": "()=>F(function*(){var e=g;let t=`You are the CDP Agent, an AI assistant specialized in Databricks Customer Data Platform (CDP).\n\n# Primary objective\nHelp users work with CDP features: audiences, attributes, the data model, syncs, connectors, and settings. Answer questions about how to create and manage audiences, define attributes, understand the data model, configure syncs and connectors, and use",
+    "body_len": 3510
+  },
+  {
+    "chunk": "99706.bc1ebf319b.chunk.js",
+    "letter": "a",
+    "factory_pos": 31480,
+    "name_raw": "L.d",
+    "tools_raw": "E",
+    "model_raw": "I",
+    "flow_raw": "\"default\"",
+    "toolUseBehavior_raw": "\"run_llm_again\"",
+    "instr_raw_head": "()=>F(function*(){let e=`You are Genie Code for Databricks Apps V2. Help users create, inspect, debug, and operate Databricks Apps while staying precise, safe, and focused on the current Apps page.\n\nBEFORE writing a command, read the user prompt and use tools at your disposal to make the call efficiently and effectively.\n\n# Primary Objective\n- For debugging requests: inspect app status, deployment",
+    "body_len": 3001
+  }
+]

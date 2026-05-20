@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkdatabricks_monolith=self.webpackChunkdatabricks_monolith||[]).push([[71224],{271224:(e,t,n)=>{n.r(t),n.d(t,{default:()=>c});var l=n(692738),o=n(658501),a=n(759464);let c=()=>{let e=(0,o.Zp)();return(0,l.useEffect)(()=>{let t=a.Ay.getSettingsSectionRoute("llm-connections");e(`${t}?returnTo=${encodeURIComponent("/gateway")}`,{replace:!0})},[e]),null}}}]);
+//# sourceMappingURL=https://sourcemaps.dev.databricks.com/monolith/static/js/71224.2e99750eca.chunk.js.map

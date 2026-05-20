@@ -1,0 +1,29 @@
+"use strict";(self.webpackChunkdatabricks_monolith=self.webpackChunkdatabricks_monolith||[]).push([[8469,14133,46449],{58993:()=>{},108469:(e,t,o)=>{o.r(t),o.d(t,{LazyJobTasksWidget:()=>y});var a=o(610435);o(58993),o(891585);var n=o(692738),s=o(550670),r=o(497895),l=o(382908),i=o(12414),d=o(342411),c=o(141078),h=o(202855),u=o(548635);function p(e){return n.createElement(s.Ay,e)}function k(e){return n.createElement(u.F,e)}let g=(0,c.J1)`
+  query JobTasksWidgetQuery(
+    $jobId: Long!
+    $includeSubscriptions: Boolean = false
+    $includeJobInRunJobTask: Boolean = false
+    $includeJobParameters: Boolean = false
+    $includeSourceInDbtAndSqlFile: Boolean = false
+  ) @component(name: "Workspace.Assistant") {
+    jobsGetJob(input: { jobId: $jobId }) {
+      job {
+        jobId
+        settings {
+          name
+          tasks {
+            taskKey
+            dependsOn {
+              taskKey
+            }
+            task {
+              ...JobsAllTasksFragment
+            }
+          }
+        }
+      }
+    }
+  }
+  ${h.m}
+`,b={task:({data:e})=>{let{theme:t}=(0,r.wn)();return(0,a.FD)("div",{style:{padding:t.spacing.sm,borderRadius:t.general.borderRadiusBase,border:`1px solid ${t.colors.borderDecorative}`,backgroundColor:t.colors.backgroundPrimary,minWidth:140,textAlign:"center",boxShadow:"0 1px 3px rgba(0,0,0,0.1)"},children:[(0,a.Y)(l.o.Text,{style:{fontWeight:500,fontSize:12,display:"block",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"},children:e.label}),(0,a.Y)(l.o.Text,{color:"secondary",style:{fontSize:10,display:"block",marginTop:2},children:e.taskType})]})}},f=({tasks:e})=>{let{theme:t}=(0,r.wn)(),o=(0,n.useMemo)(()=>(function(e){let t=[],o=new Map,a=new Map,n=new Map;e.forEach(e=>{o.set(e.taskKey,e),a.set(e.taskKey,e.dependsOn?.length??0),n.set(e.taskKey,[])}),e.forEach(e=>{e.dependsOn?.forEach(t=>{let o=n.get(t.taskKey)??[];o.push(e.taskKey),n.set(t.taskKey,o)})});let s=new Map,r=[];for(e.forEach(e=>{(e.dependsOn?.length??0)===0&&(r.push(e.taskKey),s.set(e.taskKey,0))});r.length>0;){let e=r.shift();if(void 0===e)break;let t=s.get(e)??0;n.get(e)?.forEach(e=>{let o=t+1;o>(s.get(e)??-1)&&s.set(e,o);let n=(a.get(e)??1)-1;a.set(e,n),0===n&&r.push(e)})}let l=new Map;return s.forEach((e,t)=>{let o=l.get(e)??[];o.push(t),l.set(e,o)}),l.forEach((e,a)=>{let n=-(160*e.length+(e.length-1)*60)/2;e.forEach((e,s)=>{let r=o.get(e);if(!r)return;t.push({id:e,type:"task",position:{x:n+220*s,y:100*a},data:{label:e,taskType:function(e){if(!e)return"Task";let t={NotebookTask:"Notebook",SparkPythonTask:"Python",DbtTask:"dbt",PipelineTask:"Pipeline",PythonWheelTask:"Python Wheel",RunJobTask:"Run Job",SparkJarTask:"JAR",SqlTask:"SQL",SparkSubmitTask:"Spark Submit",ConditionTask:"Condition",JobsJobTask:"Job Task"};if(e in t)return t[e];return e.replace("Task","")}(r.task?.__typename)}})})}),e.forEach(e=>{e.dependsOn?.forEach(o=>{t.push({id:`${o.taskKey}-${e.taskKey}`,source:o.taskKey,target:e.taskKey,type:"smoothstep",animated:!1,className:"task-edge"})})}),t})(e),[e]),s=(0,n.useCallback)(e=>{setTimeout(()=>{e.fitView({padding:.2})},100)},[]);return(0,a.Y)(p,{elements:o,onLoad:s,nodeTypes:b,nodesDraggable:!1,nodesConnectable:!1,elementsSelectable:!1,panOnScroll:!0,zoomOnScroll:!0,minZoom:.5,maxZoom:1.5,style:{background:t.colors.backgroundSecondary},children:(0,a.Y)(k,{})})},y=({jobId:e})=>{let{theme:t}=(0,r.wn)(),{data:o,loading:h,error:u}=(0,c.IT)(g,{variables:{jobId:parseInt(e,10)},fetchPolicy:"cache-first"}),p=(0,n.useMemo)(()=>o?.jobsGetJob?.job?.settings?.tasks??[],[o]);if(h)return(0,a.FD)("div",{style:{display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",height:"100%",minHeight:250,gap:t.spacing.md},children:[(0,a.Y)(i.y,{}),(0,a.Y)(l.o.Text,{color:"secondary",children:(0,a.Y)(d.sA,{id:"jRK3h3",defaultMessage:"Loading tasks..."})})]});if(u)return(0,a.Y)("div",{style:{display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",height:"100%",minHeight:250,padding:t.spacing.lg},children:(0,a.Y)(l.o.Text,{style:{color:t.colors.textValidationDanger},children:(0,a.Y)(d.sA,{id:"P7uzXG",defaultMessage:"Failed to load job tasks: {error}",values:{error:u.message}})})});if(0===p.length)return(0,a.Y)("div",{style:{display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",height:"100%",minHeight:250,padding:t.spacing.lg},children:(0,a.Y)(l.o.Text,{color:"secondary",children:(0,a.Y)(d.sA,{id:"SUuUv8",defaultMessage:"No tasks defined for this job"})})});return(0,a.Y)("div",{style:{height:"100%",minHeight:300,width:"100%"},"data-testid":"job-tasks-dag-widget",children:(0,a.Y)(s.Ln,{children:(0,a.Y)(f,{tasks:p})})})}},532411:(e,t,o)=>{o.d(t,{H6:()=>n,Hz:()=>i,LK:()=>d,Us:()=>c,Vu:()=>l,_1:()=>r,tk:()=>s});var a=o(956935);let n=5,s=.75,r=8,l=e=>e.colors.blue400,i=e=>e.colors.blue600,d=e=>e.colors.blue600;function c(e){let t=e.isDarkMode?e.colors.actionDefaultBackgroundHover:e.colors.blue100;return{handleRight:(0,a.AH)({background:"transparent",borderColor:"transparent",right:0,top:28}),handleLeft:(0,a.AH)({background:"transparent",borderColor:"transparent",left:-3,top:28}),titleText:(0,a.AH)({width:"230px",lineHeight:`${e.typography.lineHeightSm} !important`}),backgroundHack:(0,a.AH)({"&:hover":{backgroundColor:t},borderRadius:"4px",width:"100%",height:"100%",position:"absolute",top:0,left:0,zIndex:0})}}},548635:(e,t,o)=>{o.d(t,{F:()=>i});var a=o(610435),n=o(692738),s=o(550670),r=o(497895),l=o(532411);let i=(0,n.memo)(e=>{let{theme:t}=(0,r.wn)(),o=e.options??{};return(0,a.Y)(s.VS,{variant:s._5.Dots,gap:l.H6,color:t.colors.borderDecorative,size:l.tk,...o})})},891585:()=>{}}]);
+//# sourceMappingURL=https://sourcemaps.dev.databricks.com/monolith/static/js/8469.b7956d534d.chunk.js.map

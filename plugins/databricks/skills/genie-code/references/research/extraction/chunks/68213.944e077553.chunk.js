@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkdatabricks_monolith=self.webpackChunkdatabricks_monolith||[]).push([[68213],{468213:e=>{e.exports="ORC-Specific Options\n\n| Option      | Type    |\n| ----------- | ------- |\n| mergeSchema | Boolean |\n"}}]);
+//# sourceMappingURL=https://sourcemaps.dev.databricks.com/monolith/static/js/68213.944e077553.chunk.js.map

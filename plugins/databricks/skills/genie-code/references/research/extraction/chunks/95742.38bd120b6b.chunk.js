@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkdatabricks_monolith=self.webpackChunkdatabricks_monolith||[]).push([[95742],{395742:(t,e,o)=>{o.r(e),o.d(e,{RouteComponent:()=>l});var a=o(610435);o(692738);var n=o(629962),r=o(974568);function i(){return(0,a.Y)(n.uj,{title:"Catalog Explorer",config:r.ed})}let l=()=>(0,a.Y)(i,{})}}]);
+//# sourceMappingURL=https://sourcemaps.dev.databricks.com/monolith/static/js/95742.38bd120b6b.chunk.js.map

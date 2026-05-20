@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkdatabricks_monolith=self.webpackChunkdatabricks_monolith||[]).push([[81047],{381047:(a,e,n)=>{n.r(e),n.d(e,{CleanRoomsJarTaskColumnDropdownRenderer:()=>o});var r=n(610435);function o({task:a}){let e=a?.cleanRoomsJarTask?.cleanRoomName,n=a?.cleanRoomsJarTask?.jarAnalysisName;if(e&&n)return(0,r.Y)("div",{children:`${e}/${n}`});return null}n(692738)}}]);
+//# sourceMappingURL=https://sourcemaps.dev.databricks.com/monolith/static/js/81047.62c6b0487b.chunk.js.map

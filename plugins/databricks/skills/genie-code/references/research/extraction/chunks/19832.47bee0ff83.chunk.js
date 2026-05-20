@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkdatabricks_monolith=self.webpackChunkdatabricks_monolith||[]).push([[19832],{819832:(e,t,r)=>{r.r(t),r.d(t,{SearchDiscoverDataFetchersContext:()=>s,useSearchDiscoverDataFetchers:()=>c});var a=r(692738);let s=a.createContext(void 0);function c(){let e=a.useContext(s);if(!e)throw Error("useSearchDiscoverDataFetchers must be used within a SearchDiscoverDataFetchersContext");return e}}}]);
+//# sourceMappingURL=https://sourcemaps.dev.databricks.com/monolith/static/js/19832.47bee0ff83.chunk.js.map

@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkdatabricks_monolith=self.webpackChunkdatabricks_monolith||[]).push([[97061],{697061:(e,i,n)=>{n.r(i),n.d(i,{PipelineTaskColumnDropdownRenderer:()=>s});var a=n(610435);n(692738);var t=n(342411);function s({task:e}){return(0,a.Y)("div",{"data-testid":"job-task-column-mtj-pipeline",children:(0,a.Y)(t.sA,{id:"Jmki2i",defaultMessage:"Pipeline"})})}}}]);
+//# sourceMappingURL=https://sourcemaps.dev.databricks.com/monolith/static/js/97061.d768e0fb60.chunk.js.map

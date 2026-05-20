@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkdatabricks_monolith=self.webpackChunkdatabricks_monolith||[]).push([[29173],{329173:(e,t,a)=>{a.r(t),a.d(t,{RouteComponent:()=>s});var n=a(610435);a(692738);var o=a(969595),r=a(797478);let s=()=>(0,n.Y)(o.BJ,{children:(0,n.Y)(r.X,{})})}}]);
+//# sourceMappingURL=https://sourcemaps.dev.databricks.com/monolith/static/js/29173.67d844df84.chunk.js.map

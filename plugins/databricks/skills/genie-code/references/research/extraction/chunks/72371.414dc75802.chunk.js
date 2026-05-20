@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkdatabricks_monolith=self.webpackChunkdatabricks_monolith||[]).push([[72371],{872371:(t,o,a)=>{a.r(o),a.d(o,{SimulationTaskColumnDropdownRenderer:()=>r});var n=a(610435);a(692738);var e=a(342411);function r({task:t}){let o=t?.simulationTask?.controlId;return(0,n.Y)("div",{"data-testid":"job-task-column-mtj",children:o?`Control ID: ${o}`:(0,n.Y)(e.sA,{id:"GJtMNh",defaultMessage:"No Control ID"})})}}}]);
+//# sourceMappingURL=https://sourcemaps.dev.databricks.com/monolith/static/js/72371.414dc75802.chunk.js.map

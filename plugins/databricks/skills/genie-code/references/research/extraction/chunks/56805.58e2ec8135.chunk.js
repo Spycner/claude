@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkdatabricks_monolith=self.webpackChunkdatabricks_monolith||[]).push([[56805],{156805:(t,e,r)=>{r.r(e),r.d(e,{RouteComponent:()=>o});var a=r(610435);r(692738);var i=r(831161),n=r(633892);let o=()=>(0,a.Y)(i.Q,{restriction:i.R.ALL_ACCESS,children:(0,a.Y)(n.j,{})})}}]);
+//# sourceMappingURL=https://sourcemaps.dev.databricks.com/monolith/static/js/56805.58e2ec8135.chunk.js.map

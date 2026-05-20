@@ -40,3 +40,30 @@ def test_lake_pack_has_fifteen_plus_tools():
     pack = Path(__file__).parent.parent / "prompt_pack" / "lake-agent"
     tools = json.loads((pack / "tools.json").read_text())
     assert len(tools) >= 15, f"expected 15+ tools, got {len(tools)}"
+
+
+def test_chat_tool_returns_structured_trace(tmp_path, monkeypatch):
+    """chat() returns the documented shape with thread_id, transcript, etc."""
+    import asyncio
+    from unittest.mock import patch
+    from server import handle_chat
+    from conversation import StreamEvent, Delta
+
+    monkeypatch.setenv("XDG_STATE_HOME", str(tmp_path))
+
+    async def fake_run_turn(*args, **kwargs):
+        yield StreamEvent(delta=Delta(role="assistant", content="hi", tool_calls=None), finish_reason=None)
+        yield StreamEvent(delta=Delta(role=None, content=" there", tool_calls=None), finish_reason="stop")
+
+    with patch("server.run_turn", new=fake_run_turn):
+        result = asyncio.run(handle_chat(
+            prompt="hello",
+            agent="LakeAgent",
+            context_id=None,
+            options={"mode": "oauth", "endpoint_name": "test-endpoint"},
+        ))
+    assert "thread_id" in result
+    assert "transcript" in result
+    assert "tool_calls" in result
+    assert result["agent"] == "LakeAgent"
+    assert any("hi there" in m["content"] for m in result["transcript"] if m["role"] == "assistant")

@@ -25,3 +25,11 @@ grep -qi 'cookie' "$M" || { echo "FAIL: modes.md missing cookie"; exit 1; }
 grep -qi 'oauth' "$M" || { echo "FAIL: modes.md missing oauth"; exit 1; }
 grep -qi 'sidebar\|SPA' "$M" || { echo "FAIL: modes.md missing UI-visibility note"; exit 1; }
 echo "PASS (modes.md)"
+
+R="/home/pascal/Code/pgoell-claude-tools/plugins/databricks/skills/genie-code/references/recipes.md"
+test -f "$R" || { echo "FAIL: recipes.md missing"; exit 1; }
+grep -qi 'build a dashboard\|create a dashboard' "$R" || { echo "FAIL: recipes missing build"; exit 1; }
+grep -qi 'edit\|modify' "$R" || { echo "FAIL: recipes missing edit"; exit 1; }
+grep -qi 'LakeAgent\|workspace question' "$R" || { echo "FAIL: recipes missing LakeAgent"; exit 1; }
+grep -qi 'resume\|continue' "$R" || { echo "FAIL: recipes missing resume"; exit 1; }
+echo "PASS (recipes.md)"

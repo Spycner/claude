@@ -42,3 +42,9 @@ grep -qi 'DBAUTH\|cookie' "$T" || { echo "FAIL: troubleshooting missing cookie";
 grep -qi 'Chrome profile\|Singleton' "$T" || { echo "FAIL: troubleshooting missing Chrome lock"; exit 1; }
 grep -qi 'refresh.*prompt' "$T" || { echo "FAIL: troubleshooting missing prompt refresh"; exit 1; }
 echo "PASS (troubleshooting.md)"
+
+README="/home/pascal/Code/pgoell-claude-tools/README.md"
+grep -qi 'databricks' "$README" || { echo "FAIL: README missing databricks row"; exit 1; }
+grep -qi 'genie-code' "$README" || { echo "FAIL: README missing genie-code"; exit 1; }
+grep -q 'uv' "$README" || { echo "FAIL: README missing uv mention"; exit 1; }
+echo "PASS (README)"

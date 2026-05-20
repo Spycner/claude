@@ -31,27 +31,81 @@ class StreamEvent:
     finish_reason: str | None = None
 
 
+_ANTHROPIC_STOP_REASON_MAP = {
+    "end_turn": "stop",
+    "tool_use": "tool_calls",
+    "max_tokens": "length",
+    "stop_sequence": "stop",
+}
+
+
+def _parse_openai_payload(payload: dict) -> Iterator[StreamEvent]:
+    choice = payload["choices"][0]
+    delta_dict = choice.get("delta") or {}
+    finish_reason = choice.get("finish_reason")
+    yield StreamEvent(
+        delta=Delta(
+            role=delta_dict.get("role"),
+            content=delta_dict.get("content"),
+            tool_calls=delta_dict.get("tool_calls"),
+        ),
+        finish_reason=finish_reason,
+    )
+
+
+def _parse_anthropic_payload(payload: dict) -> Iterator[StreamEvent]:
+    """Map an Anthropic streaming event to zero or one StreamEvent.
+
+    Only text_delta becomes content (thinking_delta is intentionally dropped).
+    tool_use blocks are reshaped into the OpenAI-style tool_call delta dicts
+    that accumulate_tool_calls understands.
+    """
+    t = payload.get("type")
+    if t == "content_block_start":
+        block = payload.get("content_block") or {}
+        if block.get("type") == "tool_use":
+            yield StreamEvent(delta=Delta(tool_calls=[{
+                "index": payload.get("index", 0),
+                "id": block.get("id", ""),
+                "type": "function",
+                "function": {"name": block.get("name", ""), "arguments": ""},
+            }]))
+    elif t == "content_block_delta":
+        delta_block = payload.get("delta") or {}
+        dtype = delta_block.get("type")
+        if dtype == "text_delta":
+            yield StreamEvent(delta=Delta(content=delta_block.get("text", "")))
+        elif dtype == "input_json_delta":
+            yield StreamEvent(delta=Delta(tool_calls=[{
+                "index": payload.get("index", 0),
+                "function": {"arguments": delta_block.get("partial_json", "")},
+            }]))
+    elif t == "message_delta":
+        delta_block = payload.get("delta") or {}
+        stop_reason = delta_block.get("stop_reason")
+        finish = _ANTHROPIC_STOP_REASON_MAP.get(stop_reason, stop_reason)
+        if finish:
+            yield StreamEvent(delta=Delta(), finish_reason=finish)
+
+
+def _parse_event_payload(payload: dict) -> Iterator[StreamEvent]:
+    """Auto-detect OpenAI vs Anthropic shape per event."""
+    if "choices" in payload:
+        yield from _parse_openai_payload(payload)
+    elif "type" in payload:
+        yield from _parse_anthropic_payload(payload)
+
+
 def parse_sse_stream(lines: Iterable[str]) -> Iterator[StreamEvent]:
     for raw in lines:
         line = raw.rstrip("\r\n")
-        if not line:
+        if not line or not line.startswith("data: "):
             continue
-        if line.startswith("data: "):
-            line = line[len("data: "):]
+        line = line[len("data: "):]
         if line == "[DONE]":
             return
         payload = json.loads(line)
-        choice = payload["choices"][0]
-        delta_dict = choice.get("delta") or {}
-        finish_reason = choice.get("finish_reason")
-        yield StreamEvent(
-            delta=Delta(
-                role=delta_dict.get("role"),
-                content=delta_dict.get("content"),
-                tool_calls=delta_dict.get("tool_calls"),
-            ),
-            finish_reason=finish_reason,
-        )
+        yield from _parse_event_payload(payload)
 
 
 def accumulate_tool_calls(deltas: list[dict]) -> list[ToolCall]:
@@ -128,29 +182,20 @@ def build_serving_body(
     }
 
 
-def _parse_one(line: str) -> tuple[StreamEvent | None, bool]:
-    """Parse a single SSE line. Returns (event_or_none, done)."""
+def _parse_one(line: str) -> tuple[list[StreamEvent], bool]:
+    """Parse a single SSE line. Returns (events, done).
+
+    A single line may produce zero (Anthropic event types we ignore) or one
+    StreamEvent. `done` is True iff the line is the SSE `[DONE]` sentinel.
+    """
     s = line.rstrip("\r\n")
-    if not s:
-        return None, False
-    if s.startswith("data: "):
-        s = s[len("data: "):]
+    if not s or not s.startswith("data: "):
+        return [], False
+    s = s[len("data: "):]
     if s == "[DONE]":
-        return None, True
+        return [], True
     payload = json.loads(s)
-    choice = payload["choices"][0]
-    delta_dict = choice.get("delta") or {}
-    return (
-        StreamEvent(
-            delta=Delta(
-                role=delta_dict.get("role"),
-                content=delta_dict.get("content"),
-                tool_calls=delta_dict.get("tool_calls"),
-            ),
-            finish_reason=choice.get("finish_reason"),
-        ),
-        False,
-    )
+    return list(_parse_event_payload(payload)), False
 
 
 async def run_turn(
@@ -163,8 +208,8 @@ async def run_turn(
     async with client.stream("POST", url, headers=headers, json=body) as response:
         response.raise_for_status()
         async for line in response.aiter_lines():
-            event, done = _parse_one(line)
+            events, done = _parse_one(line)
             if done:
                 return
-            if event is not None:
+            for event in events:
                 yield event

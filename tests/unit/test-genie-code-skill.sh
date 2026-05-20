@@ -33,3 +33,12 @@ grep -qi 'edit\|modify' "$R" || { echo "FAIL: recipes missing edit"; exit 1; }
 grep -qi 'LakeAgent\|workspace question' "$R" || { echo "FAIL: recipes missing LakeAgent"; exit 1; }
 grep -qi 'resume\|continue' "$R" || { echo "FAIL: recipes missing resume"; exit 1; }
 echo "PASS (recipes.md)"
+
+T="/home/pascal/Code/pgoell-claude-tools/plugins/databricks/skills/genie-code/references/troubleshooting.md"
+test -f "$T" || { echo "FAIL: troubleshooting.md missing"; exit 1; }
+grep -qi 'uv\|astral' "$T" || { echo "FAIL: troubleshooting missing uv install"; exit 1; }
+grep -qi 'databricks auth\|databricks CLI' "$T" || { echo "FAIL: troubleshooting missing CLI"; exit 1; }
+grep -qi 'DBAUTH\|cookie' "$T" || { echo "FAIL: troubleshooting missing cookie"; exit 1; }
+grep -qi 'Chrome profile\|Singleton' "$T" || { echo "FAIL: troubleshooting missing Chrome lock"; exit 1; }
+grep -qi 'refresh.*prompt' "$T" || { echo "FAIL: troubleshooting missing prompt refresh"; exit 1; }
+echo "PASS (troubleshooting.md)"

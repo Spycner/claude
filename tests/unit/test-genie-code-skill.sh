@@ -18,3 +18,10 @@ grep -q 'LakeAgent' "$F" || { echo "FAIL: mentions LakeAgent"; exit 1; }
 grep -q 'dashboardAuthoringAgent' "$F" || { echo "FAIL: mentions dashboardAuthoringAgent"; exit 1; }
 grep -q 'modes.md\|recipes.md\|troubleshooting.md' "$F" || { echo "FAIL: links to reference docs"; exit 1; }
 echo "PASS (SKILL.md structural checks)"
+
+M="/home/pascal/Code/pgoell-claude-tools/plugins/databricks/skills/genie-code/references/modes.md"
+test -f "$M" || { echo "FAIL: modes.md missing"; exit 1; }
+grep -qi 'cookie' "$M" || { echo "FAIL: modes.md missing cookie"; exit 1; }
+grep -qi 'oauth' "$M" || { echo "FAIL: modes.md missing oauth"; exit 1; }
+grep -qi 'sidebar\|SPA' "$M" || { echo "FAIL: modes.md missing UI-visibility note"; exit 1; }
+echo "PASS (modes.md)"

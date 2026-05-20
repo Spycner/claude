@@ -1,2 +1,0 @@
-"use strict";(self.webpackChunkdatabricks_monolith=self.webpackChunkdatabricks_monolith||[]).push([[26595],{226595:(a,s,e)=>{e.d(s,{K:()=>n});var i=e(605945),t=e(951165);function n(a=(0,i.Iq)()){return(window.settings?.availableWorkspaces??(0,t.m)()?.settings?.availableWorkspaces??[]).find(s=>(0,i.k2)(s.orgId,a))}}}]);
-//# sourceMappingURL=https://sourcemaps.dev.databricks.com/monolith/static/js/26595.e76c810f7a.chunk.js.map

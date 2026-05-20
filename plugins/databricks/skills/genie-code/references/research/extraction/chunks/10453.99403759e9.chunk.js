@@ -1,2 +1,0 @@
-"use strict";(self.webpackChunkdatabricks_monolith=self.webpackChunkdatabricks_monolith||[]).push([[10453],{510453:(t,r,a)=>{a.r(r),a.d(r,{PythonOperatorTaskColumnDropdownRenderer:()=>o});var e=a(610435);a(692738);var n=a(342411);function o({task:t}){return(0,e.Y)("div",{"data-testid":"job-task-column-mtj-python-operator",children:(0,e.Y)(n.sA,{id:"+n2bn9",defaultMessage:"Python Operator"})})}}}]);
-//# sourceMappingURL=https://sourcemaps.dev.databricks.com/monolith/static/js/10453.99403759e9.chunk.js.map

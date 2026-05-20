@@ -1,2 +1,0 @@
-"use strict";(self.webpackChunkdatabricks_monolith=self.webpackChunkdatabricks_monolith||[]).push([[83541],{599724:(e,t,a)=>{a.a(e,async(e,i)=>{try{a.r(t),a.d(t,{default:()=>l});var s=a(610435),n=a(932148),r=a(159205),c=a(35779),h=e([c]);c=(h.then?(await h)():h)[0];let p={batchGetExperimentsApi:n.zh,setExperimentTagApi:n.EJ,getExperimentApi:n.yc,setCompareExperiments:n.I_},l=()=>(0,s.Y)(r.Z,{actions:p,children:(0,s.Y)(c.n,{showHeader:!1})});i()}catch(e){i(e)}})}}]);
-//# sourceMappingURL=https://sourcemaps.dev.databricks.com/monolith/static/js/83541.282443c29e.chunk.js.map

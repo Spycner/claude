@@ -1,2 +1,0 @@
-"use strict";(self.webpackChunkdatabricks_monolith=self.webpackChunkdatabricks_monolith||[]).push([[38092],{356933:(e,o,r)=>{r.r(o),r.d(o,{ChoroplethMapRendererWithGeoSource:()=>h});var t=r(610435),a=r(692738),u=r(504071),n=r(317903),c=r(635303);function h(e){let o=(0,a.useContext)(c.DH).enableMapboxDbstatic??!1,r=(0,a.useMemo)(()=>(0,n.getProdChoroplethFullGeoSource)(o),[o]);return(0,t.Y)(u.MapRenderer,{...e,geoSource:r})}}}]);
-//# sourceMappingURL=https://sourcemaps.dev.databricks.com/monolith/static/js/ChoroplethMapRenderer.161db1dea2.chunk.js.map

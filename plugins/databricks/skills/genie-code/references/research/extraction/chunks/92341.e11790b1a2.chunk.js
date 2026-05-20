@@ -1,2 +1,0 @@
-"use strict";(self.webpackChunkdatabricks_monolith=self.webpackChunkdatabricks_monolith||[]).push([[92341],{292341:(e,n,s)=>{s.r(n),s.d(n,{BusinessTermsPage:()=>t,RouteComponent:()=>i});var r=s(610435);function t(){return(0,r.Y)("div",{children:"BusinessTermsPage"})}function i(){return(0,r.Y)(t,{})}}}]);
-//# sourceMappingURL=https://sourcemaps.dev.databricks.com/monolith/static/js/92341.e11790b1a2.chunk.js.map

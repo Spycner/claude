@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkdatabricks_monolith=self.webpackChunkdatabricks_monolith||[]).push([[39068],{839068:(e,a,t)=>{t.r(a),t.d(a,{RouteComponent:()=>s.AwsMarketplaceCreateWorkspace});var s=t(757687)}}]);

@@ -1,2 +1,0 @@
-"use strict";(self.webpackChunkdatabricks_monolith=self.webpackChunkdatabricks_monolith||[]).push([[61842],{961842:(t,a,e)=>{e.r(a),e.d(a,{PythonOperatorTaskColumnRenderer:()=>n});var r=e(610435);e(692738);var o=e(342411);function n({task:t}){return(0,r.Y)("div",{"data-testid":"job-task-column-python-operator",children:(0,r.Y)(o.sA,{id:"z3hPhG",defaultMessage:"Python Operator"})})}}}]);
-//# sourceMappingURL=https://sourcemaps.dev.databricks.com/monolith/static/js/61842.abc6cb1d00.chunk.js.map

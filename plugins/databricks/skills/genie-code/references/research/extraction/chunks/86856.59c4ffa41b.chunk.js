@@ -1,2 +1,0 @@
-"use strict";(self.webpackChunkdatabricks_monolith=self.webpackChunkdatabricks_monolith||[]).push([[86856],{186856:(e,a,t)=>{t.r(a),t.d(a,{PageNotFoundView:()=>u,default:()=>c});var s=t(610435),o=t(672176),l=t(658501);let u=()=>(0,s.Y)(o.E,{statusCode:404,fallbackHomePageReactRoute:(0,l.Oz)("/experiments")}),c=u}}]);
-//# sourceMappingURL=https://sourcemaps.dev.databricks.com/monolith/static/js/86856.59c4ffa41b.chunk.js.map

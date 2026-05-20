@@ -1,2 +1,0 @@
-"use strict";(self.webpackChunkdatabricks_monolith=self.webpackChunkdatabricks_monolith||[]).push([[30222],{630222:n=>{n.exports="TEXT-Specific Options\n\n| Option    | Type    |\n| --------- | ------- |\n| encoding  | String  |\n| lineSep   | String  |\n| wholeText | Boolean |\n"}}]);
-//# sourceMappingURL=https://sourcemaps.dev.databricks.com/monolith/static/js/30222.ed424b99a6.chunk.js.map

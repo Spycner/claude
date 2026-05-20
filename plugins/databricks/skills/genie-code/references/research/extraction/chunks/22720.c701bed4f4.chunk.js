@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkdatabricks_monolith=self.webpackChunkdatabricks_monolith||[]).push([[22720],{822720:(e,o,t)=>{t.r(o),t.d(o,{RouteComponent:()=>a.CreateLogDeliveryConfiguration});var a=t(479881)}}]);

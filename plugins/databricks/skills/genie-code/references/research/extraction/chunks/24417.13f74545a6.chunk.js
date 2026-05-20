@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkdatabricks_monolith=self.webpackChunkdatabricks_monolith||[]).push([[24417],{24417:(e,s,t)=>{t.r(s),t.d(s,{PreviewFeatures:()=>a.s,default:()=>a.s,refetchSettingsConfig:()=>a.l});var a=t(669502)}}]);

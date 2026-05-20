@@ -1,2 +1,0 @@
-"use strict";(self.webpackChunkdatabricks_monolith=self.webpackChunkdatabricks_monolith||[]).push([[80086],{78926:(a,s,k)=>{var t=k(642617);t.Wx.CATALOG,t.Wx.SCHEMA},580086:(a,s,k)=>{k(78926),k(642617),k(276093),k(144781)}}]);
-//# sourceMappingURL=https://sourcemaps.dev.databricks.com/monolith/static/js/80086.3586e3340c.chunk.js.map

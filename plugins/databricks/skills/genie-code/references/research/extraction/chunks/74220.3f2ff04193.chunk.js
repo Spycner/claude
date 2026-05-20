@@ -1,2 +1,0 @@
-"use strict";(self.webpackChunkdatabricks_monolith=self.webpackChunkdatabricks_monolith||[]).push([[74220],{374220:(e,r,o)=>{o.r(r),o.d(r,{PowerBiTaskColumnRenderer:()=>a});var i=o(610435);function a({task:e}){let r=e?.powerBiTask?.powerBiModel?.workspaceName,o=e?.powerBiTask?.powerBiModel?.modelName;if(r&&o)return(0,i.Y)("div",{children:`${r}/${o}`});return null}o(692738)}}]);
-//# sourceMappingURL=https://sourcemaps.dev.databricks.com/monolith/static/js/74220.3f2ff04193.chunk.js.map

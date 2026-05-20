@@ -1,2 +1,0 @@
-"use strict";(self.webpackChunkdatabricks_monolith=self.webpackChunkdatabricks_monolith||[]).push([[11492],{711492:(e,a,s)=>{s.r(a),s.d(a,{LegacyCleanRoomTaskForm:()=>n});var t=s(610435);s(692738);var o=s(339518),r=s(342411);function n(){let e=(0,r.tz)();return(0,t.Y)(o.F,{componentId:"legacy-clean-room-task-form-alert",type:"error",message:e.formatMessage({id:"EiSX8Q",defaultMessage:"This task is deprecated. Please use the Clean Room notebook task instead."})})}}}]);
-//# sourceMappingURL=https://sourcemaps.dev.databricks.com/monolith/static/js/11492.892aefc54a.chunk.js.map

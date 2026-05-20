@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkdatabricks_monolith=self.webpackChunkdatabricks_monolith||[]).push([[89921],{989921:(t,a,s)=>{s.r(a),s.d(a,{ListAppIntegrations:()=>e.N,default:()=>e.N});var e=s(288983)}}]);

@@ -1,2 +1,0 @@
-"use strict";(self.webpackChunkdatabricks_monolith=self.webpackChunkdatabricks_monolith||[]).push([[92109],{492109:e=>{e.exports="AVRO-Specific Options\n\n| Option              | Type    |\n| ------------------- | ------- |\n| avroSchema          | String  |\n| datetimeRebaseMode  | String  |\n| mergeSchema         | Boolean |\n| readerCaseSensitive | Boolean |\n| rescuedDataColumn   | String  |\n"}}]);
-//# sourceMappingURL=https://sourcemaps.dev.databricks.com/monolith/static/js/92109.54de988bbc.chunk.js.map

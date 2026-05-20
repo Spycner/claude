@@ -1,2 +1,0 @@
-"use strict";(self.webpackChunkdatabricks_monolith=self.webpackChunkdatabricks_monolith||[]).push([[49885],{849885:(a,s,t)=>{a.exports=t.p+"static/media/logo-dark.5f8bda4a77.svg"}}]);
-//# sourceMappingURL=https://sourcemaps.dev.databricks.com/monolith/static/js/49885.89ffc88439.chunk.js.map

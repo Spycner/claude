@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkdatabricks_monolith=self.webpackChunkdatabricks_monolith||[]).push([[90990],{890990:(t,s,n)=>{n.r(s),n.d(s,{RouteComponent:()=>o.ListVpcEndpoints});var o=n(709904)}}]);

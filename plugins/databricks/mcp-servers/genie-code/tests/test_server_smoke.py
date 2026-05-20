@@ -42,6 +42,22 @@ def test_lake_pack_has_fifteen_plus_tools():
     assert len(tools) >= 15, f"expected 15+ tools, got {len(tools)}"
 
 
+def test_refresh_script_executable_and_self_documenting():
+    import subprocess
+    from pathlib import Path
+    script = Path(__file__).parent.parent / "tools" / "refresh-prompt-pack.py"
+    assert script.exists(), f"missing {script}"
+    result = subprocess.run(
+        ["uv", "run", "--extra", "dev", str(script), "--help"],
+        capture_output=True,
+        text=True,
+        cwd=script.parent.parent,
+    )
+    assert result.returncode == 0, f"--help failed: {result.stderr}"
+    out = result.stdout + result.stderr
+    assert "prompt_pack" in out.lower() or "prompt-pack" in out.lower()
+
+
 def test_resume_chat_appends_to_thread(tmp_path, monkeypatch):
     import asyncio
     from unittest.mock import patch

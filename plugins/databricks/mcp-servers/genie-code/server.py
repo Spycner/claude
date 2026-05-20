@@ -18,10 +18,13 @@ from config import Config, ResolvedOptions, resolve_options
 from conversation import (
     Delta,
     StreamEvent,
+    accumulate_tool_calls,
     build_llmproxy_body,
     build_serving_body,
     run_turn as _conversation_run_turn,
 )
+from handlers import dashboard as _dashboard_handlers
+from handlers import lake_agent as _lake_handlers
 from thread_store import ThreadStore
 
 TOOL_NAMES = ("chat", "resume_chat", "list_threads", "get_thread")
@@ -145,51 +148,124 @@ async def handle_chat(
     store.append_message(thread.thread_id, {"role": "user", "content": prompt})
 
     messages = [{"role": "user", "content": prompt}]
-    body = _build_body(
-        mode=opts.mode,
+    transcript, tool_calls_log, final_state = await _run_conversation_loop(
+        opts=opts,
         agent=agent,
+        context_id=context_id,
+        workspace_host=workspace_host,
         system_prompt=system_prompt,
         tools=tools,
-        messages=messages,
         session_id=session_id,
-        model=opts.model,
+        messages=messages,
+        thread=thread,
+        store=store,
     )
-
-    content_parts: list[str] = []
-    tool_call_deltas: list[dict] = []
-    finish_reason: str | None = None
-    async for event in run_turn(
-        mode=opts.mode,
-        agent=agent,
-        opts=opts,
-        workspace_host=workspace_host,
-        body=body,
-    ):
-        if event.delta.content:
-            content_parts.append(event.delta.content)
-        if event.delta.tool_calls:
-            tool_call_deltas.extend(event.delta.tool_calls)
-        if event.finish_reason:
-            finish_reason = event.finish_reason
-            break
-
-    assistant_content = "".join(content_parts)
-    store.append_message(thread.thread_id, {"role": "assistant", "content": assistant_content})
-
-    transcript = [
-        {"role": "user", "content": prompt},
-        {"role": "assistant", "content": assistant_content},
-    ]
 
     return {
         "thread_id": thread.thread_id,
         "agent": agent,
         "transcript": transcript,
         "dashboard_diff": {},
-        "final_state": {"finish_reason": finish_reason, "session_id": session_id},
-        "tool_calls": [],
+        "final_state": final_state,
+        "tool_calls": tool_calls_log,
         "errors": [],
     }
+
+
+def _dispatch_tool_call(agent: str, name: str, args: dict, state: dict) -> dict:
+    if agent == "dashboardAuthoringAgent":
+        return _dashboard_handlers.dispatch(name, args, state=state)
+    return _lake_handlers.dispatch(name, args, state=state)
+
+
+async def _run_conversation_loop(
+    *,
+    opts: ResolvedOptions,
+    agent: str,
+    context_id: str | None,
+    workspace_host: str,
+    system_prompt: str,
+    tools: list[dict],
+    session_id: str,
+    messages: list[dict],
+    thread,
+    store: ThreadStore,
+) -> tuple[list[dict], list[dict], dict]:
+    """Run turns until finish_reason == stop or max_turns. Dispatches tool calls."""
+    session_state: dict = {"dashboard_id": context_id}
+    tool_calls_log: list[dict] = []
+    finish_reason: str | None = None
+    turn_messages = list(messages)
+
+    for _turn in range(opts.max_turns):
+        body = _build_body(
+            mode=opts.mode,
+            agent=agent,
+            system_prompt=system_prompt,
+            tools=tools,
+            messages=turn_messages,
+            session_id=session_id,
+            model=opts.model,
+        )
+
+        content_parts: list[str] = []
+        tool_call_deltas: list[dict] = []
+        finish_reason = None
+        async for event in run_turn(
+            mode=opts.mode,
+            agent=agent,
+            opts=opts,
+            workspace_host=workspace_host,
+            body=body,
+        ):
+            if event.delta.content:
+                content_parts.append(event.delta.content)
+            if event.delta.tool_calls:
+                tool_call_deltas.extend(event.delta.tool_calls)
+            if event.finish_reason:
+                finish_reason = event.finish_reason
+
+        assistant_content = "".join(content_parts)
+        assistant_msg: dict = {"role": "assistant", "content": assistant_content}
+        if tool_call_deltas:
+            tool_calls = accumulate_tool_calls(tool_call_deltas)
+            assistant_msg["tool_calls"] = [
+                {
+                    "id": tc.id,
+                    "type": "function",
+                    "function": {"name": tc.name, "arguments": json.dumps(tc.arguments)},
+                }
+                for tc in tool_calls
+            ]
+        turn_messages.append(assistant_msg)
+        store.append_message(thread.thread_id, assistant_msg)
+
+        if finish_reason == "tool_calls" and tool_call_deltas:
+            tool_calls = accumulate_tool_calls(tool_call_deltas)
+            for tc in tool_calls:
+                result = _dispatch_tool_call(agent, tc.name, tc.arguments, session_state)
+                tool_calls_log.append({
+                    "id": tc.id,
+                    "name": tc.name,
+                    "arguments": tc.arguments,
+                    "result": result,
+                })
+                tool_msg = {
+                    "role": "tool",
+                    "tool_call_id": tc.id,
+                    "content": json.dumps(result),
+                }
+                turn_messages.append(tool_msg)
+                store.append_message(thread.thread_id, tool_msg)
+            continue
+
+        break
+
+    return (
+        list(turn_messages),
+        tool_calls_log,
+        {"finish_reason": finish_reason, "session_id": session_id},
+    )
 
 
 async def handle_resume_chat(
@@ -222,45 +298,30 @@ async def handle_resume_chat(
     session_id = _mint_session_id(agent, context_id)
     workspace_host = cfg.workspace_host or "localhost"
 
-    store.append_message(thread_id, {"role": "user", "content": prompt})
+    user_msg = {"role": "user", "content": prompt}
+    store.append_message(thread_id, user_msg)
 
-    messages = list(thread.messages) + [{"role": "user", "content": prompt}]
-    body = _build_body(
-        mode=opts.mode,
+    messages = list(thread.messages) + [user_msg]
+    transcript, tool_calls_log, final_state = await _run_conversation_loop(
+        opts=opts,
         agent=agent,
+        context_id=context_id,
+        workspace_host=workspace_host,
         system_prompt=system_prompt,
         tools=tools,
-        messages=messages,
         session_id=session_id,
-        model=opts.model,
+        messages=messages,
+        thread=thread,
+        store=store,
     )
 
-    content_parts: list[str] = []
-    finish_reason: str | None = None
-    async for event in run_turn(
-        mode=opts.mode,
-        agent=agent,
-        opts=opts,
-        workspace_host=workspace_host,
-        body=body,
-    ):
-        if event.delta.content:
-            content_parts.append(event.delta.content)
-        if event.finish_reason:
-            finish_reason = event.finish_reason
-            break
-
-    assistant_content = "".join(content_parts)
-    store.append_message(thread_id, {"role": "assistant", "content": assistant_content})
-
-    refetched = store.get(thread_id)
     return {
         "thread_id": thread_id,
         "agent": agent,
-        "transcript": list(refetched.messages),
+        "transcript": transcript,
         "dashboard_diff": {},
-        "final_state": {"finish_reason": finish_reason, "session_id": session_id},
-        "tool_calls": [],
+        "final_state": final_state,
+        "tool_calls": tool_calls_log,
         "errors": [],
     }
 

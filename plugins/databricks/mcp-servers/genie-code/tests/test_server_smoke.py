@@ -95,6 +95,36 @@ def test_get_thread_returns_full_history(tmp_path, monkeypatch):
     assert len(res["messages"]) == 1
 
 
+def test_dashboard_chat_dispatches_to_handler(tmp_path, monkeypatch):
+    import asyncio
+    from unittest.mock import patch
+    from server import handle_chat
+    from conversation import StreamEvent, Delta
+
+    monkeypatch.setenv("XDG_STATE_HOME", str(tmp_path))
+
+    call_count = {"executeSql": 0}
+
+    async def fake_run_turn(*args, **kwargs):
+        if call_count["executeSql"] == 0:
+            yield StreamEvent(delta=Delta(role="assistant", content=None, tool_calls=[
+                {"index": 0, "id": "c1", "function": {"name": "executeSql", "arguments": '{"statement":"SELECT 1"}'}}
+            ]), finish_reason="tool_calls")
+            call_count["executeSql"] += 1
+        else:
+            yield StreamEvent(delta=Delta(role="assistant", content="done", tool_calls=None), finish_reason="stop")
+
+    with patch("server.run_turn", new=fake_run_turn), \
+         patch("handlers.dashboard._execute_sql_warehouse", return_value=[{"col": "1"}]):
+        res = asyncio.run(handle_chat(
+            prompt="run SELECT 1",
+            agent="dashboardAuthoringAgent",
+            context_id="dash-1",
+            options={"mode": "oauth", "endpoint_name": "x"},
+        ))
+    assert any(tc["name"] == "executeSql" for tc in res["tool_calls"])
+
+
 def test_chat_tool_returns_structured_trace(tmp_path, monkeypatch):
     """chat() returns the documented shape with thread_id, transcript, etc."""
     import asyncio

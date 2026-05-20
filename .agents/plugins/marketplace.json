@@ -21,6 +21,22 @@
       }
     },
     {
+      "name": "databricks",
+      "source": {
+        "source": "local",
+        "path": "./plugins/databricks"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity",
+      "interface": {
+        "displayName": "Databricks",
+        "shortDescription": "Drive Databricks Genie Code"
+      }
+    },
+    {
       "name": "google-workspace",
       "source": {
         "source": "local",

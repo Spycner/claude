@@ -11,6 +11,12 @@
       "version": "2.0.0"
     },
     {
+      "name": "databricks",
+      "source": "./plugins/databricks",
+      "description": "Drive Databricks Genie Code from Claude via a bundled Python MCP server",
+      "version": "0.1.0"
+    },
+    {
       "name": "google-workspace",
       "source": "./plugins/google-workspace",
       "description": "Use Gmail and Calendar through gws.",

@@ -1,0 +1,7 @@
+{
+  "name": "databricks",
+  "description": "Drive Databricks Genie Code (LakeAgent and Dashboard Authoring Agent) from Claude via a bundled Python MCP server, with chrome-devtools-mcp visual review",
+  "author": { "name": "Pascal Göllner" },
+  "license": "MIT",
+  "keywords": ["databricks", "genie-code", "lakeview", "dashboards", "mcp", "agents"]
+}

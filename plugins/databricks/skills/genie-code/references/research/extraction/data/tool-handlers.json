@@ -1,0 +1,723 @@
+{
+  "recommendDataroom": {
+    "arg_list": "({query:e})",
+    "body": "{var t;return(t=function*(){try{let t=(yield(0,E.c)(s,{query:e,max_results:10})).recommendations||[];return{success:!0,data:{recommendations:t.map(e=>({...e,description:e.description?_()(e.description,{length:250}):\"\",relevanceScore:e.relevance_score&&w()(e.relevance_score,3)}))}}}catch(e){return{success:!1,error:e instanceof Error?e.message:\"Unknown error\"}}},function(){var e=this,r=arguments;return new Promise(function(s,a){var n=t.apply(e,r);function o(e){x(n,s,a,o,i,\"next\",e)}function i(e){x(n,s,a,o,i,\"throw\",e)}o(void 0)})})()}",
+    "body_len": 538,
+    "body_is_block": true,
+    "imports_count": 40,
+    "helpers": [
+      {
+        "alias": "E",
+        "member": "c",
+        "mid": 520256
+      }
+    ],
+    "urls": [],
+    "methods": [],
+    "events": [],
+    "gql_ops": [],
+    "direct_fetches": [],
+    "flags": [],
+    "mid": 903428
+  },
+  "askDataroom": {
+    "arg_list": "({question:s,dataroomId:a},n)",
+    "body": "{var u;return(u=function*(){try{var u,p;let g={title:s.trim(),model:\"SMART_AI\",visibility:\"PRIVATE\"},b=(yield(0,o.cK)(e,a,g)).id,v=yield r.buildClientContext?.({question:s,dataroomId:a},n),w={content:s.trim(),...v?{client_context:v}:{}},k=(yield(0,i._z)(e,a,b,w)).id,_=yield(u={axios:e,dataRoomId:a,conversationId:b,messageId:k,queryClient:t},m(function*(){let{axios:e,dataRoomId:t,conversationId:r,messageId:s,maxAttempts:a=60,intervalMs:n=5e3,queryClient:o}=u;for(let l=0;l<a;l++)try{let a=yield o.fetchQuery({queryKey:[\"lakeAgent\",\"genieMessage\",t,r,s],queryFn:()=>(function(e,t,r,s){return m(function*(){return(0,i.A_)(e,t,r,s)})()})(e,t,r,s)});if(((0,c.VI)(a)&c.l9.MESSAGE)!==c.l9.MESSAGE)return a;yield new Promise(e=>setTimeout(e,n))}catch(e){if(l===a-1)throw e}return null})());if(!_)return JSON.stringify({success:!1,error:'Failed to get final response for question\"'});let I=yield t.fetchQuery({queryKey:(p=_.id,[\"lakeAgent\",\"genieResultSets\",a,b,p]),queryFn:()=>y(function*(){let t={},r=(0,l.Bv)(_);return yield Promise.all(r.map(r=>y(function*(){if(!r.query)return;try{let s=yield(0,f.bW)(a,b,_.id,r.query.id,e);if(s?.statement_response){let e=(0,f.ZO)(s.statement_response);if(e){let s=r.query.cached_query_schema?(0,h.a)(e,r.query.cached_query_schema.columns):e;t[r.query.id]=s}}}catch(e){}})())),t})()});if(_.error){let e={success:!1,error:_.error.error||\"An error occurred while processing the question\"};return JSON.stringify(e)}let T=(0,l.Bv)(_);if(0===T.length){let e={success:!1,error:`No results found for question: \"${s}\". The AI assistant may not have generated any SQL query or results.`};return JSON.stringify(e)}let S={dataroomId:_.data_room_id,conversationId:_.conversation_id,messageId:_.id,attachmentPreviews:_.attachments?.map(e=>{var t,r,s;let a,n;return t=e,r=I,n=(a=t.query?.id)?r[a]:void 0,{query:t.query?{id:a??\"\",queryText:t.query.query??\"\",resultSetPreview:n?{rows:(s=n).rows.slice(0,100),columns:s.columns}:void 0,rowCount:n?.rows.length??0}:void 0,viz:t.viz?{id:t.viz.id??\"\",type:t.viz.type}:void 0,text:t.text?{id:t.text.id??\"\",content:d()(t.text.content??\"\",{length:5e3})}:void 0,final_summary:t.final_summary?{id:t.final_summary.id??\"\",result_summary:d()(t.final_summary.result_summary??\"\",{length:5e3})}:void 0}})||[]};return JSON.stringify({success:!0,data:S})}catch(e){return JSON.stringify({success:!1,error:e instanceof Error?e.message:\"Unknown error\"})}},function(){var e=this,t=arguments;return new Promise(function(r,s){var a=u.apply(e,t);function n(e){b(a,r,s,n,o,\"next\",e)}function o(e){b(a,r,s,n,o,\"throw\",e)}n(void 0)})})()}",
+    "body_len": 2578,
+    "body_is_block": true,
+    "imports_count": 10,
+    "helpers": [
+      {
+        "alias": "o",
+        "member": "cK",
+        "mid": 143906
+      },
+      {
+        "alias": "i",
+        "member": "_z",
+        "mid": 148560
+      },
+      {
+        "alias": "i",
+        "member": "A_",
+        "mid": 148560
+      },
+      {
+        "alias": "c",
+        "member": "VI",
+        "mid": 18910
+      },
+      {
+        "alias": "l",
+        "member": "Bv",
+        "mid": 310338
+      },
+      {
+        "alias": "f",
+        "member": "bW",
+        "mid": 962751
+      },
+      {
+        "alias": "f",
+        "member": "ZO",
+        "mid": 962751
+      },
+      {
+        "alias": "h",
+        "member": "a",
+        "mid": 490320
+      }
+    ],
+    "urls": [],
+    "methods": [],
+    "events": [],
+    "gql_ops": [],
+    "direct_fetches": [],
+    "flags": [],
+    "mid": 727277
+  },
+  "runDatabricksCli": {
+    "arg_list": "({command:a},n,o)",
+    "body": "b(function*(){let v=n.agentIds;try{let n=yield b(function*(){let e=function(e){if(S.test(e))return`${s.o6.NOT_APPROVED} Reason: Command must not reference DATABRICKS_* environment variables`;if(E.test(e))return`${s.o6.NOT_APPROVED} Reason: Command must not contain template variable placeholders ({{ }})`}(a);if(e)return e;let t=yield(0,f.P)(a,{mode:p.mode??\"blockOnly\",enabled:!0,toolName:k,staticCheck:(0,f.Q)(e=>(0,g.BU)(e,p)),llmSafetyCheck:e=>m(function*(){let t=yield m(function*(){let t=(0,u.u)(),r=new l.g({name:\"CliSafetyAgent\",instructions:h,model:t,modelSettings:{temperature:0},tools:[],flow:\"default\",toolUseBehavior:\"run_llm_again\",flowSettings:{purpose:\"standard\"}}),s=(0,c.c)();return(yield s.run(r,`Check the safety of the following Databricks CLI command. Remember to only respond in JSON. Do not use backticks. \n\ndatabricks ${e}`,{maxTurns:1,clientId:d.O.EditorAssistantExecutionSafety,charsPerToken:4})).output.filter(e=>\"role\"in e&&\"assistant\"===e.role).map(e=>e.content.filter(e=>\"output_text\"===e.type).map(e=>e.text).join(\"\")).join(\"\")||null})();try{if(!t)return{success:!1,message:\"CLI command blocked: Unable to verify command safety (empty response)\",userMessage:\"Unable to verify command safety (empty response)\"};let e=JSON.parse(t);if(!e.safe){let t=e.thoughts||\"CLI command contains potentially unsafe operations\";return{success:!1,message:`CLI command blocked for safety reasons: ${t}`,userMessage:`Review suggested: ${t}`}}return{success:!0}}catch(e){return{success:!1,message:\"CLI command blocked: Unable to verify command safety\",userMessage:\"Unable to verify command safety\"}}})(),buildToolArgs:e=>({command:e})},v);if(\"blocked\"===t.outcome)return`${s.o6.NOT_APPROVED} Reason: ${t.reason}`})();if(n)return n;let w=t([a],r??\"\",{includeStderrInError:!0,cliUpstream:\"genie-code\"}),_=yield(0,i.u)({store:e,language:\"python\",code:w,agentIds:v,opts:{timeoutMs:3e5,preferMarkdown:!1,skipGuardrail:!0},abortSignal:o});if(!_.success)throw Error(function(e){if(!e)return e;let t=e.match(/Command \\[.*?\\] failed with exit code \\d+:\\n?([\\s\\S]*?)(?=\\[Trace ID:|$)/);return t?t[1].trim():e}(_.error?.message)||\"Unknown error\");let I={success:!0,cellResults:_.data?.cellResults||[],commandId:_.data?.commandInfo?.id};try{yield y?.(a)}catch{}return I}catch(e){return{success:!1,error:{message:e instanceof Error?e.message:\"Unknown error\"}}}})()}",
+    "body_len": 2365,
+    "body_is_block": false,
+    "imports_count": 11,
+    "helpers": [
+      {
+        "alias": "f",
+        "member": "P",
+        "mid": 623457
+      },
+      {
+        "alias": "f",
+        "member": "Q",
+        "mid": 623457
+      },
+      {
+        "alias": "g",
+        "member": "BU",
+        "mid": 774666
+      },
+      {
+        "alias": "u",
+        "member": "u",
+        "mid": 661658
+      },
+      {
+        "alias": "c",
+        "member": "c",
+        "mid": 109867
+      },
+      {
+        "alias": "i",
+        "member": "u",
+        "mid": 954662
+      }
+    ],
+    "urls": [],
+    "methods": [],
+    "events": [],
+    "gql_ops": [],
+    "direct_fetches": [],
+    "flags": [],
+    "mid": 687694
+  },
+  "renderChart": {
+    "arg_list": "(t,r,o)",
+    "body": "{var s;return(s=function*(){let s=r.agentIds;try{if((0,a.cY)(\"Render Chart tool args:\",t),!t?.chartSpecifications?.length)return(0,a.yj)(\"No charts provided.\");let{compileDecoupleSpecForAllWidgets:r}=yield(()=>{let e=()=>Promise.all([i.e(62280),i.e(92170),i.e(29580),i.e(84245),i.e(47323),i.e(63121),i.e(65084),i.e(81647),i.e(71046),i.e(36176),i.e(89478),i.e(69186),i.e(47888)]).then(i.bind(i,26467));if(\"function\"==typeof __dbTrackModuleImport)return __dbTrackModuleImport(26467,\"./renderChartToolHelper\",\"lazy\",e);return e()})(),{widgets:n,firstSqlError:l}=yield r(e,t.chartSpecifications,t.datasets,s,o),p=n.filter(e=>e.commandId),d=n.length-p.length;if(0===p.length){let e=l?` First SQL error: ${l}`:\"\";return(0,a.yj)(`Failed to render charts. Could not execute the required SQL queries for any of the ${n.length} chart(s).${e}`)}let c={specs:p};if(d>0){let e=l?` First error: ${l}`:\"\";c.warnings=[`${d} out of ${n.length} chart(s) failed to render due to SQL execution errors.${e}`]}return(0,a.r6)(JSON.stringify(c))}catch(e){return(0,a.yj)(e instanceof Error?e.message:\"Invalid arguments. Could not parse JSON\")}},function(){var e=this,t=arguments;return new Promise(function(i,r){var o=s.apply(e,t);function a(e){d(o,i,r,a,n,\"next\",e)}function n(e){d(o,i,r,a,n,\"throw\",e)}a(void 0)})})()}",
+    "body_len": 1295,
+    "body_is_block": true,
+    "imports_count": 0,
+    "helpers": [
+      {
+        "alias": "a",
+        "member": "cY",
+        "mid": null
+      },
+      {
+        "alias": "a",
+        "member": "yj",
+        "mid": null
+      },
+      {
+        "alias": "a",
+        "member": "r6",
+        "mid": null
+      }
+    ],
+    "urls": [],
+    "methods": [],
+    "events": [],
+    "gql_ops": [],
+    "direct_fetches": [],
+    "flags": [],
+    "mid": 535684
+  },
+  "docSearch": {
+    "arg_list": "({searchQuery:t})",
+    "body": "{var r;return(r=function*(){try{let r=yield(0,l.Z8)({contextObject:{},query:t,apolloClient:e}),s=(0,l.wx)(r);return{success:!0,data:s}}catch(e){return{success:!1,error:{message:(0,i.u1)(e)}}}},function(){var e=this,t=arguments;return new Promise(function(s,a){var n=r.apply(e,t);function o(e){u(n,s,a,o,i,\"next\",e)}function i(e){u(n,s,a,o,i,\"throw\",e)}o(void 0)})})()}",
+    "body_len": 368,
+    "body_is_block": true,
+    "imports_count": 6,
+    "helpers": [
+      {
+        "alias": "l",
+        "member": "Z8",
+        "mid": 880797
+      },
+      {
+        "alias": "l",
+        "member": "wx",
+        "mid": 880797
+      },
+      {
+        "alias": "i",
+        "member": "u1",
+        "mid": 370437
+      }
+    ],
+    "urls": [],
+    "methods": [],
+    "events": [],
+    "gql_ops": [],
+    "direct_fetches": [],
+    "flags": [],
+    "mid": 329175
+  },
+  "readTable": {
+    "arg_list": "({catalog:s,schema:a,name:n,extraDetails:o})",
+    "body": "c(function*(){try{let i=yield c(function*(){try{let e=`${s}.${a}.${n}`,t=\"readTable-lineage-authz\",r=yield l.k.authzEval({actions:{[t]:{action_name:\"GetTableMetadataExcludingBrowseOnSchema\",arguments:{table:{name:e}}}}});return r.actions?.[t]?.authorized===!0}catch{return!1}})(),d=yield(0,u.Lf)({table:{catalog:s,schema:a,entity:n},apolloClient:e,getTableColumns:t,getTableMetadata:r,options:{limitTopJoins:2,limitTopQueries:2},excludeTopQueries:!i});if(!d.columns||0===d.columns.length)return{success:!1,error:{message:\"Table not found or has no columns/metadata.\"}};let p=d.columns.map(e=>{let{originalColumnData:t,...r}=e;return r});if(o)return{success:!0,data:{...d,columns:p,requiredSkillCheck:!0}};let m={tableName:`${s}.${a}.${n}`,tableType:d.tableType||d.metadata?.table_type||d.metadata?.type,columns:p,metadata:{table_type:d.metadata?.table_type,type:d.metadata?.type,table_size:d.metadata?.table_size,comment:d.metadata?.comment},topJoins:d.topJoins,topQueries:d.topQueries,requiredSkillCheck:!0};return{success:!0,data:m}}catch(e){return{success:!1,error:{message:(0,i.u1)(e)}}}})()",
+    "body_len": 1095,
+    "body_is_block": false,
+    "imports_count": 7,
+    "helpers": [
+      {
+        "alias": "u",
+        "member": "Lf",
+        "mid": 259660
+      },
+      {
+        "alias": "i",
+        "member": "u1",
+        "mid": 370437
+      }
+    ],
+    "urls": [],
+    "methods": [],
+    "events": [],
+    "gql_ops": [],
+    "direct_fetches": [],
+    "flags": [],
+    "mid": 735517
+  },
+  "tableSearch": {
+    "arg_list": "t",
+    "body": "{var r;return(r=function*(){try{if((0,u.W)(\"databricks.conversation.agent.enableUserLevelTableSearch\",!1)||(0,u.W)(\"databricks.conversation.agent.enableUserLevelTableSearchV2\",!1)){let r=t.dataSchema?` in schema ${t.dataSchema}`:\"\",s=`${t.searchQuery}${r}`,a=yield k(e,d,{query:s,keywords:t.keywords,dataSchema:t.dataSchema,maxResults:5,dataCatalogs:t.dataCatalog?[t.dataCatalog]:void 0,aclOverfetchMultiplier:10});if(a.error)return{success:!1,error:{message:`Table search failed: ${a.error}`}};let n=a.results.map(e=>({fullyQualifiedName:e.catalog&&e.schema&&e.table?`${e.catalog}.${e.schema}.${e.table}`:void 0,catalogName:e.catalog||\"\",schemaName:e.schema||\"\",tableName:e.table||\"\",comments:e.description,columns:(e.columns||[]).map(e=>({name:e.name,typeName:e.typeName,comments:e.comments}))}));return{success:!0,data:n}}{if((0,u.W)(\"databricks.conversation.agent.enableUserLevelTableSearchShadow\",!1)){let r=t.dataSchema?` in schema ${t.dataSchema}`:\"\",s=`${t.searchQuery}${r}`;k(e,d,{query:s,keywords:t.keywords,dataSchema:t.dataSchema,maxResults:5,dataCatalogs:t.dataCatalog?[t.dataCatalog]:void 0,aclOverfetchMultiplier:10})}let r=[...t.keywords,...t.dataSchema?[t.dataSchema]:[]].join(\" \"),{tables:s}=yield d(r,5,!1,{},void 0,{dataCatalogs:t.dataCatalog?[t.dataCatalog]:void 0}),a=s.map(e=>({fullyQualifiedName:e.catalogName&&e.schemaName&&e.tableName?`${e.catalogName}.${e.schemaName}.${e.tableName}`:void 0,catalogName:e.catalogName,schemaName:e.schemaName,tableName:e.tableName,comments:e.comments,columns:(e.columns||[]).map(e=>({name:e.name,typeName:e.typeName,comments:e.comments}))}));return{success:!0,data:a}}}catch(e){return{success:!1,error:{message:(0,l.u1)(e)}}}},function(){var e=this,t=arguments;return new Promise(function(s,a){var n=r.apply(e,t);function o(e){I(n,s,a,o,i,\"next\",e)}function i(e){I(n,s,a,o,i,\"throw\",e)}o(void 0)})})()}",
+    "body_len": 1861,
+    "body_is_block": true,
+    "imports_count": 14,
+    "helpers": [
+      {
+        "alias": "u",
+        "member": "W",
+        "mid": 441535
+      },
+      {
+        "alias": "l",
+        "member": "u1",
+        "mid": 370437
+      }
+    ],
+    "urls": [],
+    "methods": [],
+    "events": [],
+    "gql_ops": [],
+    "direct_fetches": [],
+    "flags": [
+      "databricks.conversation.agent.enableUserLevelTableSearch",
+      "databricks.conversation.agent.enableUserLevelTableSearchShadow",
+      "databricks.conversation.agent.enableUserLevelTableSearchV2"
+    ],
+    "mid": 16716
+  },
+  "querySearch": {
+    "arg_list": "t",
+    "body": "E(function*(){try{var r;for(let e of t.tablesToFilterOn){let t=e.split(\".\");if(3!==t.length||t.some(e=>\"\"===e.trim()))return{success:!1,error:{message:`Invalid table name format: \"${e}\". Expected format: <catalog>.<schema>.<table>`}}}let s=()=>E(function*(){let r=yield(0,T.Sh)(e,{query:t.keywords,filters:{resultTypes:[d.iId.QUERY]},pageSize:5}).catch(()=>null);if(!r)return null;let s=(r.results||[]).slice(0,5).map(e=>({code:e.highlighting?.codeFragments?.[0]?.content||\"\",description:e.description||\"\",name:e.name||\"\",id:e.id||void 0,type:e.resultType||void 0,hashed_code:\"\"}));return{success:!0,data:`${s.map((e,t)=>(0,I.X)(e,t)).join(\"\\n\\n\")}`,codeSnippets:s}})();if(!(0,c.W)(\"databricks.fe.assistant.enableAgentCodeSearch\",!1))return(yield s())??{success:!1,error:{message:\"Keyword search failed\"}};let a=s(),o=yield(0,y.w)((r={query:t.sentence,maxResults:5,aclOverfetchMultiplier:10,tablesToFilterOn:t.tablesToFilterOn},v(function*(){if(!e)throw Error(\"Apollo client is required when GraphQL implementation is enabled\");return v(function*(){try{let t=function(e){if(!e||0===e.length)return;let t=e.map(e=>e?.trim()).filter(e=>void 0!==e&&\"\"!==e).map(e=>`code LIKE \"%${e.replace(/\\\\/g,\"\\\\\\\\\").replace(/\"/g,'\\\\\"')}%\"`);return t.length>0?t.join(\" OR \"):void 0}(r.tablesToFilterOn),s=(0,c.W)(\"databricks.fe.assistant.backupAgentCodeSearchIndex\",\"agent-code-index\");\"agent-code-index\"!==s?p.iT.sev2BurnRate(n.Es.AppliedAIAppPlatform,\"Using code search emergency index name. Please revert once emergency is resolved\",m.i1.P999,m.Ip.Min0,!1,\"Using backup index for code search\"):p.iT.sev2BurnRate(n.Es.AppliedAIAppPlatform,\"Using code search emergency index name. Please revert once emergency is resolved\",m.i1.P999,m.Ip.Min0,!0,\"Using main index for code search\");let a=e.query({query:w,variables:{indexName:s,queryText:r.query||\"\",...void 0!==t?{filter:t}:{},vectorField:\"embedding\",fields:_,numResults:r.maxResults,pageSize:r.maxResults,options:{aclOverfetchMultiplier:r.aclOverfetchMultiplier,includeScores:!0}},errorPolicy:\"all\"}),{data:o,errors:i}=yield(0,y.w)(a,3e4,\"Code search request timed out\"),l=(0,g.s)(o,i);if(!l.isValid)return k(!1,l.errorMessage??\"\"),{results:[],error:l.errorMessage};let u=(o.sqe_vectorSearch?.results||[]).filter(e=>null!=e.fieldsV2).map(e=>({code:e.fieldsV2?.code,description:e.fieldsV2?.description,name:e.fieldsV2?.name,hashed_code:e.fieldsV2?.hashed_code,id:e.fieldsV2?.tree_id||e.fieldsV2?.uuid,type:e.fieldsV2?.type,id_path:e.fieldsV2?.id_path,resource_name:e.fieldsV2?.resource_name,filter:e}));return k(!0),{results:u,error:null}}catch(e){if(k(!1,e),e instanceof f.M)return{results:[],error:e.message};throw e}})()})()),1e4,\"Semantic query search timed out\").catch(()=>null);if(o&&!o.error&&o.results.length>0){let e=o.results.slice(0,5).map(e=>({code:e.code||\"\",description:e.description||\"\",name:e.name||\"\",id:e.id,type:e.type,id_path:e.id_path,hashed_code:e.hashed_code||\"\",resource_name:e.resource_name}));return{success:!0,data:`${e.map((e,t)=>(0,I.X)(e,t)).join(\"\\n\\n\")}`,codeSnippets:e}}return(yield a)??{success:!1,error:{message:o?.error?`Code search failed: ${o.error}`:\"Both semantic and keyword search failed\"}}}catch(e){return{success:!1,error:{message:(0,l.u1)(e)}}}})()",
+    "body_len": 3228,
+    "body_is_block": false,
+    "imports_count": 17,
+    "helpers": [
+      {
+        "alias": "T",
+        "member": "Sh",
+        "mid": 257972
+      },
+      {
+        "alias": "I",
+        "member": "X",
+        "mid": 171066
+      },
+      {
+        "alias": "c",
+        "member": "W",
+        "mid": 441535
+      },
+      {
+        "alias": "y",
+        "member": "w",
+        "mid": 379566
+      },
+      {
+        "alias": "g",
+        "member": "s",
+        "mid": 453806
+      },
+      {
+        "alias": "l",
+        "member": "u1",
+        "mid": 370437
+      }
+    ],
+    "urls": [],
+    "methods": [],
+    "events": [],
+    "gql_ops": [],
+    "direct_fetches": [],
+    "flags": [
+      "databricks.fe.assistant.backupAgentCodeSearchIndex",
+      "databricks.fe.assistant.enableAgentCodeSearch"
+    ],
+    "mid": 701838
+  },
+  "forYouAssets": {
+    "arg_list": "({numResults:t,includeFavorites:r,includePopularAssets:s,includeSuggestedAssets:n,assetTypes:o,page:i=a.jbe.PAGE_UNSPECIFIED,interface:d=a.XD6.ASSISTANT,keywords:c=\"\"})",
+    "body": "{var p;return(p=function*(){try{let a=function(e){if(!e||0===e.length)return Object.values(v).flat();return e.flatMap(e=>v[e]||[])}(o),l=function(e){if(!e||0===e.length)return Object.values(b).flat();return e.flatMap(e=>b[e]||[])}(o),p={assets:[],totalCount:0,timestamp:new Date().toISOString()};if(r&&l.length>0)try{let r=yield e.query({query:w,variables:{types:l,numFavorites:t}});if(r.data?.useractivityListFavoriteAssets?.assets){let e=r.data.useractivityListFavoriteAssets.assets.map(e=>{let t=e.asset;return{id:t?.id??void 0,name:t?.name??void 0,type:t?.type??void 0,asset_type:\"favorite\",securable_kind:t?.unityCatalogSecurable?.securableKind??void 0}});p.assets.push(...e)}}catch(e){(0,u.W)(\"databricks.fe.editor.enableAssistantPromptDebug\",!1)&&console.log(\"Error fetching favorite assets::\",JSON.stringify(e))}if(s&&l.length>0)try{let r=yield e.query({query:_,variables:{userActivityTypes:l,numResults:t}});if(r.data?.useractivityListPopularAssets?.assets){let e=r.data.useractivityListPopularAssets.assets.map(e=>{let t=e.asset;return{id:t?.id??void 0,name:t?.name??void 0,type:t?.type??void 0,asset_type:\"popular\",full_path:t?.treeNode?.fullPath??void 0,popularity_score:e.popularity?.bucket??void 0,viewer_count:e.popularity?.viewerCount??void 0}});p.assets.push(...e)}}catch(e){(0,u.W)(\"databricks.fe.editor.enableAssistantPromptDebug\",!1)&&console.log(\"Error fetching favorite assets::\",JSON.stringify(e))}if(n&&a.length>0)try{let r=yield e.query({query:k,variables:{pageSize:t,types:a,page:i,interface:d,keywords:c,pageToken:void 0}}),s=r.data?.recommendationGetAssetRecommendations?.assetRecommendations;if(s){let e=s.map(e=>{let t=e.asset,r=e.relevanceReason?.lineageMetadata,s=r?.relatedEntities?r.relatedEntities.map(e=>({id:e?.id??void 0,name:e?.name??void 0,type:e?.type??void 0})):void 0;return{id:t?.id??void 0,name:t?.name??void 0,type:t?.type??void 0,asset_type:\"suggested\",path:t?.treeNode?.fullPath??void 0,reason_type:e.relevanceReason?.type??void 0,view_frequency:e.relevanceReason?.viewMetadata?.viewFrequency??void 0,related_entities:s}});p.assets.push(...e)}}catch(e){(0,u.W)(\"databricks.fe.editor.enableAssistantPromptDebug\",!1)&&console.log(\"Error fetching suggested assets::\",JSON.stringify(e))}let m=new Map,h={favorite:3,popular:2,suggested:1};for(let e of p.assets){if(!e.id)continue;let t=m.get(e.id);(!t||h[e.asset_type]>h[t.asset_type])&&m.set(e.id,e)}return p.assets=Array.from(m.values()),p.totalCount=p.assets.length,{success:!0,...p,summary:{favoriteAssetsCount:p.assets.filter(e=>\"favorite\"===e.asset_type).length,popularAssetsCount:p.assets.filter(e=>\"popular\"===e.asset_type).length,suggestedAssetsCount:p.assets.filter(e=>\"suggested\"===e.asset_type).length,totalCount:p.totalCount,filteredAssetTypes:a,tip:\"\\uD83D\\uDCA1 For notebooks in these results, use the 'readNotebookContentForSearch' tool to read actual content.\"}}}catch(e){return{success:!1,error:{message:(0,l.u1)(e)}}}},function(){var e=this,t=arguments;return new Promise(function(r,s){var a=p.apply(e,t);function n(e){m(a,r,s,n,o,\"next\",e)}function o(e){m(a,r,s,n,o,\"throw\",e)}n(void 0)})})()}",
+    "body_len": 3106,
+    "body_is_block": true,
+    "imports_count": 10,
+    "helpers": [
+      {
+        "alias": "u",
+        "member": "W",
+        "mid": 441535
+      },
+      {
+        "alias": "l",
+        "member": "u1",
+        "mid": 370437
+      }
+    ],
+    "urls": [],
+    "methods": [],
+    "events": [],
+    "gql_ops": [],
+    "direct_fetches": [],
+    "flags": [
+      "databricks.fe.editor.enableAssistantPromptDebug"
+    ],
+    "mid": 731190
+  },
+  "searchAssets": {
+    "arg_list": "({searchQuery:t,assetTypes:r,numResultsPerAssetType:s,sortBy:a,ownerOnly:n,pageToken:o})",
+    "body": "{var i;return(i=function*(){try{let i=Math.min(Math.max(s,1),5),l=function(e){if(!e||0===e.length)return Object.values(g).flat();return e.flatMap(e=>g[e].slice())}(r),c=i*l.length,p=y[a],m=[];if(n){let e=(0,u.d)(\"userId_new\",-1);-1!==e&&(m=[e.toString()])}let h=[];if((0,d.W)(\"databricks.fe.assistant.excludeOwnAssetsFromSearch\",!1)){let e=(0,u.d)(\"userId_new\",-1);-1!==e&&(h=[e.toString()])}let f=yield b(e,{query:t,filters:{resultTypes:l,...m.length>0&&{ownerIds:m}},...h.length>0&&{exclusionFilters:{ownerIds:h}},pageSize:i,...o&&{pageToken:o},sortOrder:{criteria:p}});if(f?.apiError)return{success:!1,error:{message:`Search API error: ${f.apiError.message} (${f.apiError.code})`}};let v=f?.results||[],w=v.map((e,t)=>({id:e.id||`result-${t}`,name:e.name||\"Unnamed Asset\",type:e.resultType||\"UNKNOWN\",description:e.description||void 0,path:e.treeNode?.fullPath||void 0,treeNodeId:e.treeNode?.id||void 0,owner:e.owner?{id:e.owner.id||0,fullname:e.owner.fullname||\"Unknown\",email:e.owner.email||\"\"}:void 0,metadata:e.ucEntityMetadata?{catalogName:e.ucEntityMetadata.catalogName||void 0,schemaName:e.ucEntityMetadata.schemaName||void 0,securableKind:e.ucEntityMetadata.securableKind||void 0}:void 0,userActivity:e.userActivityInfo?{isFavorite:e.userActivityInfo.isFavorite||!1,lastViewed:e.userActivityInfo.lastViewedByUserAt||void 0,popularity:e.userActivityInfo.popularity?{bucket:e.userActivityInfo.popularity.bucket||\"\",viewerCount:e.userActivityInfo.popularity.viewerCount||0}:void 0}:void 0,updatedAt:e.updatedAt||void 0,url:e.url||void 0,highlights:e.highlighting?{codeFragments:e.highlighting.codeFragments?.map(e=>({content:e.content||\"\",language:e.language||\"text\"}))||void 0}:void 0})),k=[],_=!!f?.nextPageToken;0===v.length?(k.push(\"Try using different keywords or removing some filters\"),k.push(\"Check spelling and try broader search terms\"),r.length>0&&k.push(\"Try searching without asset type filters\")):v.length===c&&_?k.push(\"More results available. Use the nextPageToken to fetch the next page of results.\"):v.length===c&&k.push(\"There may be more results available. Consider refining your search query for better precision\");let I=o?` (page ${o?\"continued\":\"first\"})`:\"\",T={summary:`Found ${v.length} assets matching \"${t}\"${r.length>0?` in types: ${r.join(\", \")}`:\"\"}${I}${_?\" - More pages available\":\"\"}`,totalResults:v.length,searchQuery:t,assetTypes:r,sortBy:a,assets:w,pagination:{currentPageToken:o,nextPageToken:f?.nextPageToken??void 0,hasMorePages:_},...k.length>0&&{searchTips:k},tip:\"\\uD83D\\uDCA1 For notebooks in these results, use the 'readNotebookContentForSearch' tool to read actual content.\"};return{success:!0,...T}}catch(e){return{success:!1,error:{message:(0,l.u1)(e)}}}},function(){var e=this,t=arguments;return new Promise(function(r,s){var a=i.apply(e,t);function n(e){m(a,r,s,n,o,\"next\",e)}function o(e){m(a,r,s,n,o,\"throw\",e)}n(void 0)})})()}",
+    "body_len": 2886,
+    "body_is_block": true,
+    "imports_count": 10,
+    "helpers": [
+      {
+        "alias": "u",
+        "member": "d",
+        "mid": 686560
+      },
+      {
+        "alias": "d",
+        "member": "W",
+        "mid": 441535
+      },
+      {
+        "alias": "l",
+        "member": "u1",
+        "mid": 370437
+      }
+    ],
+    "urls": [],
+    "methods": [],
+    "events": [],
+    "gql_ops": [],
+    "direct_fetches": [],
+    "flags": [
+      "databricks.fe.assistant.excludeOwnAssetsFromSearch"
+    ],
+    "mid": 257972
+  },
+  "manageTodoList": {
+    "arg_list": "({operation:t,todoList:r},s)",
+    "body": "{var n;return(n=function*(){let a=s.getTodoStoreOverride()??e;try{if(\"read\"===t){let e=yield a.getTodos(s.agentIds.sessionId),t=e.reduce((e,t)=>(e[t.status]=(e[t.status]||0)+1,e),{});return{success:!0,data:JSON.stringify({status:0===e.length?\"Todo list is empty. No items found.\":`Todo list retrieved successfully. ${e.length} item(s) found.`,summary:{total:e.length,notStarted:t[\"not-started\"]||0,inProgress:t[\"in-progress\"]||0,completed:t.completed||0},items:e})}}if(\"write\"===t){if(!r||!Array.isArray(r))return{success:!1,error:{message:\"todoList is required for write operation and must be an array\"}};for(let e of r){if(!e.id||!e.title||!e.description||!e.status)return{success:!1,error:{message:\"Each todo must have id, title, description, and status\"}};if(![\"not-started\",\"in-progress\",\"completed\"].includes(e.status))return{success:!1,error:{message:\"Invalid status. Must be: not-started, in-progress, or completed\"}}}if(r.filter(e=>\"in-progress\"===e.status).length>1)return{success:!1,error:{message:\"Only one todo can be in-progress at a time\"}};yield a.setTodos(r,s.agentIds.sessionId);let e=r.reduce((e,t)=>(e[t.status]=(e[t.status]||0)+1,e),{});return{success:!0,data:JSON.stringify({status:`Todo list updated successfully. ${r.length} item(s) in the list.`,summary:{total:r.length,notStarted:e[\"not-started\"]||0,inProgress:e[\"in-progress\"]||0,completed:e.completed||0},items:r})}}return{success:!1,error:{message:'Invalid operation. Must be \"read\" or \"write\"'}}}catch(e){return{success:!1,error:{message:e instanceof Error?e.message:String(e)}}}},function(){var e=this,t=arguments;return new Promise(function(r,s){var o=n.apply(e,t);function i(e){a(o,r,s,i,l,\"next\",e)}function l(e){a(o,r,s,i,l,\"throw\",e)}i(void 0)})})()}",
+    "body_len": 1736,
+    "body_is_block": true,
+    "imports_count": 5,
+    "helpers": [],
+    "urls": [],
+    "methods": [],
+    "events": [],
+    "gql_ops": [],
+    "direct_fetches": [],
+    "flags": [],
+    "mid": 826439
+  },
+  "readSkillFile": {
+    "arg_list": "r",
+    "body": "p(function*(){try{if(\"\"===r.filePath||\"\"===r.filePath.trim())return{success:!0,content:\"Skill assessment acknowledged. No skills needed for this request. You may proceed directly with your work.\",isUserSkill:!1,skillsetName:e[0]?.name??\"default\"};let s=yield t(r.filePath);if(\"error\"in s)return{success:!1,error:{message:s.error}};return{success:!0,content:s.content,isUserSkill:s.isUserSkill,skillsetName:s.skillsetName??\"default\"}}catch(e){return{success:!1,error:{message:`${e instanceof Error?e.message:\"unknown error\"}`}}}})()",
+    "body_len": 531,
+    "body_is_block": false,
+    "imports_count": 8,
+    "helpers": [],
+    "urls": [],
+    "methods": [],
+    "events": [],
+    "gql_ops": [],
+    "direct_fetches": [],
+    "flags": [],
+    "mid": 484383
+  },
+  "readAssetById": {
+    "arg_list": "({assetType:t,assetId:r,startLine:s,endLine:n},o,l)",
+    "body": "{var u;return(u=function*(){let o=new AbortController,u=l?(0,a.NA)([l,o.signal]):o.signal,d=setTimeout(()=>o.abort(),12e4);try{let o=i.find(e=>e===t);if(!o)return{success:!1,error:{message:`Unknown asset type: \"${t}\". Supported types: ${i.join(\", \")}`}};let l=V[o];if(!l){let e=Y(),r=e.length>0?`Currently supported: ${e.join(\", \")}`:\"No readers currently registered.\";return{success:!1,error:{message:`No reader registered for asset type \"${t}\". ${r}`}}}let d=yield(0,a.kk)(l(r,e,{startLine:s,endLine:n}),u,`Reading ${t} was cancelled.`);if(d.success){let e=\"notebookPath\"in d&&d.notebookPath||\"filePath\"in d&&d.filePath||\"folderPath\"in d&&d.folderPath||void 0;if(e){let t=yield(0,G.T)(e);if(t)return{...d,agentsMdHint:t}}}return d}catch(e){if(o.signal.aborted)return{success:!1,error:{message:`Reading ${t} timed out after ${Math.round(120)}s. The asset may be unusually large or the backend may be slow; try again, or fetch a smaller portion (e.g. a specific line range for files).`}};return{success:!1,error:{message:`Failed to read ${t}: ${e instanceof Error?e.message:\"unknown error\"}`}}}finally{clearTimeout(d)}},function(){var e=this,t=arguments;return new Promise(function(r,s){var a=u.apply(e,t);function n(e){B(a,r,s,n,o,\"next\",e)}function o(e){B(a,r,s,n,o,\"throw\",e)}n(void 0)})})()}",
+    "body_len": 1295,
+    "body_is_block": true,
+    "imports_count": 19,
+    "helpers": [
+      {
+        "alias": "a",
+        "member": "NA",
+        "mid": 284810
+      },
+      {
+        "alias": "a",
+        "member": "kk",
+        "mid": 284810
+      },
+      {
+        "alias": "G",
+        "member": "T",
+        "mid": 941443
+      }
+    ],
+    "urls": [],
+    "methods": [],
+    "events": [],
+    "gql_ops": [],
+    "direct_fetches": [],
+    "flags": [],
+    "mid": 620709
+  },
+  "fetchOmittedContent": {
+    "arg_list": "({toolCallId:e,path:t},r,s)",
+    "body": "{var o;return(o=function*(){try{let o=yield(0,l.kk)((0,a.a3)(e,t,r),s),i=o.toolName?` for tool \"${o.toolName}\"`:\"\";if(!o.success)if(\"cacheKeyNotFound\"===o.errorType)return{success:!1,error:{message:`${o.message}\n\ntoolCallId \"${e}\"${i} was not found in the tool call result cache. It has either expired or there is a typo in the ID. Check that the toolCallId is correct or repeat the original tool call again to refresh the result cache.`}};else if(\"invalidPath\"===o.errorType)return{success:!1,error:{message:`${o.message}\n\nCheck the path syntax:\n- Object access: \".data.items\"\n- Array indexing: \".data.items[0]\"\n- Array slicing: \".data.items[10:20]\" or \".data.items[10:]\"`}};else return{success:!1,error:{message:o.message}};if(void 0===o.value)return{success:!1,error:{message:`Path \"${t}\" does not exist in the cached data for toolCallId \"${e}\".\n\nThe path may be incorrect. Try calling ${d} again with a corrected path:\n- Check the structure shown in the placeholder's fetch_omitted_params\n- Verify the path syntax (e.g., \".data.items\" or \".data.items[0]\")\n- Or call the original tool \"${o.toolName}\"${i} again to see its full output structure`}};if((0,n.wK)(o.value,n.dK))return{success:!1,error:{message:`[PERMANENTLY_REMOVED] Path \"${t}\" resolves to a {\"__removed\": {...}} placeholder. The original data at this position was permanently discarded during pre-cache compression and cannot be retrieved. Retry with a different (more targeted) query, or call the original tool \"${o.toolName}\"${i} again with a narrower scope.`}};let u={toolCallId:e,path:t,value:o.value};return o.toolName&&(u.toolName=o.toolName),o.sliceInfo&&(u.sliceInfo=o.sliceInfo),{success:!0,data:u}}catch(e){return{success:!1,error:{message:`Error fetching omitted content: ${e instanceof Error?e.message:String(e)}`}}}},function(){var e=this,t=arguments;return new Promise(function(r,s){var a=o.apply(e,t);function n(e){u(a,r,s,n,i,\"next\",e)}function i(e){u(a,r,s,n,i,\"throw\",e)}n(void 0)})})()}",
+    "body_len": 1972,
+    "body_is_block": true,
+    "imports_count": 6,
+    "helpers": [
+      {
+        "alias": "l",
+        "member": "kk",
+        "mid": 284810
+      },
+      {
+        "alias": "a",
+        "member": "a3",
+        "mid": 647777
+      },
+      {
+        "alias": "n",
+        "member": "wK",
+        "mid": 865532
+      }
+    ],
+    "urls": [],
+    "methods": [],
+    "events": [],
+    "gql_ops": [],
+    "direct_fetches": [],
+    "flags": [],
+    "mid": 697085
+  },
+  "createAsset": {
+    "arg_list": "({assetType:t,name:r,tableIdentifiers:s},a)",
+    "body": "w(function*(){let n={...(0,h.D)(),...e},o=a.agentIds.sessionId,u=n?.folderPath??k();try{let e;if((0,b.ts)((0,b.A)(t)))return(0,g.yj)(`${t} creation is not enabled for this workspace.`);if([\"notebook\",\"file\",\"directory\",\"designerFile\"].includes(t)&&r.includes(\"/\")){for(let e of yield w(function*(){let e=r.lastIndexOf(\"/\");if(-1===e)return[];let t=r.substring(0,e).split(\"/\"),s=[],a=u,n=\"\";for(let e of t){a=`${a}/${e}`,n=n?`${n}/${e}`:e;let t=new URLSearchParams({path:a});if((yield(0,m.S)(`/ajax-api/2.0/workspace/get-status?${t}`,{method:\"GET\"})).ok)continue;let r=yield(0,m.S)(\"/ajax-api/2.0/workspace/mkdirs\",{method:\"POST\",body:JSON.stringify({path:a})});if(!r.ok){let e=yield r.json().catch(()=>({})),t=\"object\"==typeof e&&e.message?e.message:r.statusText;throw Error(`Failed to create directory ${a}. Status: ${r.status}. ${t}`)}let o=yield _(a);s.push({id:String(o),name:n,path:a})}return s})())n?.onAssetCreated?.({type:\"directory\",id:e.id,name:e.name},{threadId:o}),yield T(e.id)}switch(t){case\"notebook\":e=yield w(function*(){if((0,d.W)(\"databricks.fe.assistant.enableDefaultDbeForCreatedNotebooks\",!1))return w(function*(){let e=r.lastIndexOf(\"/\"),t=-1===e?r:r.substring(e+1),s=-1===e?u:`${u}/${r.substring(0,e)}`,a=yield _(s),n=yield(0,m.S)(\"/notebook\",{method:\"POST\",body:JSON.stringify({name:t,language:\"python\",parentId:a,clusterId:\"\",reposExportFormat:\"SOURCE\",withDefaultBaseEnvironment:!0})});if(!n.ok){let e=yield n.json().catch(()=>({})),t=\"object\"==typeof e&&null!==e&&\"message\"in e?e.message:n.statusText;throw Error(`Failed to create notebook. Status: ${n.status}. ${t}`)}let o=yield n.json();if(!o.id)throw Error(\"Failed to create notebook: no ID returned\");let l=o.id,d=(0,i.TQ)(l);return{success:!0,assetType:\"notebook\",assetId:String(l),assetName:r,assetPath:`${u}/${r}`,assetUrl:d}})();return w(function*(){let e=`${r}.ipynb`,t=JSON.stringify({cells:[],metadata:{kernelspec:{display_name:\"Python 3\",language:\"python\",name:\"python3\"},language_info:{name:\"python\",version:\"3.8.0\"}},nbformat:4,nbformat_minor:4},null,2),s=yield I({folderPath:u,fileName:e,fileContent:t});if(!s)throw Error(\"Failed to create notebook: no object ID returned\");let a=Number(s),n=(0,i.TQ)(a);return{success:!0,assetType:\"notebook\",assetId:String(a),assetName:r,assetPath:`${u}/${r}`,assetUrl:n}})()})();break;case\"dashboard\":e=yield w(function*(){let e=new Date().toISOString().replace(/[:.]/g,\"-\").slice(0,19),t=`${r} ${e}`,s=JSON.stringify({operationName:\"DashboardCreateAndInitializeMutation\",query:S,variables:{input:{dashboard:{displayName:t},pages:[{displayName:\"Page 1\"}],datasets:[]}}}),a=yield(0,m.S)(\"/graphql/DashboardCreateAndInitializeMutation\",{method:\"POST\",headers:{\"Content-Type\":\"application/json\",\"x-databricks-operation-identifier\":yield(0,c.m)(s)},body:s});if(!a.ok){let e=yield a.text();throw Error(`Failed to create dashboard. Status: ${a.status}. ${e}`)}let n=yield a.json();if(n.errors&&n.errors.length>0){let e=n.errors.map(e=>e.message).join(\", \");throw Error(`GraphQL error: ${e}`)}let o=n.data?.lakeviewconfigServicesDashboardCreateAndInitializeDashboard;if(o?.apiError)throw Error(`API error: ${o.apiError.message||o.apiError.code}`);if(!o?.dashboard?.name)throw Error(\"Dashboard creation succeeded but no dashboard name was returned\");let i=o.dashboard.name.replace(\"dashboards/\",\"\");return{success:!0,assetType:\"dashboard\",assetId:i,assetName:t,assetUrl:`/sql/dashboardsv3/${i}`}})();break;case\"file\":e=yield w(function*(){let e=r.includes(\".\")?r:`${r}.py`,t=yield I({folderPath:u,fileName:e,fileContent:\"\"});if(!t)throw Error(\"Failed to create file: no object ID returned\");return{success:!0,assetType:\"file\",assetId:String(t),assetName:e,assetPath:`${u}/${e}`,assetUrl:(0,i.ZZ)({id:t})}})();break;case\"directory\":e=yield w(function*(){let e=`${u}/${r}`,t=new URLSearchParams({path:e});if((yield(0,m.S)(`/ajax-api/2.0/workspace/get-status?${t}`,{method:\"GET\"})).ok)throw Error(`A folder already exists at ${e}. Choose a different name.`);let s=yield(0,m.S)(\"/ajax-api/2.0/workspace/mkdirs\",{method:\"POST\",body:JSON.stringify({path:e})});if(!s.ok){let t=yield s.json().catch(()=>({})),r=\"object\"==typeof t&&t.message?t.message:s.statusText;throw Error(`Failed to create folder ${e}. Status: ${s.status}. ${r}`)}let a=new URLSearchParams({path:e}),n=yield(0,m.S)(`/ajax-api/2.0/workspace/get-status?${a}`,{method:\"GET\"});if(!n.ok)throw Error(`Folder created but failed to resolve its ID at path: ${e}`);let o=yield n.json();if(!o.object_id)throw Error(`Folder created but no object_id returned for path: ${e}`);let l=String(o.object_id);return{success:!0,assetType:\"directory\",assetId:l,assetName:r,assetPath:e,assetUrl:(0,i.ZZ)({id:l,isDirectory:!0})}})();break;case\"job\":e=yield w(function*(){let e={name:r||`Job created with agent (${Date.now()})`,tasks:[]},t=yield(0,m.S)(\"/ajax-api/2.2/jobs/create\",{method:\"POST\",body:JSON.stringify(e)});if(!t.ok){let e=yield t.json(),r=\"string\"==typeof e?e:e.message;throw Error(`Failed to create job. Status: ${t.status}. ${r}`)}let s=String((yield t.json()).job_id);return{success:!0,assetType:\"job\",assetId:s,assetName:r,assetUrl:`/#job/${s}`}})();break;case\"query\":e=yield w(function*(){let e=r||`Query created with agent (${Date.now()})`,t=yield(0,m.S)(\"/ajax-api/2.0/redash-v2/queries\",{method:\"POST\",body:JSON.stringify({query:{query_text:\"\",name:e,parent:\"folders/home\"}})});if(!t.ok){let e=yield t.json(),r=\"string\"==typeof e?e:e.message;throw Error(`Failed to create query. Status: ${t.status}. ${r}`)}let s=yield t.json(),a=(s.options?.folder_node_internal_name??\"\").match(/^tree\\/(\\d+)$/);if(!a)throw Error(\"Failed to create query: could not extract tree node ID from response\");let n=a[1];return yield(0,m.S)(`/ajax-api/2.0/notebooks/${n}/update-unified-sql-editor-opt-in-status`,{method:\"POST\",body:JSON.stringify({unified_sql_editor_enabled:!0})}),{success:!0,assetType:\"query\",assetId:n,assetName:e,assetUrl:`/editor/queries/${n}`}})();break;case\"pipeline\":let a;if(!n?.preparePipelineSpec)return(0,g.yj)(\"Pipeline creation is not possible in this context.\");e=yield(a=n.preparePipelineSpec,w(function*(){let e=k(),t=r.replace(/[^a-zA-Z0-9_-]/g,\"_\").toLowerCase(),s=crypto.randomUUID().split(\"-\")[0],n=`${e}/${t}_${s}`;yield x(n),yield x(`${n}/transformations`);let o=a({name:r,rootPath:n,catalog:(yield(0,y.iu)({schema:\"default\"}))??\"\"});if(!o)throw Error(\"Pipeline creation is not possible in this context.\");let i=JSON.stringify({operationName:\"CreatePipelineGraphQLMutation\",query:E,variables:{input:{spec:o}}}),l=yield(0,m.S)(\"/graphql/CreatePipelineGraphQLMutation\",{method:\"POST\",headers:{\"Content-Type\":\"application/json\",\"x-databricks-operation-identifier\":yield(0,c.m)(i)},body:i});if(!l.ok){let e=yield l.text();throw Error(`Failed to create pipeline. Status: ${l.status}. ${e}`)}let u=yield l.json();if(u.errors&&u.errors.length>0){let e=u.errors.map(e=>e.message).join(\", \");throw Error(`GraphQL error: ${e}`)}let d=u.data?.jobsCreatePipeline;if(d?.apiError)throw Error(`API error: ${d.apiError.message||d.apiError.code}`);if(!d?.pipelineId)throw Error(\"Pipeline creation succeeded but no pipeline ID was returned\");return{success:!0,assetType:\"pipeline\",assetId:d.pipelineId,assetName:r,assetUrl:`/pipelines/${d.pipelineId}`}})());break;case\"genie\":let h,v;e=yield(h=s??[],v=n?.genieSpaceOptions,w(function*(){if(!h||0===h.length)throw Error('At least one table identifier is required to create a Genie space (e.g., \"catalog.schema.table\").');if(!v?.getWarehouseId)throw Error(\"Genie space creation is not available in this context.\");let e=yield v.getWarehouseId();if(!e)throw Error(\"No usable SQL warehouse found. Please ensure you have access to at least one non-Classic warehouse.\");let t=yield(0,l.SV)(p.pY,{display_name:r,table_identifiers:h,warehouse_id:e,run_as_type:\"VIEWER\"},v?.requestHeaders);if(!t.id)throw Error(\"Genie space creation succeeded but no ID was returned\");return{success:!0,assetType:\"genie\",assetId:t.id,assetName:t.display_name??r,assetUrl:`/genie/rooms/${t.id}`}})());break;case\"app\":if((0,d.W)(\"databricks.fe.assistant.createAssetDisableApp\",!1))return(0,g.yj)(\"App creation is currently disabled.\");e=yield w(function*(){let e=r||`app-${Date.now()}`,t=yield(0,m.S)(\"/api/2.0/apps\",{method:\"POST\",body:JSON.stringify({name:e,description:\"App created by assistant\"})});if(!t.ok){let e=yield t.json().catch(()=>({})),r=\"object\"==typeof e&&e.message?e.message:t.status;throw Error(`Failed to create app. Status: ${t.status}. ${r}`)}let s=(yield t.json()).name??e;return{success:!0,assetType:\"app\",assetId:s,assetName:s,assetUrl:`/apps/${s}`}})();break;case\"designerFile\":if(!(0,d.W)(\"databricks.fe.lakebuilder.enableDesignerFile\",!1))return(0,g.yj)(\"Designer file creation is not available in this workspace.\");e=yield w(function*(){let e=r.endsWith(A)?r.slice(0,-A.length):r,t=e+A,s=yield w(function*(){let t=e.lastIndexOf(\"/\"),r=-1===t?u:`${u}/${e.substring(0,t)}`,s=new URLSearchParams({path:r}),a=yield(0,m.S)(`/ajax-api/2.0/workspace/get-status?${s}`,{method:\"GET\"});if(!a.ok)throw Error(`Failed to resolve parent folder at path: ${r}`);let n=yield a.json();if(!n.object_id)throw Error(`No object_id returned for parent folder path: ${r}`);return String(n.object_id)})(),a=yield(0,m.S)(\"/ajax-api/2.0/notebooks\",{method:\"POST\",body:JSON.stringify({notebook:{notebook_name:t.includes(\"/\")?t.split(\"/\").pop():t,notebook_type:6,notebook_language:\"PYTHON\",repos_export_format:\"JUPYTER\",folder:`folders/${s}`}})});if(!a.ok){let e=yield a.text();throw Error(`Failed to create designer file. Status: ${a.status}. ${e}`)}let n=(yield a.json()).name,o=n?.replace(\"notebooks/\",\"\");if(!o)throw Error(\"Failed to create designer file: no notebook ID returned\");return{success:!0,assetType:\"designerFile\",assetId:o,assetName:e.includes(\"/\")?e.slice(e.lastIndexOf(\"/\")+1):e,assetUrl:(0,i.eV)({id:o})}})();break;default:return(0,g.yj)(`Unsupported asset type: ${t}`)}if([\"notebook\",\"file\",\"directory\",\"designerFile\"].includes(e.assetType)&&(yield T(e.assetId)),n?.onAssetCreated){let t=e.assetName;\"notebook\"===e.assetType&&t.endsWith(\".ipynb\")?t=t.slice(0,-6):\"designerFile\"===e.assetType&&t.endsWith(A)&&(t=t.slice(0,-A.length));let r={type:e.assetType,id:e.assetId,name:t};n.onAssetCreated(r,{threadId:o})}if(e.hint=`Asset created successfully. The new ${e.assetType} is blank and has no user-provided content yet. Use openAsset with assetType='${e.assetType}' and assetId='${e.assetId}' to navigate to it. You can include a continueMessage to queue follow-up work for the destination agent.`,e.assetPath){let t=yield(0,f.T)(e.assetPath);t&&(e.hint=`${e.hint}\n\n${t}`)}return(0,g.r6)(e)}catch(e){return(0,g.yj)(e instanceof Error?e.message:\"Failed to create asset\")}})()",
+    "body_len": 10696,
+    "body_is_block": false,
+    "imports_count": 16,
+    "helpers": [
+      {
+        "alias": "h",
+        "member": "D",
+        "mid": 912091
+      },
+      {
+        "alias": "b",
+        "member": "ts",
+        "mid": 480427
+      },
+      {
+        "alias": "b",
+        "member": "A",
+        "mid": 480427
+      },
+      {
+        "alias": "g",
+        "member": "yj",
+        "mid": 570826
+      },
+      {
+        "alias": "m",
+        "member": "S",
+        "mid": 844760
+      },
+      {
+        "alias": "d",
+        "member": "W",
+        "mid": 441535
+      },
+      {
+        "alias": "i",
+        "member": "TQ",
+        "mid": 485669
+      },
+      {
+        "alias": "c",
+        "member": "m",
+        "mid": 846643
+      },
+      {
+        "alias": "i",
+        "member": "ZZ",
+        "mid": 485669
+      },
+      {
+        "alias": "y",
+        "member": "iu",
+        "mid": 910320
+      },
+      {
+        "alias": "l",
+        "member": "SV",
+        "mid": 544306
+      },
+      {
+        "alias": "i",
+        "member": "eV",
+        "mid": 485669
+      },
+      {
+        "alias": "f",
+        "member": "T",
+        "mid": 941443
+      },
+      {
+        "alias": "g",
+        "member": "r6",
+        "mid": 570826
+      }
+    ],
+    "urls": [
+      "/ajax-api/2.0/notebooks",
+      "/ajax-api/2.0/notebooks/${n}/update-unified-sql-editor-opt-in-status",
+      "/ajax-api/2.0/redash-v2/queries",
+      "/ajax-api/2.0/workspace/get-status?${a}",
+      "/ajax-api/2.0/workspace/get-status?${s}",
+      "/ajax-api/2.0/workspace/get-status?${t}",
+      "/ajax-api/2.0/workspace/mkdirs",
+      "/ajax-api/2.2/jobs/create",
+      "/api/2.0/apps"
+    ],
+    "methods": [
+      "GET",
+      "POST"
+    ],
+    "events": [],
+    "gql_ops": [],
+    "direct_fetches": [],
+    "flags": [
+      "databricks.fe.assistant.createAssetDisableApp",
+      "databricks.fe.assistant.enableDefaultDbeForCreatedNotebooks",
+      "databricks.fe.lakebuilder.enableDesignerFile"
+    ],
+    "mid": 894049
+  },
+  "openAsset": {
+    "arg_list": "({assetType:t,assetId:r,assetName:s,navigate:a=!0,continueMessage:n},l)",
+    "body": "y(function*(){try{if((0,h.ts)((0,h._h)(t))){let e=v(t);return{success:!1,assetType:t,assetId:r,assetName:s??void 0,assetUrl:\"\",assetTypeDescription:e,navigated:!1,threadPreserved:!1,continueMessageSet:!1,message:`${e} is not enabled for this workspace, so it cannot be opened.`}}let g=r;\"folder\"===t&&(0,p.P9)(r)&&(g=yield(0,p.vy)(r));let w=yield(({assetType:e,assetId:t,assetName:r,apolloClient:s})=>y(function*(){switch(e){case\"notebook\":return(0,o.TQ)(t);case\"dashboard\":return`/sql/dashboardsv3/${t}`;case\"query\":return(0,o.kC)({id:t});case\"file\":return(0,o.ZZ)({id:t});case\"job\":return`/jobs/${t}`;case\"job-run\":{let[e,r]=t.split(\"/\");return r?`/jobs/${e}/runs/${r}`:`/jobs/runs/${e}`}case\"pipeline-monitoring\":return d.hk.getPipelineDetailsRoute(t);case\"pipeline-editor\":return(0,f.W)(\"databricks.fe.ingestion.crossAgentAwareness.openAsset\",!1)&&s&&(yield y(function*(){try{let{data:e}=yield s.query({query:b,variables:{input:{pipelineId:t}}});return e?.deltapipelinesGet?.status?.spec?.pipelineType??void 0}catch{return}})())===\"MANAGED_INGESTION\"?(0,u.oK)().setup({pipelineId:t}):`/editor/pipelines/${t}`;case\"folder\":return(0,o.ZZ)({id:t,isDirectory:!0});case\"table\":return`/explore/data/${(r||t).replace(/\\./g,\"/\")}`;case\"experiment\":return`/ml/experiments/${t}`;case\"model\":return`/ml/models/${r||t}`;case\"endpoint\":return`/ml/endpoints/${r||t}`;case\"alert\":return`/sql/alerts-v2/${t}`;case\"genie\":return`/genie/rooms/${t}`;case\"app\":return`/apps/${r||t}`;case\"designerFile\":return(0,o.eV)({id:t});default:throw Error(`Unsupported asset type: ${e}`)}})())({assetType:t,assetId:g,assetName:s??void 0,apolloClient:e?.apolloClient}),k=v(t),_=l.agentIds.sessionId??e?.getThreadId?.(),I=w;if(a&&_){let e=new URLSearchParams;e.set(\"threadId\",_);let t=w.includes(\"?\")?\"&\":\"?\";I=`${w}${t}${e.toString()}`}if(a){n&&(0,i.uT)({type:i.bS.PAGE_TRIGGERED_CHAT_EVENT,payload:{message:n,messageTags:[],hideUserMessage:!0}});let e=(0,m.HK)({assetType:t,baseUrl:I,assetName:s??void 0});e.sameTab?setTimeout(()=>(0,c.oo)(e.url)):setTimeout(()=>window.open(I,\"_blank\",\"noopener,noreferrer\"))}return{success:!0,assetType:t,assetId:g,assetName:s??void 0,assetUrl:I,assetTypeDescription:k,navigated:a,threadPreserved:!!_,continueMessageSet:a&&!!n,message:a?`Navigating to ${k}...`:`URL for ${k}: ${I}`}}catch(e){throw Error(`Failed to open asset: ${e instanceof Error?e.message:\"Unknown error\"}`)}})()",
+    "body_len": 2389,
+    "body_is_block": false,
+    "imports_count": 13,
+    "helpers": [
+      {
+        "alias": "h",
+        "member": "ts",
+        "mid": 480427
+      },
+      {
+        "alias": "h",
+        "member": "_h",
+        "mid": 480427
+      },
+      {
+        "alias": "p",
+        "member": "P9",
+        "mid": 111620
+      },
+      {
+        "alias": "p",
+        "member": "vy",
+        "mid": 111620
+      },
+      {
+        "alias": "o",
+        "member": "TQ",
+        "mid": 485669
+      },
+      {
+        "alias": "o",
+        "member": "kC",
+        "mid": 485669
+      },
+      {
+        "alias": "o",
+        "member": "ZZ",
+        "mid": 485669
+      },
+      {
+        "alias": "f",
+        "member": "W",
+        "mid": 441535
+      },
+      {
+        "alias": "u",
+        "member": "oK",
+        "mid": 735617
+      },
+      {
+        "alias": "o",
+        "member": "eV",
+        "mid": 485669
+      },
+      {
+        "alias": "i",
+        "member": "uT",
+        "mid": 416400
+      },
+      {
+        "alias": "m",
+        "member": "HK",
+        "mid": 955212
+      },
+      {
+        "alias": "c",
+        "member": "oo",
+        "mid": 488655
+      }
+    ],
+    "urls": [],
+    "methods": [],
+    "events": [],
+    "gql_ops": [],
+    "direct_fetches": [],
+    "flags": [
+      "databricks.fe.ingestion.crossAgentAwareness.openAsset"
+    ],
+    "mid": 226909
+  },
+  "executeCode": {
+    "arg_list": "({code:t,language:r,thoughts:s,timeoutMinutes:n},i,d)",
+    "body": "v(function*(){let s=(0,u.W)(\"databricks.fe.assistant.disableExecutionViaMFE\",!1);try{var b;let k=e();if(!k)return{success:!1,error:{message:\"Code execution store not available\"}};let _=()=>k,I=yield(b=i.agentIds,v(function*(){let e=yield(0,g.P)(t,{mode:\"approvalOverride\",enabled:!0,toolName:w,llmSafetyCheck:e=>(0,m.vb)(e),buildToolArgs:e=>({code:e})},b);if(\"blocked\"===e.outcome)return`${a.o6.NOT_APPROVED} Reason: ${e.reason}`})());if(I)return I;let T=Math.max(5,\"number\"==typeof n&&n>0?n:15),S=60*T*1e3,E=t,x=r;if(\"sh\"===r){let e,r=(e=(0,h.b)(\"user\",(0,f.d)(\"user\",\"\"),()=>(0,f.d)(\"user_new\",\"\")),`/Workspace/Users/${e}`);(0,u.W)(\"databricks.fe.assistant.enableDatabricksCliInExecuteCode\",!1)?(E=(0,p.Gc)(t,r),x=\"python\"):E=`cd ${r}\n${t}`}if(!s)return yield(0,y.h)(()=>v(function*(){let e=new AbortController,t=d?(0,o.NA)([d,e.signal]):e.signal,r=setTimeout(()=>e.abort(),S);try{let r=yield(0,l.rN)({type:l.Bo.EXECUTE_CODE,payload:{agentIds:i.agentIds,code:E,language:x,abortSignal:t,metadata:{traceId:i.agentIds.traceId,returnCellResults:!0,preferMarkdown:!1,skipGuardrail:!0}}});if(e.signal.aborted)return{success:!1,error:{message:`Execution timed out after ${T} minute(s). Consider simplifying the request or increasing the timeout parameter.`}};if(!r||r.error)return{success:!1,error:{message:r?.error||\"RPC call failed\"}};return{success:!0,cellResults:r?.cellResults||[],commandId:r?.commandInfo?.id,executionId:r?.commandInfo?.executionId,executionDurationMin:r?.executionDurationMin}}finally{clearTimeout(r)}})());return yield(0,y.h)(()=>v(function*(){let e=yield(0,c.u)({store:_,language:x,code:E,agentIds:i.agentIds,opts:{preferMarkdown:!1,timeoutMs:S,skipGuardrail:!0},abortSignal:d});if(!e.success)return{success:!1,error:{message:e.error?.message||\"Unknown error occurred\"}};return{success:!0,cellResults:e.data?.cellResults||[],commandId:e.data?.commandInfo?.id,executionId:e.data?.commandInfo?.executionId,executionDurationMin:e.data?.executionDurationMin}})())}catch(e){return{success:!1,error:{message:`${e instanceof Error?e.message:\"unknown error\"}`}}}})()",
+    "body_len": 2079,
+    "body_is_block": false,
+    "imports_count": 15,
+    "helpers": [
+      {
+        "alias": "u",
+        "member": "W",
+        "mid": 441535
+      },
+      {
+        "alias": "g",
+        "member": "P",
+        "mid": 623457
+      },
+      {
+        "alias": "m",
+        "member": "vb",
+        "mid": 152820
+      },
+      {
+        "alias": "h",
+        "member": "b",
+        "mid": 689262
+      },
+      {
+        "alias": "f",
+        "member": "d",
+        "mid": 686560
+      },
+      {
+        "alias": "p",
+        "member": "Gc",
+        "mid": 407629
+      },
+      {
+        "alias": "y",
+        "member": "h",
+        "mid": 204109
+      },
+      {
+        "alias": "o",
+        "member": "NA",
+        "mid": 284810
+      },
+      {
+        "alias": "l",
+        "member": "rN",
+        "mid": 222716
+      },
+      {
+        "alias": "c",
+        "member": "u",
+        "mid": 954662
+      }
+    ],
+    "urls": [],
+    "methods": [],
+    "events": [
+      "EXECUTE_CODE"
+    ],
+    "gql_ops": [],
+    "direct_fetches": [],
+    "flags": [
+      "databricks.fe.assistant.disableExecutionViaMFE",
+      "databricks.fe.assistant.enableDatabricksCliInExecuteCode"
+    ],
+    "mid": 657362
+  },
+  "findReferencesTool": {
+    "arg_list": "e",
+    "body": "{var t;return(t=function*(){try{let{tableName:t,columnName:r,includeEntityLineage:s=!0}=e;if(!function(e){let t=e.split(\".\");if(3!==t.length)return null;return{catalog:t[0],schema:t[1],table:t[2]}}(t))return{success:!1,error:{message:`Invalid table name format. Expected format: catalog.schema.table, but received: ${t}`}};let a=yield(0,i.s4)(t,r,s);if(!a.success)return{success:!1,error:{message:a.error?.message||\"Failed to retrieve lineage data\"}};if(!a.data)return{success:!1,error:{message:\"No lineage data returned\"}};return{success:!0,data:a.data}}catch(e){return{success:!1,error:{message:e instanceof Error?e.message:\"Invalid arguments or unexpected error\"}}}},function(){var e=this,r=arguments;return new Promise(function(s,a){var n=t.apply(e,r);function o(e){l(n,s,a,o,i,\"next\",e)}function i(e){l(n,s,a,o,i,\"throw\",e)}o(void 0)})})()}",
+    "body_len": 845,
+    "body_is_block": true,
+    "imports_count": 5,
+    "helpers": [
+      {
+        "alias": "i",
+        "member": "s4",
+        "mid": 469070
+      }
+    ],
+    "urls": [],
+    "methods": [],
+    "events": [],
+    "gql_ops": [],
+    "direct_fetches": [],
+    "flags": [],
+    "mid": 270168
+  }
+}

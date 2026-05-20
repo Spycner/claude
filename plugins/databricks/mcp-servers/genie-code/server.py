@@ -192,6 +192,30 @@ async def handle_chat(
     }
 
 
+async def handle_get_thread(*, thread_id: str) -> dict:
+    store = ThreadStore()
+    try:
+        thread = store.get(thread_id)
+    except KeyError:
+        return {
+            "thread_id": thread_id,
+            "agent": None,
+            "context_id": None,
+            "title": None,
+            "messages": [],
+            "errors": [f"thread not found: {thread_id}"],
+        }
+    return {
+        "thread_id": thread.thread_id,
+        "agent": thread.agent,
+        "context_id": thread.context_id,
+        "title": thread.title,
+        "messages": list(thread.messages),
+        "created_at": thread.created_at,
+        "updated_at": thread.updated_at,
+    }
+
+
 def main() -> None:
     """Start the MCP server over stdio."""
     from mcp.server import Server

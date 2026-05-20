@@ -42,6 +42,20 @@ def test_lake_pack_has_fifteen_plus_tools():
     assert len(tools) >= 15, f"expected 15+ tools, got {len(tools)}"
 
 
+def test_get_thread_returns_full_history(tmp_path, monkeypatch):
+    import asyncio
+    from server import handle_get_thread
+    from thread_store import ThreadStore
+    monkeypatch.setenv("XDG_STATE_HOME", str(tmp_path))
+    store = ThreadStore(root=tmp_path / "genie-code" / "threads")
+    t = store.create(agent="LakeAgent", context_id=None, title="x")
+    store.append_message(t.thread_id, {"role": "user", "content": "hi"})
+    res = asyncio.run(handle_get_thread(thread_id=t.thread_id))
+    assert res["thread_id"] == t.thread_id
+    assert res["agent"] == "LakeAgent"
+    assert len(res["messages"]) == 1
+
+
 def test_chat_tool_returns_structured_trace(tmp_path, monkeypatch):
     """chat() returns the documented shape with thread_id, transcript, etc."""
     import asyncio

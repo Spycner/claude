@@ -1,13 +1,13 @@
 {
   "name": "pgoell-claude-tools",
   "owner": {
-    "name": "Pascal Kraus"
+    "name": "Pascal Göllner"
   },
   "plugins": [
     {
       "name": "atlassian",
       "source": "./plugins/atlassian",
-      "description": "Jira and Confluence skills for the Atlassian suite — search, create, update, and manage work items and pages",
+      "description": "Use Jira and Confluence from agent workflows.",
       "version": "2.0.0"
     },
     {
@@ -19,20 +19,56 @@
     {
       "name": "google-workspace",
       "source": "./plugins/google-workspace",
-      "description": "Google Workspace skills (Gmail, Calendar) powered by the gws CLI",
+      "description": "Use Gmail and Calendar through gws.",
       "version": "1.0.0"
     },
     {
       "name": "research",
       "source": "./plugins/research",
-      "description": "Orchestrator-driven deep research: parallel cluster researchers, unbounded review loops, synthesis and writer split",
-      "version": "2.0.0"
+      "description": "Research complex topics and produce sourced reports.",
+      "version": "2.1.1"
     },
     {
       "name": "writing",
       "source": "./plugins/writing",
-      "description": "Multi-phase writing pipeline with panel-of-critics review for blog posts, essays, talks, and longer-form prose. Format-aware: Smart-Brevity critic added for memo/newsletter/announcement formats. Ships a dedicated Pyramid Principle skill (Barbara Minto) with three construction modes (greenfield, restructure, Socratic). Also ships a Diátaxis-aware tech-doc skill for tutorials, how-to guides, references, and explanations, with full transcriptions of the Microsoft and Google style guides via a modular sidecar architecture (core, wordlist, procedures, admonitions, code-samples, links, numbers, api-reference) and an eight-critic panel.",
-      "version": "1.6.0"
+      "description": "Draft, structure, review, and finish prose and technical docs.",
+      "version": "1.6.1"
+    },
+    {
+      "name": "runtime-bridge",
+      "source": "./plugins/runtime-bridge",
+      "description": "Align Claude Code and Codex project configuration.",
+      "version": "0.1.0"
+    },
+    {
+      "name": "agent-system-management",
+      "source": "./plugins/agent-system-management",
+      "description": "Audit AGENTS.md / CLAUDE.md, capture session learnings, and create Claude Code / Codex skills.",
+      "version": "0.4.2"
+    },
+    {
+      "name": "workbench",
+      "source": "./plugins/workbench",
+      "description": "Personal Workbench skills for design and autonomous feature work.",
+      "version": "0.16.0"
+    },
+    {
+      "name": "terminal",
+      "source": "./plugins/terminal",
+      "description": "Control interactive terminal programs through tmux.",
+      "version": "0.1.0"
+    },
+    {
+      "name": "frontend-design",
+      "source": "./plugins/frontend-design",
+      "description": "Create distinctive, production-grade frontend interfaces with deep UI craft and animation discipline.",
+      "version": "0.2.0"
+    },
+    {
+      "name": "playground",
+      "source": "./plugins/playground",
+      "description": "Generate interactive single-file HTML playgrounds with controls, live preview, and copy-out prompt for two-way feedback with the model.",
+      "version": "0.1.0"
     }
   ]
 }

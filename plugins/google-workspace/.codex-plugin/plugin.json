@@ -1,0 +1,35 @@
+{
+  "name": "google-workspace",
+  "version": "1.0.0",
+  "description": "Use Gmail and Calendar through gws.",
+  "author": {
+    "name": "Pascal Göllner"
+  },
+  "license": "MIT",
+  "keywords": [
+    "google",
+    "workspace",
+    "gmail",
+    "calendar",
+    "gws"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Google Workspace",
+    "shortDescription": "Use Gmail and Calendar",
+    "longDescription": "Search mail, manage drafts and labels, view agendas, create events, and check availability through the gws CLI.",
+    "developerName": "Pascal Göllner",
+    "category": "Productivity",
+    "capabilities": [
+      "Interactive",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Triage my Gmail inbox",
+      "Show today's calendar agenda",
+      "Schedule this meeting"
+    ],
+    "brandColor": "#0F9D58",
+    "screenshots": []
+  }
+}

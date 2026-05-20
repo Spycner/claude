@@ -1,0 +1,44 @@
+{
+  "name": "writing",
+  "version": "1.6.1",
+  "description": "Draft, structure, review, and finish prose and technical docs.",
+  "author": {
+    "name": "Pascal Göllner"
+  },
+  "license": "MIT",
+  "keywords": [
+    "writing",
+    "blog",
+    "essay",
+    "drafting",
+    "editing",
+    "voice",
+    "pyramid",
+    "minto",
+    "mece",
+    "scqa",
+    "memo",
+    "briefing",
+    "announcement",
+    "technical-documentation"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Writing",
+    "shortDescription": "Draft, structure, review, and finish prose",
+    "longDescription": "Draft long form prose, structure analytical documents, and produce technical documentation with review and finishing passes.",
+    "developerName": "Pascal Göllner",
+    "category": "Productivity",
+    "capabilities": [
+      "Interactive",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Draft this piece through the writing pipeline",
+      "Turn this into a pyramid memo",
+      "Write a technical how to guide"
+    ],
+    "brandColor": "#7C3AED",
+    "screenshots": []
+  }
+}

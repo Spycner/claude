@@ -1,0 +1,36 @@
+{
+  "name": "workbench",
+  "version": "0.16.0",
+  "description": "Personal Workbench skills for design and autonomous feature work.",
+  "author": {
+    "name": "Pascal Göllner"
+  },
+  "license": "MIT",
+  "keywords": [
+    "personal",
+    "brainstorming",
+    "design",
+    "specs",
+    "workflow",
+    "autopilot"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Workbench",
+    "shortDescription": "Design and ship with Workbench skills",
+    "longDescription": "Use Workbench for design dialogue, skill routing, and profile driven feature shipping through autopilot.",
+    "developerName": "Pascal Göllner",
+    "category": "Productivity",
+    "capabilities": [
+      "Interactive",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me brainstorm a new feature",
+      "Turn my idea into a spec",
+      "Run the design dialogue for this project",
+      "Use autopilot to autonomously ship this feature"
+    ],
+    "screenshots": []
+  }
+}

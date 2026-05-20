@@ -1,8 +1,8 @@
 {
   "name": "google-workspace",
-  "description": "Gmail and Calendar skills for Google Workspace via the gws CLI",
+  "description": "Use Gmail and Calendar through gws.",
   "author": {
-    "name": "Pascal Kraus"
+    "name": "Pascal Göllner"
   },
   "license": "MIT",
   "keywords": ["google", "workspace", "gmail", "calendar", "gws"]

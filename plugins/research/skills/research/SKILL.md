@@ -1,6 +1,6 @@
 ---
 name: research
-description: Use when the user wants to research a topic, investigate something, conduct a deep dive, find sources and citations, or write a research report. Triggers on research intent, not simple factual questions Claude can answer directly.
+description: Research complex topics with sources, synthesis, review, and a final report.
 ---
 
 # Research Skill
@@ -11,15 +11,29 @@ Orchestrator-driven deep research. The skill plans the work itself, spawns paral
 
 ## Auth Approach
 
-No authentication required. Uses WebSearch and WebFetch (no credentials needed) and writes to the local filesystem.
+No authentication required. Uses the host agent's web search and fetch or browse capability, and writes to the local filesystem.
 
 ## Tool Preference
 
-1. **Agent tool**: dispatch researcher, synthesis, writer, and reviewer agents.
-2. **Read**: load prompt templates before dispatch.
-3. **Bash**: directory creation, date generation, simple file globbing for verification.
-4. **TaskCreate / TaskUpdate / TaskList**: live loop bookkeeping.
-5. **WebSearch / WebFetch**: fallback only if Agent dispatch fails.
+1. **Subagent dispatch when available and permitted**: dispatch researcher, synthesis, writer, and reviewer agents.
+2. **File read tools**: load prompt templates before dispatch.
+3. **Shell**: directory creation, date generation, simple file globbing for verification.
+4. **Progress list**: live loop bookkeeping.
+5. **Web search and fetch or browse tools**: fallback only if subagent dispatch fails.
+
+## Platform Adaptation
+
+Use the host platform's equivalent tools without changing the workflow:
+
+| Capability | Claude Code | Codex |
+|---|---|---|
+| Subagent dispatch | Agent tool | `spawn_agent` only when available and permitted. Otherwise run the phase inline. |
+| Progress list | TaskCreate, TaskUpdate, TaskList | `update_plan` |
+| Web research | WebSearch, WebFetch | `web.run` search and open calls, or the host browser/search tools |
+| File reads | Read | shell reads such as `sed`, `rg`, or equivalent file read tools |
+| Shell | Bash | shell command tool |
+
+When a platform cannot dispatch subagents for the current request, keep the same artifact boundaries and run each phase inline in the orchestrator. Tell the user when this changes runtime or context cost.
 
 ## Workflow
 
@@ -68,7 +82,7 @@ Sub-questions:
 ...
 ```
 
-Use TaskCreate to seed the task list with: "Spawn researchers", "Synthesize", "Review synthesis", "Write report", "Review report". Mark tasks completed as the pipeline progresses.
+Use the progress list to seed: "Spawn researchers", "Synthesize", "Review synthesis", "Write report", "Review report". Mark tasks completed as the pipeline progresses.
 
 ### Step 4: Spawn parallel researchers
 
@@ -76,7 +90,7 @@ Each researcher does iterative deep search on its cluster (round-by-round breadt
 
 1. Read `researcher-prompt.md` from this skill directory.
 2. Inject: BRIEF, OUTPUT_PATH, RECIPES_PATH (path to research-recipes.md), CLUSTER_SLUG, OUTPUT_FILE (`{OUTPUT_PATH}/research/{cluster-slug}.md`), TARGETED_GAP (empty).
-3. Dispatch via Agent tool. Send all clusters in parallel: one Agent call per cluster in a single message.
+3. Dispatch via the host subagent tool. Send all clusters in parallel when supported.
 4. Wait for all to complete. Verify each cluster's output file exists and is non-empty.
 
 If a researcher returns a near-empty file, treat as failed dispatch (re-dispatch once; if still thin, escalate to user as a likely cluster-boundary problem).
@@ -85,14 +99,14 @@ If a researcher returns a near-empty file, treat as failed dispatch (re-dispatch
 
 1. Read `synthesis-prompt.md`.
 2. Inject: BRIEF, OUTPUT_PATH, ITERATION, REVIEWER_FEEDBACK (empty on first pass; populated on re-dispatch).
-3. Dispatch via Agent tool. Wait for completion.
+3. Dispatch via the host subagent tool. Wait for completion.
 4. Verify `{OUTPUT_PATH}/research/synthesis.md` exists.
 
 ### Step 6: Review synthesis (iteration N)
 
 1. Read `synthesis-reviewer-prompt.md`.
 2. Inject: BRIEF, OUTPUT_PATH, ITERATION, REVIEWER_FEEDBACK (empty for normal flow; populated only when re-dispatched from cross-loop branch in Step 10).
-3. Dispatch via Agent tool. Wait for completion.
+3. Dispatch via the host subagent tool. Wait for completion.
 4. Read the verdict from agent response, or from `{OUTPUT_PATH}/research/synthesis-review-{N}.md` if response is unparseable.
 
 If verdict is PASS: continue to Step 8.
@@ -109,7 +123,7 @@ Classify each critical issue:
 For each gap-fill issue:
 
 1. Read `researcher-prompt.md`. Inject: BRIEF, OUTPUT_PATH, RECIPES_PATH, CLUSTER_SLUG=<best-fit existing cluster>, OUTPUT_FILE=`{OUTPUT_PATH}/research/gap-{N}-{issue-slug}.md`, TARGETED_GAP=<full issue description with location pointer>.
-2. Dispatch in parallel for all gap-fill issues. Wait for completion.
+2. Dispatch in parallel for all gap-fill issues when supported. Wait for completion.
 
 For batched logic/structure issues:
 
@@ -127,20 +141,20 @@ After all gap-fills and re-syntheses complete, return to Step 6 with iteration N
 - What's been narrowed (issues closed since iteration 1)
 - Options: `continue`, `ship as-is`, `intervene`
 
-Update task list at every step so user can run TaskList for live status.
+Update the progress list at every step so the user can inspect live status through the host platform.
 
 ### Step 8: Write (iteration M, starting at 1)
 
 1. Read `writer-prompt.md`.
 2. Inject: BRIEF, OUTPUT_PATH, TEMPLATE_PATH (path to report-template.md), REVIEWER_FEEDBACK (empty on first pass; populated on re-dispatch).
-3. Dispatch via Agent tool. Wait for completion.
+3. Dispatch via the host subagent tool. Wait for completion.
 4. Verify `{OUTPUT_PATH}/report.md` exists.
 
 ### Step 9: Review report (iteration M)
 
 1. Read `writer-reviewer-prompt.md`.
 2. Inject: BRIEF, OUTPUT_PATH, TEMPLATE_PATH, ITERATION=M.
-3. Dispatch via Agent tool. Wait for completion.
+3. Dispatch via the host subagent tool. Wait for completion.
 4. Read verdict.
 
 If PASS: continue to Step 11.
@@ -223,3 +237,32 @@ A verdict of PASS with critical issues is malformed; re-dispatch the reviewer on
 - Each prompt template has placeholders. Researcher: BRIEF, OUTPUT_PATH, RECIPES_PATH, CLUSTER_SLUG, OUTPUT_FILE, TARGETED_GAP. Synthesis: BRIEF, OUTPUT_PATH, ITERATION, REVIEWER_FEEDBACK. Synthesis-reviewer: BRIEF, OUTPUT_PATH, ITERATION, REVIEWER_FEEDBACK (cross-loop only). Writer: BRIEF, OUTPUT_PATH, TEMPLATE_PATH, REVIEWER_FEEDBACK. Writer-reviewer: BRIEF, OUTPUT_PATH, TEMPLATE_PATH, ITERATION.
 - Credentials/secrets never appear in templates or injected values.
 - See `report-template.md` for report structure (use Deep Mode section) and `research-recipes.md` for search patterns.
+
+## Output Format
+
+Default for this artifact: **html**.
+
+Override resolution order, highest precedence first:
+
+1. Per-invocation override in the user prompt. Recognize phrases like `"a markdown research report"`, `"in HTML"`, `"as a markdown report"`, and equivalents.
+2. Per-skill hard-coded default (html).
+
+For format and path, `research:research` does not consult `.workbench/config.md`. It is in a different plugin and has no project-level config knob for those two axes; format and path are determined by per-invocation override or the hard-coded default. (Design system selection is the exception: the cross-reference at the end of this section honors `.workbench/config.md` `## Design system` so a project-wide design-system pin affects research reports too.)
+
+Path: `reports/<topic-slug>-<YYYY-MM-DD>/report.<ext>` by default, where `<ext>` resolves from format.
+
+When emitting HTML, follow `references/research-report-template.html` in this skill's directory. Read the template lazily. Do not introduce U+2014 or U+2013 codepoints in body copy; HTML entity forms are permitted.
+
+For other HTML artifact types not covered by a workbench or research skill, see `workbench:crafting-html`.
+
+### Applying a design system
+
+Before emitting HTML, check for an active design system and inline its overrides into the artifact's `<style>` block:
+
+1. Resolve the design-system name: per-prompt override (e.g., "render with the `brand-2026` design system"), then `.workbench/config.md` `## Design system` `Name:`, then no override. (Format and path ignore `.workbench/config.md` per the disclaimer above; only the design-system axis honors it.)
+2. Locate the directory: `.workbench/design-systems/<name>/` (project scope), then `~/.claude/workbench/design-systems/<name>/` (user scope). If a name resolves but no directory is found at either scope, report the missing path to the user and emit with template defaults; do not fabricate a substitute.
+3. Inline `colors.css` (and `typography.css` if present) **after** the template's own `:root` declarations, so the design system's values win the cascade.
+4. For any referenced component, paste `components/<n>.html` markup and scoped style into the artifact body.
+5. For any referenced image, base64-encode (`base64 -w 0 <file>`) and inline as `data:image/<type>;base64,<payload>`. SVG is text and can be inlined directly. Use relative paths only when the artifact and the design system co-exist in the same git tree and the artifact will not travel.
+
+To create or edit a design system, see `workbench:crafting-design-systems`.

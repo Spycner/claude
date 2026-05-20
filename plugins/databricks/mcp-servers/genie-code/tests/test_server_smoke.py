@@ -42,6 +42,19 @@ def test_lake_pack_has_fifteen_plus_tools():
     assert len(tools) >= 15, f"expected 15+ tools, got {len(tools)}"
 
 
+def test_list_threads_local_store(tmp_path, monkeypatch):
+    import asyncio
+    from server import handle_list_threads
+    from thread_store import ThreadStore
+    monkeypatch.setenv("XDG_STATE_HOME", str(tmp_path))
+    store = ThreadStore(root=tmp_path / "genie-code" / "threads")
+    store.create(agent="LakeAgent", context_id=None, title="a")
+    store.create(agent="dashboardAuthoringAgent", context_id="d1", title="b")
+    res = asyncio.run(handle_list_threads(agent="LakeAgent", context_id=None, limit=20))
+    assert len(res) == 1
+    assert res[0]["agent"] == "LakeAgent"
+
+
 def test_get_thread_returns_full_history(tmp_path, monkeypatch):
     import asyncio
     from server import handle_get_thread

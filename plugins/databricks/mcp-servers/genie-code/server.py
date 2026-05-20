@@ -192,6 +192,47 @@ async def handle_chat(
     }
 
 
+async def handle_list_threads(
+    *,
+    agent: str | None = None,
+    context_id: str | None = None,
+    limit: int = 20,
+) -> list[dict]:
+    store = ThreadStore()
+    local = store.list(agent=agent, context_id=context_id, limit=limit)
+    results = [
+        {
+            "thread_id": t.thread_id,
+            "agent": t.agent,
+            "context_id": t.context_id,
+            "title": t.title,
+            "created_at": t.created_at,
+            "updated_at": t.updated_at,
+            "last_message_preview": (t.messages[-1].get("content", "")[:80] if t.messages else ""),
+        }
+        for t in local
+    ]
+    from universegraphql import WIRED, list_remote_threads
+    import os
+    if WIRED and os.environ.get("GENIE_CODE_DBAUTH"):
+        cfg = Config.load()
+        try:
+            remote = list_remote_threads(
+                host=cfg.workspace_host,
+                dbauth=os.environ["GENIE_CODE_DBAUTH"],
+                csrf="",
+                agent=agent,
+                context_id=context_id,
+            )
+            seen = {r["thread_id"] for r in results}
+            for r in remote:
+                if r["thread_id"] not in seen:
+                    results.append(r)
+        except Exception:
+            pass
+    return results[:limit]
+
+
 async def handle_get_thread(*, thread_id: str) -> dict:
     store = ThreadStore()
     try:

@@ -42,6 +42,32 @@ def test_lake_pack_has_fifteen_plus_tools():
     assert len(tools) >= 15, f"expected 15+ tools, got {len(tools)}"
 
 
+def test_resume_chat_appends_to_thread(tmp_path, monkeypatch):
+    import asyncio
+    from unittest.mock import patch
+    from server import handle_resume_chat
+    from thread_store import ThreadStore
+    from conversation import StreamEvent, Delta
+    monkeypatch.setenv("XDG_STATE_HOME", str(tmp_path))
+    store = ThreadStore(root=tmp_path / "genie-code" / "threads")
+    t = store.create(agent="LakeAgent", context_id=None, title="x")
+    store.append_message(t.thread_id, {"role": "user", "content": "earlier"})
+
+    async def fake_run_turn(*args, **kwargs):
+        yield StreamEvent(delta=Delta(role="assistant", content="ok", tool_calls=None), finish_reason="stop")
+
+    with patch("server.run_turn", new=fake_run_turn):
+        res = asyncio.run(handle_resume_chat(
+            thread_id=t.thread_id,
+            prompt="follow-up",
+            options={"mode": "oauth", "endpoint_name": "x"},
+        ))
+    assert res["thread_id"] == t.thread_id
+    assert res["agent"] == "LakeAgent"
+    refetched = store.get(t.thread_id)
+    assert len(refetched.messages) >= 3
+
+
 def test_list_threads_local_store(tmp_path, monkeypatch):
     import asyncio
     from server import handle_list_threads

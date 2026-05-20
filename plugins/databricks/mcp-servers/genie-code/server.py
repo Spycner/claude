@@ -192,6 +192,79 @@ async def handle_chat(
     }
 
 
+async def handle_resume_chat(
+    *,
+    thread_id: str,
+    prompt: str,
+    options: dict | None,
+) -> dict:
+    store = ThreadStore()
+    try:
+        thread = store.get(thread_id)
+    except KeyError:
+        return {
+            "thread_id": thread_id,
+            "agent": None,
+            "transcript": [],
+            "dashboard_diff": {},
+            "final_state": {},
+            "tool_calls": [],
+            "errors": [f"thread not found: {thread_id}"],
+        }
+
+    agent = thread.agent
+    context_id = thread.context_id
+
+    cfg = Config.load()
+    opts = resolve_options(cfg, options or {}, agent=agent, context_id=context_id)
+
+    system_prompt, tools = _load_prompt_pack(agent)
+    session_id = _mint_session_id(agent, context_id)
+    workspace_host = cfg.workspace_host or "localhost"
+
+    store.append_message(thread_id, {"role": "user", "content": prompt})
+
+    messages = list(thread.messages) + [{"role": "user", "content": prompt}]
+    body = _build_body(
+        mode=opts.mode,
+        agent=agent,
+        system_prompt=system_prompt,
+        tools=tools,
+        messages=messages,
+        session_id=session_id,
+        model=opts.model,
+    )
+
+    content_parts: list[str] = []
+    finish_reason: str | None = None
+    async for event in run_turn(
+        mode=opts.mode,
+        agent=agent,
+        opts=opts,
+        workspace_host=workspace_host,
+        body=body,
+    ):
+        if event.delta.content:
+            content_parts.append(event.delta.content)
+        if event.finish_reason:
+            finish_reason = event.finish_reason
+            break
+
+    assistant_content = "".join(content_parts)
+    store.append_message(thread_id, {"role": "assistant", "content": assistant_content})
+
+    refetched = store.get(thread_id)
+    return {
+        "thread_id": thread_id,
+        "agent": agent,
+        "transcript": list(refetched.messages),
+        "dashboard_diff": {},
+        "final_state": {"finish_reason": finish_reason, "session_id": session_id},
+        "tool_calls": [],
+        "errors": [],
+    }
+
+
 async def handle_list_threads(
     *,
     agent: str | None = None,

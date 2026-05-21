@@ -129,6 +129,8 @@ Register the plugin in both marketplaces:
 - `.claude-plugin/marketplace.json` for Claude Code
 - `.agents/plugins/marketplace.json` for Codex (each plugin entry must include `interface.displayName` and `interface.shortDescription` so the picker label is explicit)
 
+Marketplace registration is the gate between a stub directory and an installable plugin. If the plugin has no `skills/` yet (research notes, scaffolding, or a placeholder for future work), skip registration: a `plugins/<plugin>/` directory without a marketplace entry is a valid stub state. See the "Unregistered plugin directories" design decision below.
+
 ### 3. Write SKILL.md
 
 This is the most important file. Both Claude Code and Codex read it to understand the skill. Follow this structure:

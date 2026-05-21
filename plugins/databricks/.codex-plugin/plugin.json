@@ -1,7 +1,7 @@
 {
   "name": "databricks",
-  "version": "0.1.0",
-  "description": "Drive Databricks Genie Code (LakeAgent and Dashboard Authoring Agent) via a bundled Python MCP server.",
+  "version": "0.2.0",
+  "description": "Research stub for a future Databricks Genie Code plugin. No installable skills yet; references/research/ preserves the reverse-engineering notes.",
   "author": {
     "name": "Pascal Göllner"
   },
@@ -11,28 +11,18 @@
     "genie-code",
     "lakeview",
     "dashboards",
-    "mcp",
-    "agents"
+    "research"
   ],
-  "skills": "./skills/",
-  "mcpServers": "./.mcp.json",
   "interface": {
-    "displayName": "Databricks",
-    "shortDescription": "Drive Databricks Genie Code",
-    "longDescription": "Chat with the Databricks LakeAgent and build Lakeview dashboards via the Dashboard Authoring Agent. Bundles a Python MCP server that talks to the workspace over llmproxy (DBAUTH cookie) or serving-endpoints (OAuth bearer).",
+    "displayName": "Databricks (research stub)",
+    "shortDescription": "Research stub; no skills shipped",
+    "longDescription": "Reserves the plugin slot and preserves Databricks Genie Code reverse-engineering research notes under references/research/. No installable skills or MCP servers ship today; see plugins/databricks/README.md for status and a pointer to the original PR #52 history.",
     "developerName": "Pascal Göllner",
     "category": "Productivity",
     "capabilities": [
-      "Interactive",
-      "Read",
-      "Write"
+      "Read"
     ],
-    "defaultPrompt": [
-      "Chat with the LakeAgent about my workspace",
-      "Build a Lakeview dashboard from this table",
-      "Resume the last Genie Code thread"
-    ],
-    "brandColor": "#FF3621",
+    "defaultPrompt": [],
     "screenshots": []
   }
 }

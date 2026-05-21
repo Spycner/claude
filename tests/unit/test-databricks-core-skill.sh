@@ -36,13 +36,21 @@ else
     echo "[FAIL] SKILL.md missing or no frontmatter"; exit 1
 fi
 
-for ref in databricks-cli-install.md databricks-cli-auth.md data-exploration.md; do
+for ref in databricks-cli-auth.md data-exploration.md; do
     if [ -s "$SKILL_DIR/$ref" ]; then
         echo "[PASS] $ref present and non-empty"
     else
         echo "[FAIL] $ref missing or empty"; exit 1
     fi
 done
+
+# CLI installation walkthrough was deliberately not ported (NOTICE documents why).
+# Guard against accidental re-introduction.
+if [ -e "$SKILL_DIR/databricks-cli-install.md" ]; then
+    echo "[FAIL] databricks-cli-install.md exists but was deliberately not ported (see NOTICE)"; exit 1
+else
+    echo "[PASS] databricks-cli-install.md correctly absent"
+fi
 
 # Frontmatter sanity: name pinned, metadata.version block was dropped from upstream
 if grep -q '^name: "databricks-core"' "$SKILL_MD"; then

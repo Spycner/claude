@@ -20,12 +20,17 @@ Per-file mapping (upstream path -> local path):
 
   skills/databricks-core/SKILL.md
     -> plugins/databricks/skills/databricks-core/SKILL.md
-  skills/databricks-core/databricks-cli-install.md
-    -> plugins/databricks/skills/databricks-core/databricks-cli-install.md
   skills/databricks-core/databricks-cli-auth.md
     -> plugins/databricks/skills/databricks-core/databricks-cli-auth.md
   skills/databricks-core/data-exploration.md
     -> plugins/databricks/skills/databricks-core/data-exploration.md
+
+NOT ported from this upstream skill: skills/databricks-core/databricks-cli-install.md.
+CLI installation is the user's responsibility; the upstream's 100+ line install
+walkthrough was out of scope for an agent skill that assumes the CLI is on PATH.
+The SKILL.md Prerequisites section was simplified to a one-line "must be installed"
+check, and the install-related cross-references in the "Required Reading" and
+"Reference Guides" tables were removed in the same port-time pass.
 
 Mechanical edits applied at port time (databricks-core only):
 

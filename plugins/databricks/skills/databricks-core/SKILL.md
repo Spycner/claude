@@ -10,14 +10,9 @@ Core skill for Databricks CLI, authentication, and data exploration.
 
 ## Prerequisites
 
-1. **CLI installed**: Run `databricks --version` to check.
-   - **If the CLI is missing or outdated (< v0.292.0): STOP. Do not proceed or work around a missing CLI.**
-   - **Read the [CLI Installation](databricks-cli-install.md) reference file and follow the instructions to guide the user through installation.**
-   - Note: In sandboxed environments (Cursor IDE, containers), install commands write outside the workspace and may be blocked. Present the install command to the user and ask them to run it in their own terminal.
-   - **Exception:** If CLI installation is blocked (sandboxed containers, restricted environments), ask the user whether to fall back to direct REST API calls using `DATABRICKS_HOST` and `DATABRICKS_TOKEN` environment variables if present in the shell. See the [Databricks REST API docs](https://docs.databricks.com/api/workspace/introduction).
+`databricks --version` must report `v0.292.0` or newer. Installation is the user's responsibility; if the CLI is missing, run the command anyway and let the shell's `command not found` surface the problem to the user.
 
-2. **Authenticated**: `databricks auth profiles`
-   - If not: see [CLI Authentication](databricks-cli-auth.md)
+**Authenticated:** `databricks auth profiles`. If empty: see [CLI Authentication](databricks-cli-auth.md).
 
 ## Profile Selection - CRITICAL
 
@@ -119,12 +114,10 @@ databricks bundle run <RESOURCE> -t <TARGET> --profile <PROFILE>
 
 | Task | READ BEFORE proceeding |
 |------|------------------------|
-| First time setup | [CLI Installation](databricks-cli-install.md) |
 | Auth issues / new workspace | [CLI Authentication](databricks-cli-auth.md) |
 | Exploring tables/schemas | [Data Exploration](data-exploration.md) |
 
 ## Reference Guides
 
-- [CLI Installation](databricks-cli-install.md)
 - [CLI Authentication](databricks-cli-auth.md)
 - [Data Exploration](data-exploration.md)

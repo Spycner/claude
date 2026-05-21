@@ -55,7 +55,6 @@ containers/
 | Plugin | Version | Skills |
 |--------|---------|--------|
 | `atlassian` | 2.0.0 | `jira`, `confluence` |
-| `databricks` | 0.1.0 | `genie-code` (LakeAgent and Dashboard Authoring Agent via bundled Python MCP server) |
 | `google-workspace` | 1.0.0 | `gmail`, `calendar` |
 | `research` | 2.1.1 | `research` (multi-agent pipeline with review gates) |
 | `writing` | 1.6.1 | `writing`, `pyramid`, `tech-doc` |

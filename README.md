@@ -39,6 +39,8 @@ The two runtimes use separate plugin metadata, but the skills are single sourced
 | `frontend-design` | frontend-design | Generate distinctive, production-grade frontend interfaces that avoid generic AI aesthetics |
 | `emil-design-eng` | frontend-design | Emil Kowalski's design engineering philosophy: animation timing, component polish, and the invisible details that make UI feel right |
 | `playground` | playground | Generate interactive single-file HTML playgrounds with controls, live preview, and copy-out prompt for two-way feedback with the model |
+| `databricks-core` | databricks | CLI, authentication, profile management, and data exploration for Databricks workspaces (ported from databricks/databricks-agent-skills under upstream Databricks License) |
+| `databricks-docs` | databricks | Live `docs.databricks.com` lookups for Databricks product-surface questions via the host agent's WebFetch tool, backed by a curated URL index |
 
 ## Plugins
 
@@ -137,6 +139,14 @@ Interactive single-file HTML playgrounds: control panel + live preview + copy-ou
 **Skills:**
 - `/pgoell-claude-tools:playground`: Build self-contained HTML playgrounds for design, data, concept maps, document critique, diff review, or code architecture.
 
+### databricks
+
+Two Databricks skills. `databricks-core` is a verbatim port from [databricks/databricks-agent-skills](https://github.com/databricks/databricks-agent-skills) at commit `bf6d932`, governed by the upstream Databricks License (use restricted to Databricks Services; see `plugins/databricks/LICENSE-upstream` and `plugins/databricks/NOTICE`). `databricks-docs` is original authorship: it points the host agent at `docs.databricks.com` via WebFetch using a curated URL index. The plugin also preserves `references/research/` with 12 MB of Genie Code reverse-engineering notes; see `plugins/databricks/README.md` for details.
+
+**Skills:**
+- `/pgoell-claude-tools:databricks-core`: CLI, authentication, profile management, data exploration, and bundles.
+- `/pgoell-claude-tools:databricks-docs`: Live `docs.databricks.com` lookups for product-surface questions (Apps, DABs, Jobs, Lakebase, Model Serving, Pipelines, Unity Catalog, SQL Warehouses, MLflow, serverless, secrets, workflows).
+
 ## Installation
 
 ### Claude Code
@@ -153,6 +163,7 @@ Interactive single-file HTML playgrounds: control panel + live preview + copy-ou
 /plugin install terminal@pgoell-claude-tools
 /plugin install frontend-design@pgoell-claude-tools
 /plugin install playground@pgoell-claude-tools
+/plugin install databricks@pgoell-claude-tools
 ```
 
 ### Codex
@@ -170,7 +181,7 @@ codex
 /plugins
 ```
 
-In the picker, install `atlassian`, `google-workspace`, `research`, `writing`, `runtime-bridge`, `agent-system-management`, `workbench`, `terminal`, `frontend-design`, and `playground`.
+In the picker, install `atlassian`, `google-workspace`, `research`, `writing`, `runtime-bridge`, `agent-system-management`, `workbench`, `terminal`, `frontend-design`, `playground`, and `databricks`.
 
 `codex plugin marketplace add` accepts `owner/repo[@ref]`, an HTTPS or SSH Git URL, or a local marketplace root directory. The marketplace file lives at `.agents/plugins/marketplace.json` and the per-plugin Codex manifests live at `plugins/<plugin>/.codex-plugin/plugin.json`. Both reuse the same `plugins/<plugin>/skills/` directories as Claude Code, single sourced.
 
@@ -232,3 +243,12 @@ No setup required. `frontend-design` triggers automatically when the host agent 
 ### playground
 
 No setup required. The `playground` skill triggers automatically when the host agent is asked to build an interactive playground, explorer, or visual tool for a topic. The skill writes a single self-contained HTML file and opens it in the user's default browser.
+
+### databricks
+
+No setup required.
+
+- `databricks-core` operates against your existing `databricks` CLI profiles (configure them with `databricks auth login` or by editing `~/.databrickscfg`).
+- `databricks-docs` is read-only against `docs.databricks.com` and needs no auth.
+
+Note: `databricks-core` is governed by the upstream Databricks License (use restricted to Databricks Services). See `plugins/databricks/NOTICE` and `plugins/databricks/LICENSE-upstream`.

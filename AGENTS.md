@@ -184,8 +184,8 @@ Create reference files for complex query syntaxes, format references, recipe col
 
 Two layouts coexist; pick by skill shape:
 
-- **Flat layout** (`<service>-<topic>.md` next to `SKILL.md`): legacy convention, used by `gmail`, `calendar`, `jira`, `confluence`, `claude-codex-bridge`, `research`. Acceptable for skills with one or two short reference files.
-- **`references/` subdirectory** (`references/<topic>.md`): modern convention, used by every workbench skill, `agent-system-management/*`, `frontend-design/*`, `crafting-html`, `improving-instructions`. Required when a skill bundles HTML templates, multiple long references, or any non-markdown assets. Prefer this for new skills.
+- **Flat layout** (`<service>-<topic>.md` next to `SKILL.md`): legacy convention, used by `gmail`, `calendar`, `jira`, `confluence`, `claude-codex-bridge`, `research`, and `databricks-core` (verbatim ports inherit the upstream layout, even when it is flat; do not refactor a port into the subdirectory layout because that breaks the per-file `NOTICE` mapping). Acceptable for skills with one or two short reference files.
+- **`references/` subdirectory** (`references/<topic>.md`): modern convention, used by every workbench skill, `agent-system-management/*`, `frontend-design/*`, `crafting-html`, `improving-instructions`, `databricks-docs`. Required when a skill bundles HTML templates, multiple long references, or any non-markdown assets. Prefer this for new skills.
 
 Examples (flat): `jql-recipes.md`, `gmail-search-recipes.md`, `calendar-recipes.md`.
 Examples (subdirectory): `references/config-schema.md` (autopilot), `references/spec-template.html` (writing-spec), `references/quality-criteria.md` (improving-instructions).

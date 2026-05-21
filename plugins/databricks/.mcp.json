@@ -1,9 +1,0 @@
-{
-  "mcpServers": {
-    "genie-code": {
-      "command": "uv",
-      "args": ["run", "--directory", "${CLAUDE_PLUGIN_ROOT}/mcp-servers/genie-code", "server.py"],
-      "env": {}
-    }
-  }
-}

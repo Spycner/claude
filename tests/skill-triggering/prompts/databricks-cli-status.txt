@@ -1,0 +1,1 @@
+Show me which databricks CLI profile is currently configured and list all available profiles.

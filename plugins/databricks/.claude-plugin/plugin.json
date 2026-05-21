@@ -1,8 +1,8 @@
 {
   "name": "databricks",
-  "version": "0.2.0",
-  "description": "Research stub for a future Databricks Genie Code plugin. No installable skills yet; references/research/ preserves the reverse-engineering notes.",
+  "version": "0.3.0",
+  "description": "Databricks skills: databricks-core (CLI, auth, profiles, ported from databricks/databricks-agent-skills) and databricks-docs (live docs.databricks.com lookups via WebFetch).",
   "author": { "name": "Pascal Göllner" },
   "license": "MIT",
-  "keywords": ["databricks", "genie-code", "lakeview", "dashboards", "research"]
+  "keywords": ["databricks", "cli", "docs", "webfetch"]
 }

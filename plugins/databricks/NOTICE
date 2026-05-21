@@ -1,0 +1,58 @@
+Notice for plugins/databricks/ (pgoell-claude-tools)
+
+This plugin ships two skills:
+
+1. databricks-core (skills/databricks-core/)
+   Ported verbatim from databricks/databricks-agent-skills, commit
+   bf6d932f7e435faf95cb4c5193bdc153b95a90cc, with mechanical edits enumerated
+   below. The upstream is governed by the Databricks License (vendored at
+   plugins/databricks/LICENSE-upstream). Key restriction: "Scope of Use. You
+   may not use the Licensed Materials except in connection with your use of
+   the Databricks Services pursuant to the Agreement." Installing or
+   distributing this plugin entails accepting that restriction for the
+   databricks-core portion.
+
+2. databricks-docs (skills/databricks-docs/)
+   Original authorship by Pascal Göllner, licensed under MIT (see
+   plugins/databricks/LICENSE). Not derived from upstream content.
+
+Per-file mapping (upstream path -> local path):
+
+  skills/databricks-core/SKILL.md
+    -> plugins/databricks/skills/databricks-core/SKILL.md
+  skills/databricks-core/databricks-cli-auth.md
+    -> plugins/databricks/skills/databricks-core/databricks-cli-auth.md
+  skills/databricks-core/data-exploration.md
+    -> plugins/databricks/skills/databricks-core/data-exploration.md
+
+NOT ported from this upstream skill: skills/databricks-core/databricks-cli-install.md.
+CLI installation is the user's responsibility; the upstream's 100+ line install
+walkthrough was out of scope for an agent skill that assumes the CLI is on PATH.
+The SKILL.md Prerequisites section was simplified to a one-line "must be installed"
+check, and the install-related cross-references in the "Required Reading" and
+"Reference Guides" tables were removed in the same port-time pass.
+
+Mechanical edits applied at port time (databricks-core only):
+
+  - Em-dash sentence-pause: U+0020 U+2014 U+0020 -> U+002C U+0020 ("comma + space").
+  - Em-dash labelled-bullet: <bold> U+2014 U+0020 -> U+003A U+0020 ("colon + space").
+  - En-dash numeric-range: <digit> U+2013 <digit> -> "-" (hyphen).
+  - Em-dash heading-internal: substituted with U+003A U+0020 ("colon + space").
+  - Em-dash code-block-internal: substituted with U+003A U+0020 ("colon + space").
+  - Frontmatter: dropped "metadata.version: 0.1.0" (collides with plugin
+    version). Kept "name", "description", "compatibility".
+  - Body: removed the upstream "Product Skills" section listing the six
+    unported dependent skills (databricks-jobs, databricks-pipelines,
+    databricks-apps, databricks-lakebase, databricks-model-serving).
+  - Layout: kept the upstream's flat sibling layout for the three reference
+    files so the nine internal markdown links continue to resolve without
+    rewriting.
+  - Dropped: upstream skills/databricks-core/agents/ (Codex marketplace v2
+    plumbing) and skills/databricks-core/assets/ (referenced only by the
+    dropped agents/ file).
+
+NOT ported from upstream (out of scope for this PR): databricks-apps,
+databricks-dabs, databricks-jobs, databricks-lakebase,
+databricks-model-serving, databricks-pipelines,
+databricks-serverless-migration. The databricks-docs skill replaces them
+with live docs.databricks.com lookups.

@@ -1,28 +1,26 @@
 {
   "name": "databricks",
-  "version": "0.2.0",
-  "description": "Research stub for a future Databricks Genie Code plugin. No installable skills yet; references/research/ preserves the reverse-engineering notes.",
+  "version": "0.3.0",
+  "description": "Databricks skills: databricks-core (CLI, auth, profiles, ported from databricks/databricks-agent-skills) and databricks-docs (live docs.databricks.com lookups via WebFetch).",
   "author": {
     "name": "Pascal Göllner"
   },
   "license": "MIT",
-  "keywords": [
-    "databricks",
-    "genie-code",
-    "lakeview",
-    "dashboards",
-    "research"
-  ],
+  "keywords": ["databricks", "cli", "docs", "webfetch"],
+  "skills": "./skills/",
   "interface": {
-    "displayName": "Databricks (research stub)",
-    "shortDescription": "Research stub; no skills shipped",
-    "longDescription": "Reserves the plugin slot and preserves Databricks Genie Code reverse-engineering research notes under references/research/. No installable skills or MCP servers ship today; see plugins/databricks/README.md for status and a pointer to the original PR #52 history.",
+    "displayName": "Databricks",
+    "shortDescription": "Databricks CLI + live docs.databricks.com lookups.",
+    "longDescription": "Two Databricks skills. databricks-core ports the upstream Databricks CLI / auth / profiles skill verbatim (subject to the upstream Databricks License). databricks-docs is original authorship: it points the host agent at docs.databricks.com via WebFetch, using a curated URL index, so service-specific Databricks questions can be answered from live docs instead of frozen per-service references.",
     "developerName": "Pascal Göllner",
     "category": "Productivity",
     "capabilities": [
+      "Interactive",
       "Read"
     ],
-    "defaultPrompt": [],
+    "defaultPrompt": [
+      "Show me which databricks profile is currently configured."
+    ],
     "screenshots": []
   }
 }

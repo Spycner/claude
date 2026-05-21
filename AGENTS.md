@@ -31,6 +31,10 @@ plugins/
         references/         # Subdirectory layout for skills with multiple bundled refs
           <reference>.md    #   (modern convention; preferred for new skills with >1 ref
                             #   or any bundled HTML/template files)
+    references/             # Stub-state only: research notes or scaffolding for an
+                            #   unregistered plugin without skills/ yet. See the
+                            #   "Unregistered plugin directories" design decision.
+                            #   Example: plugins/databricks/references/research/.
     LICENSE                 # Required for ported plugins: this repo's MIT license
     NOTICE                  # Required for ported plugins: per-file upstream attribution
     README.md               # Required for ported plugins: human-facing overview with Credits section

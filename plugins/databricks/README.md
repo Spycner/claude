@@ -1,18 +1,29 @@
-# databricks plugin (research stub)
+# databricks plugin
 
-This plugin is a **research stub**. It contains no installable skills and no MCP servers. The directory exists to preserve the Genie Code reverse-engineering research notes that backed the original PR #52 (`feat(databricks): add Genie Code plugin and MCP server`), so a future Databricks Genie Code skill can start from the same investigation rather than re-doing it.
+Skills for working with Databricks workspaces from a Claude Code or Codex host agent.
 
-## Status
+## Skills
 
-- No `skills/` directory: the original `genie-code` skill was removed.
-- No `mcp-servers/` directory: the bundled Python MCP server was removed.
-- Not registered in `.claude-plugin/marketplace.json` or `.agents/plugins/marketplace.json`.
+- **databricks-core**: CLI, authentication, profile management, and data exploration. Ported verbatim from [databricks/databricks-agent-skills](https://github.com/databricks/databricks-agent-skills) at commit `bf6d932f7e435faf95cb4c5193bdc153b95a90cc`, with port-time substitutions documented in `NOTICE`. Governed by the upstream Databricks License (vendored at `LICENSE-upstream`).
 
-## What is here
+- **databricks-docs**: Live `docs.databricks.com` lookups for product-surface questions (Apps, DABs, Jobs, Lakebase, Model Serving, Pipelines, Unity Catalog, SQL Warehouses, MLflow, serverless, secrets, workflows). Original authorship, MIT licensed. Uses the host agent's WebFetch tool plus a curated URL index in `references/docs-index.md`.
 
-- `.claude-plugin/plugin.json` and `.codex-plugin/plugin.json`: minimal metadata, version `0.2.0`.
-- `references/research/`: 12 MB of reverse-engineering notes covering the LakeAgent, the Dashboard Authoring Agent, sub-agents, tool handlers, prompt packs, and captured network traces. See `references/research/README.md` for the layout.
+## Setup
 
-## Restoring the installable surface
+No setup required. `databricks-core` operates against your existing `databricks` CLI profiles (configure them with `databricks auth login` or by editing `~/.databrickscfg`). `databricks-docs` is read-only against the public docs site and needs no auth.
 
-The skill and MCP server code is preserved in git history at commit `6e509a4` (PR #52). To bring it back, branch from that commit, then merge or cherry-pick the parts you want.
+## License
+
+- Original work in this directory (`databricks-docs`, plugin metadata, marketplace integration, `NOTICE`, this README): MIT, see `LICENSE`.
+- Ported work in `skills/databricks-core/`: Databricks License, see `LICENSE-upstream`. Key restriction: use only in connection with Databricks Services.
+
+See `NOTICE` for the per-file upstream mapping.
+
+## Credits
+
+- Upstream: [databricks/databricks-agent-skills](https://github.com/databricks/databricks-agent-skills), commit `bf6d932`. Copyright (2025) Databricks, Inc.
+- Port + new skill authorship: Pascal Göllner, 2026.
+
+## Historical Notes
+
+`references/research/` preserves 12 MB of reverse-engineering notes from a prior Genie Code investigation (covering LakeAgent, Dashboard Authoring Agent, sub-agents, tool handlers, captured network traces). Those notes are out of scope for the current installable surface; they remain in the directory as a starting point for any future Genie Code skill. The Genie Code skill and its bundled MCP server are preserved in git history at commit `6e509a4` (PR #52).

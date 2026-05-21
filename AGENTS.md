@@ -31,6 +31,10 @@ plugins/
         references/         # Subdirectory layout for skills with multiple bundled refs
           <reference>.md    #   (modern convention; preferred for new skills with >1 ref
                             #   or any bundled HTML/template files)
+    references/             # Stub-state only: research notes or scaffolding for an
+                            #   unregistered plugin without skills/ yet. See the
+                            #   "Unregistered plugin directories" design decision.
+                            #   Example: plugins/databricks/references/research/.
     LICENSE                 # Required for ported plugins: this repo's MIT license
     NOTICE                  # Required for ported plugins: per-file upstream attribution
     README.md               # Required for ported plugins: human-facing overview with Credits section
@@ -55,7 +59,6 @@ containers/
 | Plugin | Version | Skills |
 |--------|---------|--------|
 | `atlassian` | 2.0.0 | `jira`, `confluence` |
-| `databricks` | 0.1.0 | `genie-code` (LakeAgent and Dashboard Authoring Agent via bundled Python MCP server) |
 | `google-workspace` | 1.0.0 | `gmail`, `calendar` |
 | `research` | 2.1.1 | `research` (multi-agent pipeline with review gates) |
 | `writing` | 1.6.1 | `writing`, `pyramid`, `tech-doc` |
@@ -125,6 +128,8 @@ Register the plugin in both marketplaces:
 
 - `.claude-plugin/marketplace.json` for Claude Code
 - `.agents/plugins/marketplace.json` for Codex (each plugin entry must include `interface.displayName` and `interface.shortDescription` so the picker label is explicit)
+
+Marketplace registration is the gate between a stub directory and an installable plugin. If the plugin has no `skills/` yet (research notes, scaffolding, or a placeholder for future work), skip registration: a `plugins/<plugin>/` directory without a marketplace entry is a valid stub state. See the "Unregistered plugin directories" design decision below.
 
 ### 3. Write SKILL.md
 
@@ -256,3 +261,4 @@ PLUGIN_DIR=plugins/<plugin> bash tests/skill-triggering/run-test.sh --not <skill
 - **Lazy auth, never print secrets.** Skills do not check authentication upfront. They attempt the operation and only diagnose auth issues when commands fail (in Self-Healing). Credentials, tokens, and API keys are NEVER printed or echoed. Only check whether they are set (`test -n`), never display values.
 - **Upstream-port attribution.** When a plugin ports a skill from a non-MIT upstream (e.g. Anthropic's Apache 2.0 `frontend-design` and `playground`), the plugin directory must ship `LICENSE` (this repo's MIT license), `NOTICE` (per-file upstream attribution and original license), and a plugin-level `README.md` with a Credits section linking back to the source. Normalize the SKILL.md frontmatter to drop upstream-only fields like `license:`. Capture the upstream commit SHA in `NOTICE` and, when fetching upstream content via `gh api` during the port, include `?ref=<commit-sha>` so the fetch matches the SHA recorded in `NOTICE` (otherwise the fetch goes against the upstream's default branch and may drift). See `plugins/frontend-design/` and `plugins/playground/` for the canonical layout.
 - **Upstream with no declared license.** If the upstream repo declares no license (GitHub API reports `license: null`, no `LICENSE` file), do not silently relicense and do not refuse to port. Vendor verbatim and disclose the license absence explicitly in `NOTICE`: capture the upstream commit SHA at port time, document the upstream author's publishing intent (e.g. "distributed via `npx skills add <user>/<repo>` for AI agent use, per its README"), and state that all rights to the original text remain with the upstream author. Note that adaptations (such as the em-dash substitution) are mechanical and add no original authorship. The `emil-design-eng` port is the canonical example.
+- **Unregistered plugin directories are a valid stub state.** A directory under `plugins/<plugin>/` can exist with `.claude-plugin/plugin.json` and `.codex-plugin/plugin.json` but without being listed in `.claude-plugin/marketplace.json` or `.agents/plugins/marketplace.json`. The structure test (`tests/unit/test-codex-plugin-structure.sh`) iterates only over the marketplace's plugin list, so an unregistered directory is never inspected and never fails the test. Use this shape when retaining research notes, reference material, or future-skill scaffolding that should live in `plugins/` but is not yet installable. The `databricks` plugin is the canonical example: `plugins/databricks/README.md` declares the stub state, `references/research/` preserves Genie Code reverse-engineering notes, and neither marketplace registers the plugin. To bring a stub online, add a `skills/` directory with at least one `SKILL.md`, then re-register in both marketplaces and bump the structure test's `plugin_count` and `for plugin in` list in the same commit. Going the other direction (retracting an installable plugin to a stub) requires removing the plugin from both marketplaces and ensuring the structure test pin matches the new count.

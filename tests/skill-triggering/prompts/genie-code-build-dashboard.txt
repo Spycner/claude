@@ -1,1 +1,0 @@
-build me a Lakeview dashboard in Databricks showing weekly active users from the growth.users table

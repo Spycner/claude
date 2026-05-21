@@ -50,13 +50,6 @@ Jira and Confluence skills for Atlassian Cloud.
 - `/pgoell-claude-tools:jira`: Search issues, update tickets, transition status, add comments, and manage sprints
 - `/pgoell-claude-tools:confluence`: Search pages, read documentation, update pages, and browse spaces
 
-### databricks
-
-Drive Databricks Genie Code (LakeAgent and Dashboard Authoring Agent) from Claude via a bundled Python MCP server. Composes with `chrome-devtools-mcp` for visual dashboard review.
-
-**Skills:**
-- `/pgoell-claude-tools:genie-code` — chat with Databricks Genie Code (LakeAgent or dashboardAuthoringAgent), build/edit Lakeview dashboards, list and resume threads. Two auth modes: cookie (Chrome profile or `GENIE_CODE_DBAUTH`) and OAuth (`databricks auth token`).
-
 ### google-workspace
 
 Gmail and Calendar skills for Google Workspace, powered by the `gws` CLI.
@@ -151,7 +144,6 @@ Interactive single-file HTML playgrounds: control panel + live preview + copy-ou
 ```
 /plugin marketplace add pgoell/pgoell-claude-tools
 /plugin install atlassian@pgoell-claude-tools
-/plugin install databricks@pgoell-claude-tools
 /plugin install google-workspace@pgoell-claude-tools
 /plugin install research@pgoell-claude-tools
 /plugin install writing@pgoell-claude-tools
@@ -178,7 +170,7 @@ codex
 /plugins
 ```
 
-In the picker, install `atlassian`, `databricks`, `google-workspace`, `research`, `writing`, `runtime-bridge`, `agent-system-management`, `workbench`, `terminal`, `frontend-design`, and `playground`.
+In the picker, install `atlassian`, `google-workspace`, `research`, `writing`, `runtime-bridge`, `agent-system-management`, `workbench`, `terminal`, `frontend-design`, and `playground`.
 
 `codex plugin marketplace add` accepts `owner/repo[@ref]`, an HTTPS or SSH Git URL, or a local marketplace root directory. The marketplace file lives at `.agents/plugins/marketplace.json` and the per-plugin Codex manifests live at `plugins/<plugin>/.codex-plugin/plugin.json`. Both reuse the same `plugins/<plugin>/skills/` directories as Claude Code, single sourced.
 
@@ -205,35 +197,6 @@ export ATLASSIAN_DOMAIN="your-domain"    # e.g. mycompany (for mycompany.atlassi
 export ATLASSIAN_EMAIL="you@company.com"
 export ATLASSIAN_API_TOKEN="your-token"
 ```
-
-### Databricks
-
-**Required:**
-
-- `databricks` CLI v0.230 or newer: https://docs.databricks.com/dev-tools/cli/install.html
-- `uv`: `curl -LsSf https://astral.sh/uv/install.sh | sh`
-- Workspace credentials: either `databricks auth login --profile <name>` (OAuth mode) or `GENIE_CODE_DBAUTH` env var (cookie mode).
-
-**Recommended:**
-
-- `chrome-devtools-mcp` plugin for visual dashboard review: `/plugin install chrome-devtools-mcp`
-- Chrome browser signed into Databricks (lets cookie mode work without a manual env var).
-
-**Configuration** (`~/.config/genie-code/config.toml` or `./.genie-code/config.toml`):
-
-```toml
-[default]
-mode = "oauth"  # or "cookie"
-
-[workspace]
-host = "your-workspace.cloud.databricks.com"
-
-[oauth]
-databricks_cli_profile = "default"
-endpoint_name = "agents_genie_code_prod"
-```
-
-The MCP server is launched via `uv run`; no manual `pip install` needed.
 
 ### Google Workspace
 

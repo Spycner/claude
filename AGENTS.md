@@ -216,9 +216,9 @@ Follow the existing patterns in `tests/`:
 
 ### 6. Update README.md and AGENTS.md
 
-When adding a new plugin, the documentation lockstep set is six sites: five in `README.md` and one in `AGENTS.md`. (1) `README.md` "Skills at a glance" table at the top. (2) `README.md` per-plugin "Plugins" section. (3) `README.md` "Installation > Claude Code" `/plugin install` list. (4) `README.md` "Installation > Codex" `/plugins` picker line. (5) `README.md` "Setup" subsection for the new plugin (even if "no setup required"). (6) `AGENTS.md` "Current Plugins" table (CLAUDE.md is a symlink, so it updates automatically).
+When adding a new plugin, the documentation lockstep set is five-or-six sites: four-or-five in `README.md` and one in `AGENTS.md`. (1) `README.md` "Skills at a glance" table at the top. (2) `README.md` per-plugin section under `## Plugins`. (3) `README.md` "Installation > Claude Code" `/plugin install` list. (4) `README.md` "Installation > Codex" `/plugins` picker line. (5) `README.md` per-plugin `**Setup:**` subsection inside the plugin's `## Plugins` block, but only if the plugin needs setup; plugins with no setup get no Setup subsection (its absence is the signal). (6) `AGENTS.md` "Current Plugins" table (CLAUDE.md is a symlink, so it updates automatically). The standalone `## Setup` section that existed before the 2026-05 README rewrite is gone; setup now folds into each plugin's section so an installer reads one block per plugin.
 
-This is separate from, and additional to, the version-bump lockstep documented under Design Decisions ("Every plugin change bumps version"). Adding a new plugin requires both lockstep sets in the same commit: the six docs sites here, plus the five version-pinned sites listed there.
+This is separate from, and additional to, the version-bump lockstep documented under Design Decisions ("Every plugin change bumps version"). Adding a new plugin requires both lockstep sets in the same commit: the five-or-six docs sites here, plus the five version-pinned sites listed there.
 
 When adding only a new skill to an existing plugin, the "Skills at a glance" table and per-plugin section are usually the only required edits.
 

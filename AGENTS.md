@@ -243,6 +243,8 @@ PLUGIN_DIR=plugins/<plugin> bash tests/skill-triggering/run-test.sh <skill> test
 PLUGIN_DIR=plugins/<plugin> bash tests/skill-triggering/run-test.sh --not <skill> tests/skill-triggering/prompts/<prompt>.txt
 ```
 
+This repo has no GitHub Actions or other automated CI; the commands above are the entire gate. A regression that breaks a unit test surfaces only when a contributor runs the affected test locally, so verify the relevant per-plugin tests pass before pushing. A precedent: `plugins/workbench/NOTICE` was accidentally deleted in commit `0218de8` via what looked like a GitHub UI click-delete (default commit message `Delete <path>`); five workbench unit tests went red and stayed red for eight days because nothing observed the failure until the next local run. When the autopilot workflow reaches "Step 8: CI loop", expect `gh pr view <pr> --json statusCheckRollup` to return an empty array, which the loop treats as immediately green.
+
 ## Design Decisions
 
 - **No wrapper scripts.** Skills use the underlying CLI directly (`gws` for Google Workspace) or raw `curl` with env-var auth (for Atlassian). This keeps each skill self-contained, with no extra bash layer to maintain, debug, or ship with the plugin.

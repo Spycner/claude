@@ -32,6 +32,20 @@ Exceptions require an explicit user decision:
 - Generated code.
 - Pure configuration changes.
 
+## Outer and Inner Loops
+
+TDD runs as two nested feedback loops, not one.
+
+The outer loop is acceptance-test driven. For each slice of behavior, write a failing acceptance test that exercises the feature from outside the unit boundary. Watch it fail for the right reason. Then drive inner cycles until that acceptance test goes green.
+
+The inner loop is red-green-refactor as described in the next section. It runs many times inside one outer-loop iteration: one inner cycle per unit-level behavior needed to satisfy the acceptance test.
+
+When the acceptance test passes, refactor at the slice boundary if useful, then start the outer loop again with the next slice.
+
+"Acceptance test" here means any test that exercises the slice from outside the unit boundary; an integration test or end-to-end test fits the same role when the project uses that language.
+
+Source: Freeman and Pryce, Growing Object-Oriented Software Guided by Tests, Figure 1.2.
+
 ## Red-Green-Refactor
 
 ### RED: Write One Failing Test
@@ -121,11 +135,11 @@ Stop and restart the chunk if any of these happen:
 When executing a Workbench implementation plan, this skill is invoked as `workbench:test-driven-development`:
 
 1. Take one checkbox implementation chunk.
-2. Write or update the test first.
-3. Run the exact command and capture the expected failure.
-4. Implement the smallest passing change.
-5. Run the exact command and relevant broader checks.
-6. Mark the chunk complete only after green.
+2. Write or update the outer-loop acceptance test for the chunk: the test that fails until the chunk's slice-level behavior works end to end.
+3. Run the exact command and capture the expected outer-loop failure.
+4. Drive inner red-green-refactor cycles inside the chunk until the outer-loop test passes.
+5. Run the outer-loop command and relevant broader checks.
+6. Mark the chunk complete only after the outer-loop test is green.
 
 If a chunk is too large to test first, split the chunk. Hard-to-test behavior is usually underspecified or poorly isolated.
 

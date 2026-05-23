@@ -90,13 +90,22 @@ If the test fails, fix implementation code first. Only change the test if the ex
 
 ### REFACTOR
 
-After green only:
+The third step of the cycle, not an optional polish pass. GREEN intentionally produced the smallest code that worked; REFACTOR is where that intentional sloppiness is paid back on the same cycle, before the next test compounds it.
 
-- Improve names.
-- Remove duplication.
-- Move code into existing local patterns.
+Refactor passes (each one followed by Verify GREEN):
 
-Keep the same tests green after every refactor.
+- Improve names so the next reader does not need to re-derive intent.
+- Remove duplication, both inside the new code and against code already nearby.
+- Move code into existing local patterns instead of inventing new ones.
+- Tighten or split tests that have grown vague, overlapping, or coupled to the implementation.
+
+Rules:
+
+- Keep the same tests green after every refactor. Never change tests and implementation in the same step; if both need to move, do them as two refactors with a verify in between.
+- One refactor at a time, then rerun the narrow tests before the next change. Multi-change refactors hide which step broke green.
+- Stop when the chunk's design matches the local patterns; do not invent new abstractions mid-cycle. New patterns belong in their own brainstorm, not a refactor.
+
+Why this step is mandatory: Kent Beck states the two rules of TDD as "write new code only if you first have a failing test" and "eliminate duplication." The second rule is the REFACTOR step. Skipping it leaves duplication and unclear names in the codebase that the next chunk inherits, and the test safety net that makes refactoring cheap is most valuable in the same cycle that produced the code. Sources: Kent Beck, Test-Driven Development by Example, Section I (the two rules); Freeman and Pryce, Growing Object-Oriented Software Guided by Tests, Section 1.5 (refactoring after green to preserve internal quality).
 
 ## Good Tests
 
@@ -117,6 +126,7 @@ Keep the same tests green after every refactor.
 | "The existing code has no tests." | Add the narrowest test around the behavior you are changing. |
 | "Keeping the code as reference is harmless." | Reference code biases the test. Delete it and restart test-first. |
 | "TDD is slowing me down." | Debugging untested behavior is usually slower than proving it incrementally. |
+| "Refactor later." | GREEN intentionally produced code below your bar; REFACTOR pays back the gap on the same cycle. Deferring it accumulates duplication and unclear names that the next chunk inherits, and the test safety net is cheapest to use now. |
 
 ## Red Flags
 
@@ -129,6 +139,7 @@ Stop and restart the chunk if any of these happen:
 - The failure is from setup or syntax instead of missing behavior.
 - You are rationalizing "just this once."
 - You are adapting code that was written before the test.
+- You declared the cycle done after GREEN without doing the REFACTOR pass.
 
 ## Workflow With Plans
 

@@ -222,7 +222,7 @@ Follow the existing patterns in `tests/`:
 
 **Auth helpers.** Add a `check_<tool>_auth()` function to `tests/test-helpers.sh` if your tool has its own auth mechanism.
 
-**Filesystem-check tests use inline echo, not pass/fail helpers.** `tests/test-helpers.sh` exports `run_claude`, `run_claude_logged`, `assert_contains`, `assert_not_contains`, `assert_order`, `show_tools_used`, and a few auth checks. It does **not** export `pass` or `fail` functions despite the intuitive naming. The canonical filesystem-check shape uses inline `echo "  [PASS] ..."` / `echo "  [FAIL] ...; exit 1"` (see `tests/unit/test-workbench-autopilot-skill.sh` and `tests/unit/test-presentations-skill.sh`). Defining local `assert_*` wrappers that call `pass`/`fail` produces command-not-found errors at run time; either inline the echo or add new helpers to `tests/test-helpers.sh` in the same commit.
+**Filesystem-check tests use inline echo, not pass/fail helpers.** `tests/test-helpers.sh` exports `run_claude`, `run_claude_logged`, `assert_contains`, `assert_not_contains`, `assert_order`, `assert_used_atlassian_tool`, `show_tools_used`, and the auth checks (`check_acli_auth`, `check_env_auth`, `check_any_auth`, `check_gws_auth`). It does **not** export `pass` or `fail` functions despite the intuitive naming. The canonical filesystem-check shape uses inline `echo "  [PASS] ..."` / `echo "  [FAIL] ...; exit 1"` (see `tests/unit/test-workbench-autopilot-skill.sh` and `tests/unit/test-presentations-skill.sh`). Defining local `assert_*` wrappers that call `pass`/`fail` produces command-not-found errors at run time; either inline the echo or add new helpers to `tests/test-helpers.sh` in the same commit.
 
 ### 6. Update README.md and AGENTS.md
 

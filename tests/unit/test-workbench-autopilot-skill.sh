@@ -2,7 +2,7 @@
 # Test: workbench:autopilot skill structure
 # Verifies PR 2 of the autopilot port: SKILL.md exists, references all six refs,
 # names every universal skill, has all ten step headings, and the plugin manifests
-# are at 0.3.0.
+# are at the current workbench version.
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
@@ -169,25 +169,25 @@ for term in 'Task List Discipline' 'TodoWrite' 'update_plan' 'exactly one item `
 done
 echo ""
 
-# Test 12: Plugin manifests at 0.16.0
-echo "Test 12: Plugin manifests at 0.16.0..."
+# Test 12: Plugin manifests at 0.16.1
+echo "Test 12: Plugin manifests at 0.16.1..."
 CCM="$REPO_ROOT/plugins/workbench/.claude-plugin/plugin.json"
 CXM="$REPO_ROOT/plugins/workbench/.codex-plugin/plugin.json"
-if jq -e '.version == "0.16.0"' "$CCM" >/dev/null && jq -e '.version == "0.16.0"' "$CXM" >/dev/null; then
-    echo "  [PASS] both plugin manifests at 0.16.0"
+if jq -e '.version == "0.16.1"' "$CCM" >/dev/null && jq -e '.version == "0.16.1"' "$CXM" >/dev/null; then
+    echo "  [PASS] both plugin manifests at 0.16.1"
 else
-    echo "  [FAIL] plugin manifests not at 0.16.0"
+    echo "  [FAIL] plugin manifests not at 0.16.1"
     exit 1
 fi
 echo ""
 
-# Test 13: Marketplace entries at 0.16.0
+# Test 13: Marketplace entries at 0.16.1
 echo "Test 13: Marketplace entries..."
 MP="$REPO_ROOT/.claude-plugin/marketplace.json"
-if jq -e '.plugins[] | select(.name == "workbench") | .version == "0.16.0"' "$MP" >/dev/null; then
-    echo "  [PASS] Claude marketplace workbench at 0.16.0"
+if jq -e '.plugins[] | select(.name == "workbench") | .version == "0.16.1"' "$MP" >/dev/null; then
+    echo "  [PASS] Claude marketplace workbench at 0.16.1"
 else
-    echo "  [FAIL] Claude marketplace workbench not at 0.16.0"
+    echo "  [FAIL] Claude marketplace workbench not at 0.16.1"
     exit 1
 fi
 echo ""

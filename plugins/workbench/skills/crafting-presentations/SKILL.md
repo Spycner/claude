@@ -11,6 +11,8 @@ Multi-slide HTML decks with deck-stage navigation, slide-type composition, and a
 
 Reach for `crafting-presentations` when the deck is more than two or three slides, when speaker notes will be presented live, or when the user wants a presenter-view sidecar window during a Teams, Zoom, or Meet share. For a quick one-off single-file slide deck without presenter mode, use `workbench:crafting-html` and its `references/09-slide-deck.html` template. For theming a deck to a brand, layer `workbench:crafting-design-systems` on top of this skill.
 
+If you have not yet designed the deck's *content* (audience analysis, message structure, slide-by-slide storyboard, speaker notes), invoke `writing:presentations` first. It produces a `deck.md` you can pass to this skill as the source brief, then `crafting-presentations` handles the HTML rendering.
+
 ## The stage
 
 Every slide is a `<section>` inside a `<deck-stage>` custom element. The authored canvas is 1920 x 1080 (16:9). `deck-stage.js` fits the canvas to the viewport via CSS transform scaling, so the deck looks the same in a 4K display and in a Zoom share. Slides are addressed by index (1-based on the URL hash, e.g. `#3`) and by `data-screen-label` for the agenda strip.

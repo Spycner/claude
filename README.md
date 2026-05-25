@@ -16,6 +16,7 @@ Bundles 11 plugins across Atlassian, Google Workspace, Databricks, agent-system 
 | `writing` | `writing` | Draft, review, and finish long form prose |
 | `pyramid` | `writing` | Structure analytical documents with the Pyramid Principle |
 | `tech-doc` | `writing` | Draft, review, and finish technical documentation |
+| `presentations` | `writing` | Design slide-deck content (audience, message, storyboard, per-slide briefs); hands off to `crafting-presentations` for HTML |
 | `claude-codex-bridge` | `runtime-bridge` | Align Claude Code and Codex project files |
 | `improving-instructions` | `agent-system-management` | Audit and improve agent instruction files |
 | `capturing-session-learnings` | `agent-system-management` | Capture session learnings into the right instruction file |
@@ -142,6 +143,7 @@ Writing skills for prose, analytical structure, and technical documentation.
 - `/writing:writing`: Draft, review, and finish long form prose.
 - `/writing:pyramid`: Structure memos, recommendations, briefings, and decision documents with the Pyramid Principle.
 - `/writing:tech-doc`: Draft, review, and finish tutorials, how-to guides, references, and explanations.
+- `/writing:presentations`: Design slide-deck content end to end (intake, message architecture, storyboard, per-slide drafts, critique panel). Produces a markdown `deck.md` you can hand off to `/workbench:crafting-presentations` for HTML rendering. Also runs in audit mode against an existing `deck.md`.
 
 ### runtime-bridge
 

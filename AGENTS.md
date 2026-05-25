@@ -68,7 +68,7 @@ containers/
 | `atlassian` | 2.0.0 | `jira`, `confluence` |
 | `google-workspace` | 1.0.0 | `gmail`, `calendar` |
 | `research` | 2.1.1 | `research` (multi-agent pipeline with review gates) |
-| `writing` | 1.6.1 | `writing`, `pyramid`, `tech-doc` |
+| `writing` | 1.7.0 | `writing`, `pyramid`, `tech-doc`, `presentations` |
 | `runtime-bridge` | 0.1.0 | `claude-codex-bridge` |
 | `agent-system-management` | 0.4.2 | `improving-instructions`, `capturing-session-learnings`, `creating-skills` |
 | `workbench` | 0.16.1 | `brainstorming`, `writing-spec`, `writing-plans`, `visualizing-options`, `using-workbench`, `terse-mode`, `autopilot`, `verification-before-completion`, `test-driven-development`, `dispatching-parallel-agents`, `subagent-driven-development`, `systematic-debugging`, `crafting-html`, `crafting-design-systems`, `crafting-presentations` |

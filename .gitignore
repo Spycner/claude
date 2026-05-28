@@ -4,3 +4,4 @@ docs/superpowers/
 notes/
 .workbench/
 .claude/*.lock
+plugins/databricks/references/research/

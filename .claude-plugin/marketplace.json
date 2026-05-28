@@ -26,7 +26,7 @@
       "name": "writing",
       "source": "./plugins/writing",
       "description": "Draft, structure, review, and finish prose and technical docs.",
-      "version": "1.6.1"
+      "version": "1.7.0"
     },
     {
       "name": "runtime-bridge",

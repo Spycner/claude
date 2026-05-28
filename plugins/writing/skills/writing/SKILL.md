@@ -476,6 +476,8 @@ Present the final draft and a summary of what each pass did.
 
 Recognised format values: `essay`, `blog`, `talk`, `newsletter`, `memo`, `announcement`, `briefing`, `tutorial`, `how-to`, `reference`, `explanation`. Defaults to `essay` if absent. The format drives panel composition (Smart-Brevity critic added for `memo`, `newsletter`, `announcement`) and pipeline routing. For analytical formats (`memo`, `briefing`, `announcement`), the writing skill dispatches Phases 1 and 2 to the pyramid skill. For technical formats (`tutorial`, `how-to`, `reference`, `explanation`), the writing skill dispatches Phases 1 and 2 to the tech-doc skill, which owns Phases 5 and 6 (panel and finishing) as part of its dispatched pipeline; writing's Phases 5 and 6 are skipped.
 
+`format=talk` produces a prose speech (a written piece a presenter reads or delivers). For a slide deck with sentence-takeaway headlines, visual briefs, and per-slide speaker notes, use `writing:presentations` instead.
+
 The state file is keyed by working directory so multiple in-flight pieces in the same project can each have their own state.
 
 ## Phase Identifier Names

@@ -69,6 +69,12 @@
       "source": "./plugins/databricks",
       "description": "Databricks skills: databricks-core (CLI, auth, profiles, ported from databricks/databricks-agent-skills) and databricks-docs (live docs.databricks.com lookups via WebFetch).",
       "version": "0.3.0"
+    },
+    {
+      "name": "learning",
+      "source": "./plugins/learning",
+      "description": "Socratic teach-and-quiz skills that verify you deeply understand a session or a topic.",
+      "version": "0.1.0"
     }
   ]
 }

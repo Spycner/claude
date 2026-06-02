@@ -2,7 +2,7 @@
 # Test: frontend-design plugin's emil-design-eng skill structure
 # Verifies the port of emilkowalski/skill: SKILL.md exists with all expected
 # headings, no em-dashes/en-dashes, animations.dev attribution preserved,
-# NOTICE attributes the upstream, plugin manifests bumped to 0.2.0.
+# NOTICE attributes the upstream, plugin manifests bumped to 0.2.1.
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
@@ -22,28 +22,28 @@ MARKETPLACE="$REPO_ROOT/.claude-plugin/marketplace.json"
 echo "=== Test: frontend-design emil-design-eng skill structure ==="
 echo ""
 
-# Test 1: Plugin manifests bumped to 0.2.0
-echo "Test 1: Plugin manifests at 0.2.0..."
-if jq -e '.version == "0.2.0"' "$PLUGIN_JSON" >/dev/null; then
-    echo "  [PASS] Claude manifest at 0.2.0"
+# Test 1: Plugin manifests bumped to 0.2.1
+echo "Test 1: Plugin manifests at 0.2.1..."
+if jq -e '.version == "0.2.1"' "$PLUGIN_JSON" >/dev/null; then
+    echo "  [PASS] Claude manifest at 0.2.1"
 else
-    echo "  [FAIL] Claude manifest not at 0.2.0"
+    echo "  [FAIL] Claude manifest not at 0.2.1"
     exit 1
 fi
-if jq -e '.version == "0.2.0"' "$CODEX_PLUGIN_JSON" >/dev/null; then
-    echo "  [PASS] Codex manifest at 0.2.0"
+if jq -e '.version == "0.2.1"' "$CODEX_PLUGIN_JSON" >/dev/null; then
+    echo "  [PASS] Codex manifest at 0.2.1"
 else
-    echo "  [FAIL] Codex manifest not at 0.2.0"
+    echo "  [FAIL] Codex manifest not at 0.2.1"
     exit 1
 fi
 echo ""
 
 # Test 2: Marketplace entry bumped
-echo "Test 2: Claude marketplace frontend-design entry at 0.2.0..."
-if jq -e '.plugins[] | select(.name == "frontend-design") | .version == "0.2.0"' "$MARKETPLACE" >/dev/null; then
-    echo "  [PASS] Claude marketplace frontend-design at 0.2.0"
+echo "Test 2: Claude marketplace frontend-design entry at 0.2.1..."
+if jq -e '.plugins[] | select(.name == "frontend-design") | .version == "0.2.1"' "$MARKETPLACE" >/dev/null; then
+    echo "  [PASS] Claude marketplace frontend-design at 0.2.1"
 else
-    echo "  [FAIL] Claude marketplace frontend-design not at 0.2.0"
+    echo "  [FAIL] Claude marketplace frontend-design not at 0.2.1"
     exit 1
 fi
 echo ""
@@ -108,6 +108,20 @@ else
     echo "  [FAIL] SKILL.md is $skill_lines lines; index skill should stay <= 200"
     exit 1
 fi
+echo ""
+
+# Test 6b: Review Format section keeps the negative-example guidance. Regression
+# guard: this tail ("Wrong format" block plus "Correct format" sentence) was
+# silently dropped at port time and no assertion caught it.
+echo "Test 6b: Review Format keeps wrong/correct format guidance..."
+for phrase in 'Wrong format' 'Correct format'; do
+    if grep -qF "$phrase" "$SKILL_MD"; then
+        echo "  [PASS] SKILL.md contains '$phrase' guidance"
+    else
+        echo "  [FAIL] SKILL.md missing '$phrase' guidance (Review Format tail dropped)"
+        exit 1
+    fi
+done
 echo ""
 
 # Test 7: All seven topic references exist and are mentioned in SKILL.md

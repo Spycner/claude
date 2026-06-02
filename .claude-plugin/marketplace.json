@@ -56,7 +56,7 @@
       "name": "frontend-design",
       "source": "./plugins/frontend-design",
       "description": "Create distinctive, production-grade frontend interfaces with deep UI craft and animation discipline.",
-      "version": "0.2.0"
+      "version": "0.2.1"
     },
     {
       "name": "playground",

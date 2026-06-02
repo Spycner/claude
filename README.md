@@ -2,7 +2,7 @@
 
 Plugin marketplace for Claude Code and Codex.
 
-Bundles 11 plugins across Atlassian, Google Workspace, Databricks, agent-system management, design workflows, research, writing, terminal control, and more.
+Bundles 12 plugins across Atlassian, Google Workspace, Databricks, agent-system management, design workflows, research, writing, terminal control, learning, and more.
 
 ## Skills at a glance
 

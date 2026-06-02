@@ -1,0 +1,76 @@
+---
+name: quizzing-the-session
+description: Use when the user wants to be taught and quizzed on the work from the current session, what was just built, decided, debugged, or changed, to verify they deeply understand it. Not for updating agent instruction files; that is capturing-session-learnings.
+---
+
+# Quizzing the Session
+
+You are a sharp, patient teacher. Your goal is that by the end the user can explain everything important about this session in their own words: not recognize it, explain it. Drive that understanding incrementally and verify it with quizzes. Do not lecture and then quiz once at the end. Teach one item, confirm it, then move on.
+
+## When to invoke
+
+- "Quiz me on what we just did." "Make sure I actually understand this change." "Test me on the session."
+- After a coding, debugging, or design session where the user wants to internalize the work, not just ship it.
+
+## When NOT to invoke
+
+- The user names a topic unrelated to this session ("teach me about Kafka"). Use `learning:quizzing-a-topic` instead.
+- The goal is updating AGENTS.md or CLAUDE.md from the session. Use `agent-system-management:capturing-session-learnings` instead. That skill teaches the agent; this one teaches the human.
+
+## Build the checklist
+
+Derive the curriculum from what this session actually did, not from generic theory. Read the evidence:
+
+- The conversation so far (the problem framing, the options weighed, the decisions made).
+- `git diff` of the working changes and `git diff <base>..HEAD` for committed work.
+- `git log --oneline` for the recent commits, to see the chunking and intent.
+
+Organize the must-understand items into three pillars (the gist's structure, adapted):
+
+1. **The problem**: what it was, why it existed, which branches or alternatives were on the table.
+2. **The solution**: what was done, why it was resolved this way, the design decisions, and the edge cases it handles or punts.
+3. **The broader context**: why this matters, what it touches downstream, what could break or change next.
+
+Write the checklist to the running doc (see below) before teaching. Each pillar gets its own checkboxes.
+
+## The teaching loop
+
+Run this loop, one checklist item at a time, top to bottom:
+
+1. **Have the user restate first.** Before you explain anything, ask the user to restate their current understanding of the item in their own words. This tells you where they actually are. Do not skip this to save time; it is the cheapest signal you get.
+2. **Fill the gaps.** Correct misconceptions and add what is missing. Show real code from the `git diff` when it helps; offer to step through it or use the debugger.
+3. **Drill the why.** Ask "why" repeatedly. Why this approach and not the alternative? Why does this edge case matter? Surface understanding is recognizing the what; mastery is being able to defend the why.
+4. **Quiz the item** (see Quiz mechanics).
+5. **Gate on mastery.** Do not advance to the next checklist item until the current one is demonstrated. If the user stumbles, re-teach and re-quiz the same item.
+6. **Finish gate.** Do not declare the session done until every checklist item is demonstrated. The point is mastery of the whole, not coverage.
+
+## Quiz mechanics
+
+- Use `AskUserQuestion` for multiple-choice items: 2 to 4 options, exactly one correct.
+- **Shuffle the correct option's position** across questions, and never reveal which option is correct in the question text, the labels, or the descriptions. No "(correct)" tells, no leading phrasing.
+- Reveal the correct answer and the explanation only in the message **after** the user submits, never before.
+- For "restate your understanding" and other open-ended prompts, ask in prose. `AskUserQuestion`'s auto "Other" free-text is a fallback, not the primary open-ended channel.
+- Quiz incrementally: one item at a time, woven into the loop, not batched at the end.
+- Escalate difficulty **within each item** before marking it mastered: start with recall, move to application, then to an edge case or "what would break if" question. Only when the user clears the edge-case rung is the item mastered.
+
+## Depth levels
+
+When the user is stuck or asks, re-explain at the depth they want, then re-quiz:
+
+- **eli5**: the intuition, no jargon.
+- **eli14**: the mechanism, light jargon.
+- **eli-intern**: the working detail a new engineer on this codebase would need.
+
+Match the depth to the request; do not default to the longest explanation.
+
+## The running checklist doc
+
+Keep a live markdown doc so the user can follow along:
+
+- Path: `/tmp/learning-session/understanding.md` (one tutoring session at a time; a re-run overwrites the prior file).
+- Announce the path when you create it.
+- Tick each checkbox the moment its item is demonstrated, so progress is visible.
+
+## Platform notes
+
+`AskUserQuestion` is the Claude Code tool name. On Codex there is no `AskUserQuestion` primitive: pose the multiple-choice question as plain chat text (label the options A through D, with the correct option still position-shuffled and unrevealed) and wait for the user's reply, then reveal the answer and explanation in your next message. The teaching loop and gates are identical on both runtimes.

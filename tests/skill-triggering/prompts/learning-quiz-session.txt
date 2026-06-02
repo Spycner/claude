@@ -1,0 +1,1 @@
+We just finished refactoring the auth middleware. Quiz me on what we did this session so I'm sure I actually understand the change.

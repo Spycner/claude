@@ -1235,6 +1235,10 @@
         this._railAnimTimer = setTimeout(() => this.removeAttribute('data-rail-anim'), 220);
       }
       if (d && d.type === '__omelette_rail_enabled') this._enableRail();
+      // Origin-independent navigation for embedders. The presenter popup's
+      // preview iframes can't reach contentDocument on file:// (every file
+      // is its own opaque origin), so they drive the deck with this instead.
+      if (d && typeof d.__deck_goto === 'number') this._go(d.__deck_goto, 'api');
     }
 
     _syncRailHidden() {

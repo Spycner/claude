@@ -56,7 +56,9 @@ Speaker notes live in a JSON island inside the deck HTML:
 </script>
 ```
 
-Keys match the 1-based slide index. `presenter.js` reads this block and renders it in the presenter window. A slide without a notes entry shows "No notes for this slide" in presenter view.
+Keys match the 1-based slide index. `presenter.js` reads this block and sends it to the presenter window over the sync channel. A slide without a notes entry shows "No notes for this slide" in presenter view. The displayed notes render a small markdown subset (headings, bold, italics, inline code, bullet and numbered lists).
+
+Notes are editable live from the presenter window: `E` (or the Edit button) turns the notes panel into a raw-markdown textarea for the current slide. Edits autosave to localStorage per deck, survive reloads of either window, and the "Save to deck" button writes the updated JSON island back into the deck HTML file via the File System Access API (Chromium only; the picker prompts once per session, validates the chosen file contains `<deck-stage>`, and warns when the filename does not match the deck).
 
 ## Presenter mode
 
@@ -68,18 +70,22 @@ Open the deck in Edge, Chrome, or Arc. Keys (from the deck window):
 
 Keys (from the presenter window):
 
+- `B` blacks out the audience screen.
 - `T` resets the timer.
+- `E` edits the current slide's notes; `Esc` finishes editing.
 - `.` or `K` blacks out the presenter view itself.
 
-Sync uses `BroadcastChannel`, same-origin, no server required.
+While the presenter window is open, the deck window hides its thumbnail rail and nav overlay so the shared window shows clean slides; both return when the presenter closes.
+
+Sync uses `BroadcastChannel`, no server required. It works across `file://` pages in Chromium (they share one storage origin), which is the normal way these decks are presented. Preview iframes and presenting state are driven over `postMessage` because `file://` documents are opaque origins to each other (`contentDocument` and `window.opener.document` are null); never reach into a frame's DOM from sibling deck windows.
 
 Sharing in Teams, Zoom, or Meet: open the deck, press `P`, then pick **Share to Window** and select the deck window only. Never **Share screen**, or the presenter notes leak. The presenter window is invisible to the audience even though it is on the same machine.
 
 ## Single-file vs multi-file output
 
-Multi-file is the default. Keep the upstream layout: `slides/index.html` plus `slides/slides.css` plus `slides/deck-stage.js` plus `slides/presenter.js` plus `assets/*.svg`. This is the right shape for a deck that lives in a repo and benefits from editability.
+Multi-file is the default. Keep the upstream layout: `slides/index.html` plus `slides/slides.css` plus `slides/deck-stage.js` plus `slides/presenter.js` plus `slides/presenter.html` plus `assets/*.svg`. This is the right shape for a deck that lives in a repo and benefits from editability.
 
-Single-file is the right call when the deck must travel as one attachment (email, Teams DM, archive). Inline `slides.css`, `deck-stage.js`, `presenter.js` into the head of a single HTML file. Replace `<img src="../assets/...">` with `<svg>` markup inline (the SVGs are small text). The presenter window cannot run in single-file mode unless the file is served over HTTP, because `BroadcastChannel` requires same-origin.
+Single-file is the right call when the deck must travel as one attachment (email, Teams DM, archive). Inline `slides.css`, `deck-stage.js`, `presenter.js` into the head of a single HTML file. Replace `<img src="../assets/...">` with `<svg>` markup inline (the SVGs are small text). The presenter window needs the `presenter.html` sidecar next to the deck file, so a strictly single-file deck has no presenter mode; if presenter mode matters for a deck that travels, ship the pair (deck plus `presenter.html`). No HTTP server is needed either way: `BroadcastChannel` works across `file://` pages in Chromium.
 
 ## Applying a design system
 

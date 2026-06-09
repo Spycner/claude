@@ -38,6 +38,7 @@ Bundles 12 plugins across Atlassian, Google Workspace, Databricks, agent-system 
 | `crafting-design-systems` | `workbench` | Design systems (CSS variables, components, images) that theme HTML producers |
 | `crafting-presentations` | `workbench` | Multi-slide HTML decks with deck navigation, slide-type catalog, and a presenter view |
 | `exporting-decks-to-pptx` | `workbench` | Export a deck-stage HTML deck to a native, editable PowerPoint (.pptx) via python-pptx |
+| `perfecting-presentations` | `workbench` | Strict deck review loop: hard gates plus adversarial judge panels until rounds come back dry |
 | `tmux` | `terminal` | Control interactive terminal programs through isolated tmux sessions |
 | `frontend-design` | `frontend-design` | Distinctive, production-grade frontend interfaces that avoid generic AI aesthetics |
 | `emil-design-eng` | `frontend-design` | Emil Kowalski's design engineering philosophy: animation timing, component polish, UI craft |
@@ -188,6 +189,7 @@ Workbench skills for design dialogue, skill routing, and profile-driven feature 
 - `/workbench:crafting-design-systems`: Create reusable design systems (CSS variables, components, images) at project (`.workbench/design-systems/<name>/`) or user (`~/.claude/workbench/design-systems/<name>/`) scope. HTML producers inline the active design system over their template defaults.
 - `/workbench:crafting-presentations`: Multi-slide HTML decks with a deck-stage engine, slide-type catalog (Title, SectionDivider, Agenda, Content, Stat, Capabilities, Comparison, Quote, Timeline, Closing), speaker notes JSON island, and a two-window presenter view that syncs over `BroadcastChannel`. Bundles a Deloitte/Databricks Alliance example deck.
 - `/workbench:exporting-decks-to-pptx`: Convert a finished deck-stage HTML deck (single-file or multi-file) into a native, editable PowerPoint file via a freshly written python-pptx generator, with a dockerized LibreOffice render-verify loop and an optional per-slide adversarial verification panel.
+- `/workbench:perfecting-presentations`: Strict review loop for existing HTML decks. Deterministic hard gates (overflow, overlap, contrast, broken assets, typography lint) plus four fresh-context judge dimensions (narrative, clarity, visual, delivery) whose findings must cite a per-project constitution (`.workbench/deck-standards.md`, seeded from a bundled default) and survive adversarial verification. Terminates on convergence: two consecutive dry rounds, with a rejected-findings ledger to prevent oscillation.
 
 `writing-spec`, `writing-plans`, `brainstorming`, and `systematic-debugging` can emit either markdown or HTML; defaults are markdown for specs and plans, HTML for brainstorm summaries and debug reports. Override per invocation or via `.workbench/config.md` (schema in `plugins/workbench/skills/autopilot/references/config-schema.md`).
 

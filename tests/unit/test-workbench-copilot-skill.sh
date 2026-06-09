@@ -125,16 +125,16 @@ else
 fi
 echo ""
 
-# Test 10: Plugin manifests and marketplace at 0.18.0
-echo "Test 10: Plugin manifests and marketplace at 0.18.0..."
+# Test 10: Plugin manifests and marketplace at 0.19.0
+echo "Test 10: Plugin manifests and marketplace at 0.19.0..."
 CCM="$REPO_ROOT/plugins/workbench/.claude-plugin/plugin.json"
 CXM="$REPO_ROOT/plugins/workbench/.codex-plugin/plugin.json"
 MP="$REPO_ROOT/.claude-plugin/marketplace.json"
-if jq -e '.version == "0.18.0"' "$CCM" >/dev/null && jq -e '.version == "0.18.0"' "$CXM" >/dev/null \
-   && jq -e '.plugins[] | select(.name == "workbench") | .version == "0.18.0"' "$MP" >/dev/null; then
-    echo "  [PASS] manifests and marketplace at 0.18.0"
+if jq -e '.version == "0.19.0"' "$CCM" >/dev/null && jq -e '.version == "0.19.0"' "$CXM" >/dev/null \
+   && jq -e '.plugins[] | select(.name == "workbench") | .version == "0.19.0"' "$MP" >/dev/null; then
+    echo "  [PASS] manifests and marketplace at 0.19.0"
 else
-    echo "  [FAIL] workbench not at 0.18.0"; exit 1
+    echo "  [FAIL] workbench not at 0.19.0"; exit 1
 fi
 echo ""
 

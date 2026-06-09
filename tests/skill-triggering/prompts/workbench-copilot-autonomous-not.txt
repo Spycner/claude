@@ -1,0 +1,1 @@
+Ship this feature end to end fully autonomously with autopilot. Do not ask me anything, just open the PR when CI is green.

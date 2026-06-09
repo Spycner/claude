@@ -231,7 +231,7 @@ When adding a new plugin, the documentation lockstep set is five-or-six sites: f
 
 This is separate from, and additional to, the version-bump lockstep documented under Design Decisions ("Every plugin change bumps version"). Adding a new plugin requires both lockstep sets in the same commit: the five-or-six docs sites here, plus the five version-pinned sites listed there.
 
-When adding only a new skill to an existing plugin, the "Skills at a glance" table and per-plugin section are usually the only required edits.
+When adding only a new skill to an existing plugin, the "Skills at a glance" table and per-plugin section are usually the only required edits, plus two sites that drift silently when missed: the plugin's own `plugins/<plugin>/README.md` `## Skills` list (if the README has one), and, for workbench skills specifically, the parenthetical skill enumeration in the "One skill per service, one plugin per product family" Design Decision below (it names every workbench skill; the copilot and exporting-decks-to-pptx additions both had to update it). The workbench plugin README's skills list had drifted eight skills behind before the 2026-06 exporting-decks-to-pptx PR brought it current; nothing tests these two sites, so check them by hand.
 
 ## Running Tests
 

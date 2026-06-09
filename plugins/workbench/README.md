@@ -5,14 +5,22 @@ Workbench skills for design dialogue, skill routing, and profile driven feature 
 ## Skills
 
 - `brainstorming`: Turn ideas into clear design decisions.
+- `writing-spec`: Synthesize a design discussion into a spec doc with fresh-eyes self-review and an approval gate.
+- `writing-plans`: Turn approved specs into concrete implementation plans.
+- `visualizing-options`: Browser-based visual companion for mockups, layout comparisons, wireframes, and architecture diagrams.
 - `using-workbench`: Load Workbench skill rules and routing.
 - `terse-mode`: Explicit session switch for compact token-saving replies.
 - `autopilot`: Ship a feature from brainstorm to PR using a project profile.
+- `copilot`: Human-in-the-loop autopilot; you drive brainstorm and spec, the agent ships the rest.
 - `verification-before-completion`: Require fresh verification evidence before completion claims.
-- `writing-plans`: Turn approved specs into concrete implementation plans.
 - `test-driven-development`: Enforce test-first RED-GREEN-REFACTOR implementation discipline.
 - `dispatching-parallel-agents`: Split independent tasks across concurrent agents.
 - `subagent-driven-development`: Execute implementation plans with fresh agents and review gates.
+- `systematic-debugging`: Root-cause investigation before proposing bug fixes.
+- `crafting-html`: Reference gallery of 21 HTML artifact patterns for standalone HTML artifacts.
+- `crafting-design-systems`: Design systems (CSS variables, components, images) that theme HTML producers.
+- `crafting-presentations`: Multi-slide HTML decks with a deck-stage engine, slide-type catalog, and presenter view.
+- `exporting-decks-to-pptx`: Export a deck-stage HTML deck to a native, editable PowerPoint (.pptx) via python-pptx.
 
 ## Project profiles
 

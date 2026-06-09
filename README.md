@@ -28,6 +28,7 @@ Bundles 12 plugins across Atlassian, Google Workspace, Databricks, agent-system 
 | `using-workbench` | `workbench` | Load Workbench skill rules and routing |
 | `terse-mode` | `workbench` | Compact token-saving replies until disabled |
 | `autopilot` | `workbench` | Ship a feature from brainstorm to PR using a project profile |
+| `copilot` | `workbench` | Human-in-the-loop autopilot: you drive brainstorm and spec, the agent ships the rest |
 | `verification-before-completion` | `workbench` | Require fresh verification evidence before completion claims |
 | `test-driven-development` | `workbench` | Enforce test-first RED-GREEN-REFACTOR implementation discipline |
 | `dispatching-parallel-agents` | `workbench` | Split independent tasks across concurrent agents |
@@ -176,6 +177,7 @@ Workbench skills for design dialogue, skill routing, and profile-driven feature 
 - `/workbench:using-workbench`: Load Workbench skill rules and routing.
 - `/workbench:terse-mode`: Compact token-saving replies until disabled.
 - `/workbench:autopilot`: Ship a feature from brainstorm to PR using a project profile. Profile schema documented in `plugins/workbench/skills/autopilot/references/profile-schema.md`.
+- `/workbench:copilot`: Human-in-the-loop sibling of `autopilot`. You drive the brainstorm and spec by hand; the agent automates plan, implementation, docs, audit, and PR. Reads the same `.workbench/autopilot.md` profile as `autopilot`.
 - `/workbench:verification-before-completion`: Require fresh verification evidence before completion claims.
 - `/workbench:test-driven-development`: Enforce test-first RED-GREEN-REFACTOR implementation discipline.
 - `/workbench:dispatching-parallel-agents`: Split independent tasks across concurrent agents.

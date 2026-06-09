@@ -84,16 +84,16 @@ pass "AGENTS.md mentions skill"
 grep -q "systematic-debugging" "$ROOT/plugins/workbench/NOTICE" || fail "NOTICE does not credit systematic-debugging"
 pass "NOTICE attribution present"
 
-# 13. Plugin manifests at 0.16.1.
+# 13. Plugin manifests at 0.17.0.
 CC_VER="$(jq -r '.version' "$ROOT/plugins/workbench/.claude-plugin/plugin.json")"
 CDX_VER="$(jq -r '.version' "$ROOT/plugins/workbench/.codex-plugin/plugin.json")"
-[ "$CC_VER" = "0.16.1" ] || fail "claude-plugin version is $CC_VER, expected 0.16.1"
-[ "$CDX_VER" = "0.16.1" ] || fail "codex-plugin version is $CDX_VER, expected 0.16.1"
-pass "plugin manifests at 0.16.1"
+[ "$CC_VER" = "0.17.0" ] || fail "claude-plugin version is $CC_VER, expected 0.17.0"
+[ "$CDX_VER" = "0.17.0" ] || fail "codex-plugin version is $CDX_VER, expected 0.17.0"
+pass "plugin manifests at 0.17.0"
 
-# 14. Claude marketplace entry at 0.16.1 (codex marketplace does not carry a per-plugin version field).
+# 14. Claude marketplace entry at 0.17.0 (codex marketplace does not carry a per-plugin version field).
 CC_MP_VER="$(jq -r '.plugins[] | select(.name=="workbench") | .version' "$ROOT/.claude-plugin/marketplace.json")"
-[ "$CC_MP_VER" = "0.16.1" ] || fail "claude marketplace workbench version is $CC_MP_VER, expected 0.16.1"
-pass "claude marketplace at 0.16.1"
+[ "$CC_MP_VER" = "0.17.0" ] || fail "claude marketplace workbench version is $CC_MP_VER, expected 0.17.0"
+pass "claude marketplace at 0.17.0"
 
 echo "OK"

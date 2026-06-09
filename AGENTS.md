@@ -185,6 +185,7 @@ Key principles:
 - **Confirm before destructive ops.** Always ask the user before delete operations.
 - **Platform-aware tool names.** When a skill uses orchestration tools, include a short mapping for Claude Code and Codex instead of hardcoding one runtime only.
 - **Self-healing is critical.** Tell the host agent how to debug when things go wrong.
+- **No colon-space inside the `description:` value.** The frontmatter `description:` is an unquoted YAML scalar; an inner `: ` (colon then space) makes the parser read it as a nested mapping and `tests/unit/test-skill-frontmatter-yaml.sh` fails with the cryptic `mapping values are not allowed here`. Rephrase with a comma, period, or "where" clause instead. A `plugin:skill` style colon with no following space (e.g. `workbench:autopilot`) is fine.
 
 ### 4. Add reference docs
 

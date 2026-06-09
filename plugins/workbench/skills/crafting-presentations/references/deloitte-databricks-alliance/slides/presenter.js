@@ -14,12 +14,20 @@
  *   3. In Teams, click Share → Window → pick the DECK window
  *      (not the presenter, that's the one with your notes on it).
  *
- * Wire format on BroadcastChannel `deck-presenter-<deckPath>`:
+ * Wire format on BroadcastChannel `deck-presenter::<deckPath>`:
  *   { type: 'state', index, total, reason }     deck → presenter
+ *   { type: 'notes', notes }                    deck → presenter (speaker notes)
+ *   { type: 'notes-set', notes }                presenter → deck (after a save,
+ *                                               refresh the in-DOM notes tag)
  *   { type: 'nav-next' | 'nav-prev' }           either → deck
  *   { type: 'nav-goto', index }                 either → deck
  *   { type: 'blackout-toggle' }                 presenter → deck
  *   { type: 'hello', from: 'presenter' }        presenter → deck (asks for state)
+ *   { type: 'bye', from: 'presenter' }          presenter → deck (window closing)
+ *
+ * Note edits made in the presenter live in localStorage under
+ * `<CHANNEL_NAME>::notes-edits` (a {slideIndex: text} map) until the user
+ * writes them back into the deck HTML from the presenter window.
  */
 (() => {
   // --- Guards -----------------------------------------------------------
@@ -39,6 +47,9 @@
   const bc = ('BroadcastChannel' in window) ? new BroadcastChannel(CHANNEL_NAME) : null;
   let presenterWin = null;
   let blackoutEl = null;
+  let presenting = false;
+  let presenterWatch = null;
+  let byeTimer = null;
 
   // --- Outbound state ---------------------------------------------------
   function postState(reason) {
@@ -51,6 +62,59 @@
         reason: reason || 'broadcast',
       });
     } catch (e) {}
+  }
+
+  // Speaker notes travel over the channel because the presenter popup can't
+  // read them from window.opener.document on file:// (opaque origins).
+  // Notes are authored either as an array (0-indexed) or as an object keyed
+  // by 1-based slide number; normalize to the array shape.
+  function normalizeNotes(parsed) {
+    if (Array.isArray(parsed)) return parsed;
+    if (parsed && typeof parsed === 'object') {
+      const out = [];
+      Object.keys(parsed).forEach((k) => {
+        const n = parseInt(k, 10);
+        if (n >= 1) out[n - 1] = String(parsed[k]);
+      });
+      return out;
+    }
+    return [];
+  }
+
+  function loadMergedNotes() {
+    let notes = [];
+    const tag = document.getElementById('speaker-notes');
+    if (tag) {
+      try { notes = normalizeNotes(JSON.parse(tag.textContent || '[]')); } catch (e) {}
+    }
+    // Unsaved presenter edits overlay the authored notes (file:// pages
+    // share one localStorage origin, so both windows see the same map).
+    try {
+      const edits = JSON.parse(localStorage.getItem(CHANNEL_NAME + '::notes-edits') || 'null');
+      if (edits && typeof edits === 'object') {
+        Object.keys(edits).forEach((k) => {
+          const i = parseInt(k, 10);
+          if (i >= 0) notes[i] = String(edits[k]);
+        });
+      }
+    } catch (e) {}
+    return notes;
+  }
+
+  function postNotes() {
+    if (!bc) return;
+    const notes = loadMergedNotes();
+    if (notes.length) bc.postMessage({ type: 'notes', notes });
+  }
+
+  // --- Presenting state ---------------------------------------------------
+  // deck-stage hides its thumbnail rail and nav overlay while presenting; it
+  // listens for this message on its own window (the same path its SPA host
+  // uses), so the audience window shows clean slides.
+  function setPresenting(on) {
+    if (on === presenting) return;
+    presenting = on;
+    try { window.postMessage({ __omelette_presenting: on }, '*'); } catch (e) {}
   }
 
   // --- Presenter window -------------------------------------------------
@@ -70,8 +134,21 @@
       alert('Pop-up blocked. Allow pop-ups for this page, then press P again.');
       return;
     }
+    clearTimeout(byeTimer);
+    setPresenting(true);
+    // The popup's pagehide 'bye' covers a clean close; the poll catches it
+    // being killed without one (task manager, crash) so the rail comes back.
+    clearInterval(presenterWatch);
+    presenterWatch = setInterval(() => {
+      if (!presenterWin || presenterWin.closed) {
+        clearInterval(presenterWatch);
+        presenterWatch = null;
+        presenterWin = null;
+        setPresenting(false);
+      }
+    }, 1000);
     // Bounce state once the popup has had a beat to mount its listener.
-    setTimeout(() => postState('open'), 300);
+    setTimeout(() => { postState('open'); postNotes(); }, 300);
   }
 
   // --- Blackout overlay (covers the deck window's audience view) --------
@@ -126,7 +203,33 @@
       else if (d.type === 'nav-prev') deck.prev();
       else if (d.type === 'nav-goto' && typeof d.index === 'number') deck.goTo(d.index);
       else if (d.type === 'blackout-toggle') toggleBlackout();
-      else if (d.type === 'hello' && d.from === 'presenter') postState('hello');
+      else if (d.type === 'hello' && d.from === 'presenter') {
+        // hello doubles as a heartbeat, so a reloaded deck window re-learns
+        // a presenter is open and re-hides its rail.
+        clearTimeout(byeTimer);
+        setPresenting(true);
+        postState('hello');
+        postNotes();
+      } else if (d.type === 'bye' && d.from === 'presenter') {
+        // A popup reload fires pagehide then hello within a beat; debounce
+        // so the audience window doesn't flash the rail during the reload.
+        // On a real close the rail is back within ~0.8s (the 1s poll above
+        // also backstops a popup killed without pagehide).
+        clearTimeout(byeTimer);
+        byeTimer = setTimeout(() => setPresenting(false), 800);
+      } else if (d.type === 'notes-set' && Array.isArray(d.notes)) {
+        // The presenter saved notes into the deck HTML file; mirror them
+        // into this (already-loaded) page's tag so future postNotes calls
+        // match the file after the edit overlay is cleared.
+        let tag = document.getElementById('speaker-notes');
+        if (!tag) {
+          tag = document.createElement('script');
+          tag.type = 'application/json';
+          tag.id = 'speaker-notes';
+          document.body.appendChild(tag);
+        }
+        tag.textContent = JSON.stringify(d.notes);
+      }
     });
   }
 

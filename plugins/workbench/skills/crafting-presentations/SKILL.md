@@ -100,6 +100,7 @@ The bundled `references/deloitte-databricks-alliance/colors_and_type.css` and `r
 ## Cross-references
 
 - `workbench:crafting-html` is the catch-all for non-presentation HTML artifacts and ships a simpler single-file `09-slide-deck.html` for quick one-off decks.
+- `workbench:exporting-decks-to-pptx` converts a finished deck (single-file or multi-file) into a native, editable PowerPoint file.
 - `workbench:crafting-design-systems` is the theming layer. It supplies the CSS variable overrides this skill consumes.
 - `workbench:writing-spec`, `workbench:writing-plans`, `workbench:brainstorming`, `workbench:systematic-debugging`, and `research:research` are the other HTML producers in the wider plugin family, each with their own artifact shape.
 

@@ -47,6 +47,7 @@ Bundles 12 plugins across Atlassian, Google Workspace, Databricks, agent-system 
 | `databricks-docs` | `databricks` | Live `docs.databricks.com` lookups for product-surface questions |
 | `quizzing-the-session` | `learning` | Get taught and quizzed on the current session's work until you demonstrably understand the problem, solution, and impact |
 | `quizzing-a-topic` | `learning` | Get taught and quizzed on any topic or theme you name until you demonstrably understand it |
+| `surveying-blind-spots` | `learning` | Pre-work blind-spot pass over an unfamiliar codebase area or field, surfacing unknown unknowns, gotchas, and better prompts |
 
 Skills are invoked from the host agent (Claude Code or Codex) using the fully qualified form `/<plugin>:<skill>`, for example `/atlassian:jira` or `/workbench:autopilot`.
 
@@ -233,11 +234,12 @@ Two Databricks skills. `databricks-core` is a verbatim port from [databricks/dat
 
 ### learning
 
-Socratic teach-and-quiz skills that verify you deeply understand something. An original adaptation of Thariq Shihipar's "Learn Quiz" gist (see `plugins/learning/README.md` for attribution).
+Skills that teach the human: Socratic teach-and-quiz loops plus a pre-work blind-spot survey. An original adaptation of Thariq Shihipar's "Learn Quiz" gist and his AI Engineer talk techniques (see `plugins/learning/README.md` for attribution).
 
 **Skills:**
-- `/learning:quizzing-the-session`: Build a problem/solution/impact checklist from the current session and recent git activity, then teach and quiz you item by item to mastery.
+- `/learning:quizzing-the-session`: Build a problem/solution/impact checklist from the current session and recent git activity, then teach and quiz you item by item to mastery. Also fits right before a PR or merge, to confirm you can represent the work in review.
 - `/learning:quizzing-a-topic`: The same teaching engine pointed at any topic or theme you name, grounded in repo files when the topic is local code.
+- `/learning:surveying-blind-spots`: A pre-work blind-spot pass over a codebase area or field you do not know. Surfaces unknown unknowns, gotchas, and dead ends, then hands you rewritten prompts. A briefing, not a quiz.
 
 ---
 

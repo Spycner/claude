@@ -43,12 +43,12 @@ else
 fi
 echo ""
 
-# Test 3: both plugin manifests pin version 0.1.0
-echo "Test 3: plugin manifests at 0.1.0..."
-if jq -e '.version == "0.1.0"' "$CCM" >/dev/null && jq -e '.version == "0.1.0"' "$CXM" >/dev/null; then
-    echo "  [PASS] both plugin manifests at 0.1.0"
+# Test 3: both plugin manifests pin version 0.2.0
+echo "Test 3: plugin manifests at 0.2.0..."
+if jq -e '.version == "0.2.0"' "$CCM" >/dev/null && jq -e '.version == "0.2.0"' "$CXM" >/dev/null; then
+    echo "  [PASS] both plugin manifests at 0.2.0"
 else
-    echo "  [FAIL] plugin manifests not at 0.1.0"
+    echo "  [FAIL] plugin manifests not at 0.2.0"
     exit 1
 fi
 echo ""

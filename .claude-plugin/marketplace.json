@@ -73,8 +73,8 @@
     {
       "name": "learning",
       "source": "./plugins/learning",
-      "description": "Socratic teach-and-quiz skills that verify you deeply understand a session or a topic.",
-      "version": "0.1.0"
+      "description": "Socratic teach-and-quiz skills plus a pre-work blind-spot survey, so you deeply understand a session, a topic, or an unfamiliar area.",
+      "version": "0.2.0"
     }
   ]
 }

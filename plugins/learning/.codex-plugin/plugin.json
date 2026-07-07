@@ -1,6 +1,6 @@
 {
   "name": "learning",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Socratic teach-and-quiz skills that verify you deeply understand a session or a topic.",
   "author": { "name": "Pascal Göllner" },
   "license": "MIT",

@@ -76,7 +76,7 @@ containers/
 | `frontend-design` | 0.2.1 | `frontend-design` (ported from Anthropic, Apache 2.0 upstream), `emil-design-eng` (ported from emilkowalski/skill, no upstream license declared) |
 | `playground` | 0.1.0 | `playground` (ported from Anthropic, Apache 2.0 upstream) |
 | `databricks` | 0.3.0 | `databricks-core` (ported from databricks/databricks-agent-skills under upstream Databricks License, restricted to Databricks Services), `databricks-docs` |
-| `learning` | 0.1.0 | `quizzing-the-session`, `quizzing-a-topic` (adapted from the ThariqS "Learn Quiz" gist) |
+| `learning` | 0.2.0 | `quizzing-the-session`, `quizzing-a-topic` (adapted from the ThariqS "Learn Quiz" gist), `surveying-blind-spots` (adapted from Thariq Shihipar's blind-spot-pass technique) |
 
 ## How to Develop a New Skill
 

@@ -1,6 +1,6 @@
 ---
 name: quizzing-the-session
-description: Use when the user wants to be taught and quizzed on the work from the current session, what was just built, decided, debugged, or changed, to verify they deeply understand it. Not for updating agent instruction files; that is capturing-session-learnings.
+description: Use when the user wants to be taught and quizzed on the work from the current session, what was just built, decided, debugged, or changed, to verify they deeply understand it. Also use right before opening a PR or merging, when the user wants to confirm they can represent the work in review. Not for updating agent instruction files; that is capturing-session-learnings.
 ---
 
 # Quizzing the Session
@@ -11,6 +11,7 @@ You are a sharp, patient teacher. Your goal is that by the end the user can expl
 
 - "Quiz me on what we just did." "Make sure I actually understand this change." "Test me on the session."
 - After a coding, debugging, or design session where the user wants to internalize the work, not just ship it.
+- Right before opening a PR or merging ("Quiz me before I open this PR", "quiz me so I can explain this change to my reviewer").
 
 ## When NOT to invoke
 
@@ -32,6 +33,8 @@ Organize the must-understand items into three pillars (the gist's structure, ada
 3. **The broader context**: why this matters, what it touches downstream, what could break or change next.
 
 Write the checklist to the running doc (see below) before teaching. Each pillar gets its own checkboxes.
+
+When the user invoked this right before a PR or merge, weight the checklist toward what a reviewer would probe first, starting with the riskiest hunk in the diff.
 
 ## The teaching loop
 

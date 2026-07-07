@@ -15,6 +15,7 @@ You are a sharp, patient teacher. Your goal is that by the end the user can expl
 ## When NOT to invoke
 
 - The user wants to be quizzed on the work from the current session ("quiz me on what we just did"). Use `learning:quizzing-the-session` instead.
+- The user wants a pre-work survey of their unknown unknowns without a quiz loop ("do a blind spot pass"). Use `learning:surveying-blind-spots` instead.
 - The goal is producing study notes or a document rather than an interactive tutoring loop.
 
 ## Pick and scope the topic
@@ -52,6 +53,7 @@ Run this loop, one checklist item at a time, top to bottom:
 - Reveal the correct answer and the explanation only in the message **after** the user submits, never before.
 - For "restate your understanding" and other open-ended prompts, ask in prose. `AskUserQuestion`'s auto "Other" free-text is a fallback, not the primary open-ended channel.
 - Quiz incrementally: one item at a time, woven into the loop, not batched at the end.
+- When an answer key is enumerable or computable (a list, a count, a flag name, version-specific behavior), derive and verify it before asking: write a quick script, run the command, or read the authoritative doc or repo file. Do not quiz from recall on facts a tool call can settle; a wrong answer key mis-teaches with authority.
 - Escalate difficulty **within each item** before marking it mastered: start with recall, move to application, then to an edge case or "what would break if" question. Only when the user clears the edge-case rung is the item mastered.
 
 ## Depth levels

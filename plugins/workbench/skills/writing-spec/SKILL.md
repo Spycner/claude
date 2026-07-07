@@ -42,8 +42,9 @@ Cover, scaling each section to its complexity:
 - Solution overview.
 - User stories (numbered).
 - Implementation decisions (modules, interfaces, file layout, no code snippets).
+- Reference artifacts, only if the discussion anchored on any: path or URL of each (existing code, mockup, similar system), plus one line each on what to imitate and what to diverge from.
 - Testing decisions.
-- Out of scope.
+- Out of scope. Give every exclusion a one-line reason naming what forces it out: a conflicting requirement, an external dependency, or a boundary into a separate spec. If the only reason is implementation effort, write "cut for effort" explicitly so the user can pull the item back in at the approval gate instead of assuming it was impossible.
 - Risks.
 
 Use `elements-of-style:writing-clearly-and-concisely` if available.

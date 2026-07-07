@@ -22,6 +22,12 @@ Use the terminal otherwise: requirements, scope, conceptual A/B/C choices, trade
 
 A question about a UI topic is not automatically a visual question. "What kind of wizard do you want?" is conceptual. "Which of these wizard layouts feels right?" is visual.
 
+## Divergent Directions
+
+When the user cannot describe what they want in words (signals: "make it look nice", "I have no visual taste", "I'll know it when I see it", repeated "I don't know" on visual questions), stop asking and show. Render 3-4 deliberately divergent directions on one screen. Each option commits to a different aesthetic pole (for example minimal, illustrated, playful, editorial); never show variations of one theme that differ only in accent color or spacing. Label each direction and state its intent in one line, so the user reacts to real spread instead of imagining alternatives.
+
+After the user reacts, converge: take the chosen direction (or the elements they liked across directions) and iterate within-direction variations on the next screen.
+
 ## Quick Start
 
 ```bash

@@ -36,6 +36,16 @@ Two minds building together share an invisible theory of the system: the design 
 
 Treat the design as a tree. The root is "what are we building, and why." Branches resolve to dependent decisions: which approach, which boundaries, which interfaces, which failure modes. Leaves are the decisions themselves. Pick one branch, follow every dependency to a decision, only then return to the next branch. Do not breadth-first a checklist of section headings.
 
+**Order branches by decision leverage.**
+
+When choosing which branch to walk next, pick the one whose answers could invalidate the most other decisions: architecture and approach first, then boundaries and interfaces, then failure modes, then cosmetic or easily reversed details last. One question that could change the architecture is worth more early than ten leaf questions answered under an architecture that might not survive. If a later answer reveals that an unwalked branch invalidates decisions already made, jump to that branch immediately and revisit the affected leaves afterward.
+
+**Ask for reference artifacts early.**
+
+Within the first few questions, ask once whether the user can point at reference artifacts: existing code in this or another repo (even another language), an HTML mockup, a similar feature in another system, an API to mirror. If they name one, read it completely before the next question, then play back what you took from it: what to imitate, what to diverge from, what to omit. Treat the artifact as the answer to every design-tree branch it settles and spend the remaining questions only on the deltas. Record each artifact's path or URL in the Q and A record so the brainstorm summary and the downstream spec can cite it.
+
+In autonomous runs where the user is not present (for example inside `workbench:autopilot`), substitute a search for the ask: extend the checklist-item-1 exploration subagent's prompt with "also report the closest existing implementation of anything similar in this repo, with paths", and read what it finds before self-answering.
+
 **Take an adversarial posture.**
 
 Probe for unstated assumptions, latent constraints, and edge cases the user has not considered. When the user gives a short answer, ask the obvious next question even when the answer feels implied. Treat the user as the source of truth about what they want and treat yourself as the source of skeptical pressure on whether they have said it clearly.
@@ -84,6 +94,7 @@ digraph brainstorming {
 - Before asking detailed questions, assess scope: if the request describes multiple independent subsystems, flag this immediately. Do not spend questions refining details of a project that needs to be decomposed first.
 - If the project is too large for a single spec, help the user decompose into sub-projects. Each sub-project then gets its own brainstorm and spec cycle.
 - For appropriately scoped projects, ask questions one at a time.
+- Ask once, early, for reference artifacts; a named artifact replaces prose answers for every branch it settles. See **Ask for reference artifacts early** above.
 - Prefer multiple choice questions when possible.
 - One question per message.
 - Focus on understanding: purpose, constraints, success criteria.
@@ -92,6 +103,8 @@ digraph brainstorming {
 **Exploring approaches:**
 
 - Propose 2-3 different approaches with trade-offs.
+- Before presenting two desirable properties as an either/or, name the constraint that forces the choice: a design-level mutual exclusion, an external dependency, or a hard runtime, budget, or compatibility limit. Implementation effort alone is not a forcing constraint; if you cannot name one, the trade-off is assumed, not real.
+- When the options differ only in implementation effort, include the combined approach as one of the 2-3, priced concretely (files touched, tests added, latency, maintenance surface) so the user can decline it knowingly. YAGNI still governs unrequested features; this rule protects scope the user asked for from being cut on an assumed cost.
 - Lead with your recommendation and explain why.
 
 **Presenting the design:**
@@ -109,6 +122,7 @@ digraph brainstorming {
 **Working in existing codebases:**
 
 - Delegate exploration of the area you are touching to a cost-efficient subagent. Follow the returned conventions.
+- If the user says they do not know the area, relay the survey's conventions, gotchas, and dead ends to them before the first design question, so their answers are informed. For a standalone pre-work pass outside a design conversation, see `learning:surveying-blind-spots`.
 - Where existing code has problems that affect the work, include targeted improvements as part of the design.
 - Do not propose unrelated refactoring.
 
@@ -117,6 +131,8 @@ digraph brainstorming {
 If the conversation will involve visual content (mockups, layouts, diagrams), mention `workbench:visualizing-options` in its own message before asking the next question. The user opts in by acknowledging. That skill owns the browser companion; this skill stays in the terminal.
 
 The offer message should contain ONLY the pointer; do not combine it with clarifying questions.
+
+If the user stalls on a visual question ("I don't know", "whatever looks good"), stop rephrasing it in words. Use `workbench:visualizing-options` to render 3-4 deliberately divergent directions the user can react to instead of describe. If the companion is not yet running, make the offer at that moment (same rule: own message, pointer only) and render once the user opts in.
 
 ## Handoff
 
@@ -129,6 +145,7 @@ The conversation itself is the handoff payload; the summary file is a record, no
 - One question at a time.
 - Multiple choice preferred.
 - Depth-first grilling: walk the design tree, do not breadth-first a checklist.
+- Highest-leverage branches first: architecture-changing questions before detail questions.
 - YAGNI ruthlessly.
 - Explore alternatives.
 - Incremental validation.

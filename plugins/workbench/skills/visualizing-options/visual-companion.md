@@ -263,6 +263,7 @@ If `$STATE_DIR/events` doesn't exist, the user didn't interact with the browser 
 - **Explain the question on each page** — "Which layout feels more professional?" not just "Pick one"
 - **Iterate before advancing** — if feedback changes current screen, write a new version
 - **2-4 options max** per screen
+- **Diverge before you converge**: when the user cannot articulate taste, make the options wildly different aesthetic directions, not near-duplicates; narrow to within-direction variations only after the user reacts
 - **Use real content when it matters** — for a photography portfolio, use actual images (Unsplash). Placeholder content obscures design issues.
 - **Keep mockups simple** — focus on layout and structure, not pixel-perfect design
 

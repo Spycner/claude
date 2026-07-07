@@ -98,16 +98,16 @@ for anchor in 'spcPct' 'wrap="none"' 'buChar' 'outerShdw' 'adjustments' 'est_lin
 done
 echo ""
 
-# Test 8: Plugin manifests and marketplace at 0.20.0
-echo "Test 8: Plugin manifests and marketplace at 0.20.0..."
+# Test 8: Plugin manifests and marketplace at 0.21.0
+echo "Test 8: Plugin manifests and marketplace at 0.21.0..."
 CCM="$REPO_ROOT/plugins/workbench/.claude-plugin/plugin.json"
 CXM="$REPO_ROOT/plugins/workbench/.codex-plugin/plugin.json"
 MP="$REPO_ROOT/.claude-plugin/marketplace.json"
-if jq -e '.version == "0.20.0"' "$CCM" >/dev/null && jq -e '.version == "0.20.0"' "$CXM" >/dev/null \
-   && jq -e '.plugins[] | select(.name == "workbench") | .version == "0.20.0"' "$MP" >/dev/null; then
-    echo "  [PASS] manifests and marketplace at 0.20.0"
+if jq -e '.version == "0.21.0"' "$CCM" >/dev/null && jq -e '.version == "0.21.0"' "$CXM" >/dev/null \
+   && jq -e '.plugins[] | select(.name == "workbench") | .version == "0.21.0"' "$MP" >/dev/null; then
+    echo "  [PASS] manifests and marketplace at 0.21.0"
 else
-    echo "  [FAIL] workbench not at 0.20.0"; exit 1
+    echo "  [FAIL] workbench not at 0.21.0"; exit 1
 fi
 echo ""
 

@@ -179,6 +179,8 @@ See [references/update-guidelines.md](references/update-guidelines.md) for full 
 6. **Undocumented gotchas**: non-obvious patterns not captured
 7. **Scope mismatch**: project-specific rules in the user-global file (or vice versa)
 8. **Duplicate rules**: same rule stated in both project and user-global file
+9. **Bare prohibitions**: "do not X" rules with no reason or alternative attached; propose restating as intent plus the preferred alternative
+10. **Constraint accretion**: defensive rules whose failure mode no longer occurs; propose deletion when nobody can name what the rule prevents
 
 ## User Tips to Share
 

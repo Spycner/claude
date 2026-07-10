@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 # Test: agent-system-management:creating-skills skill structure
-# Verifies SKILL.md exists, frontmatter is valid, all five mode sections are present,
-# four reference files plus the templates/ subdirectory exist and are non-empty,
-# plugin manifests are at 0.4.3, and the skill mentions marketplace detection plus
-# the three SKILL.md template types.
+# Verifies SKILL.md exists with valid frontmatter, the five reference files and
+# three agent docs exist and are mentioned, the eval pipeline (scripts,
+# eval-viewer, assets) is present, plugin manifests are at 0.5.0, and the whole
+# skill subtree is free of em-dashes and en-dashes.
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
@@ -17,8 +17,8 @@ SKILL_MD="$SKILL_DIR/SKILL.md"
 echo "=== Test: agent-system-management:creating-skills skill structure ==="
 echo ""
 
-# Test 1: Plugin manifests exist, parse, and are at 0.4.3
-echo "Test 1: Plugin manifests at 0.4.3..."
+# Test 1: Plugin manifests exist, parse, and are at 0.5.0
+echo "Test 1: Plugin manifests at 0.5.0..."
 for manifest in .claude-plugin/plugin.json .codex-plugin/plugin.json; do
     f="$PLUGIN_ROOT/$manifest"
     if [ ! -f "$f" ]; then
@@ -30,11 +30,11 @@ for manifest in .claude-plugin/plugin.json .codex-plugin/plugin.json; do
         exit 1
     fi
     version=$(jq -r .version "$f")
-    if [ "$version" != "0.4.3" ]; then
-        echo "  [FAIL] $manifest version is $version, expected 0.4.3"
+    if [ "$version" != "0.5.0" ]; then
+        echo "  [FAIL] $manifest version is $version, expected 0.5.0"
         exit 1
     fi
-    echo "  [PASS] $manifest exists, parses, version 0.4.3"
+    echo "  [PASS] $manifest exists, parses, version 0.5.0"
 done
 echo ""
 
@@ -76,60 +76,59 @@ fi
 echo "  [PASS] SKILL.md exists with valid frontmatter"
 echo ""
 
-# Test 4: All four reference files plus the templates directory exist and are non-empty
-echo "Test 4: Reference files exist..."
-for ref in test-patterns iteration-loop pressure-testing description-optimization; do
+# Test 4: All five reference files exist and SKILL.md mentions each
+echo "Test 4: Reference files exist and are mentioned..."
+for ref in schemas platform-mechanics writing-great-skills bulletproofing marketplace-integration; do
     f="$SKILL_DIR/references/$ref.md"
     if [ ! -s "$f" ]; then
         echo "  [FAIL] references/$ref.md missing or empty"
         exit 1
     fi
-    echo "  [PASS] references/$ref.md exists"
-done
-TEMPLATES_DIR="$SKILL_DIR/references/templates"
-if [ ! -d "$TEMPLATES_DIR" ]; then
-    echo "  [FAIL] references/templates/ directory missing"
-    exit 1
-fi
-for tpl in README skill-bodies manifests marketplace-entries index-doc-rows tests; do
-    f="$TEMPLATES_DIR/$tpl.md"
-    if [ ! -s "$f" ]; then
-        echo "  [FAIL] references/templates/$tpl.md missing or empty"
-        exit 1
-    fi
-    echo "  [PASS] references/templates/$tpl.md exists"
-done
-echo ""
-
-# Test 5: SKILL.md mentions every reference file plus the templates directory
-echo "Test 5: SKILL.md mentions every reference..."
-for ref in test-patterns iteration-loop pressure-testing description-optimization; do
-    if grep -qF "references/$ref.md" "$SKILL_MD"; then
-        echo "  [PASS] SKILL.md mentions $ref.md"
-    else
+    if ! grep -qF "references/$ref.md" "$SKILL_MD"; then
         echo "  [FAIL] SKILL.md missing reference to $ref.md"
         exit 1
     fi
+    echo "  [PASS] references/$ref.md exists and is mentioned"
 done
-if grep -qF "references/templates/" "$SKILL_MD"; then
-    echo "  [PASS] SKILL.md mentions references/templates/"
-else
-    echo "  [FAIL] SKILL.md missing reference to references/templates/"
-    exit 1
-fi
 echo ""
 
-# Test 6: SKILL.md surfaces all five lifecycle modes
-echo "Test 6: SKILL.md surfaces all five modes..."
-for mode in 'Mode A' 'Mode B' 'Mode C' 'Mode D' 'Mode E'; do
-    if grep -qF "$mode" "$SKILL_MD"; then
-        echo "  [PASS] SKILL.md has $mode heading"
-    else
-        echo "  [FAIL] SKILL.md missing $mode heading"
+# Test 5: Agent docs exist and SKILL.md mentions each
+echo "Test 5: Agent docs exist and are mentioned..."
+for agent in grader comparator analyzer; do
+    f="$SKILL_DIR/agents/$agent.md"
+    if [ ! -s "$f" ]; then
+        echo "  [FAIL] agents/$agent.md missing or empty"
         exit 1
     fi
+    if ! grep -qF "agents/$agent.md" "$SKILL_MD"; then
+        echo "  [FAIL] SKILL.md missing reference to agents/$agent.md"
+        exit 1
+    fi
+    echo "  [PASS] agents/$agent.md exists and is mentioned"
 done
-for keyword in scaffold iterate pressure-test 'optimize description' extract; do
+echo ""
+
+# Test 6: Eval pipeline tooling is present
+echo "Test 6: Eval pipeline tooling present..."
+for tool in scripts/quick_validate.py scripts/package_skill.py scripts/run_eval.py scripts/run_loop.py scripts/improve_description.py scripts/aggregate_benchmark.py scripts/generate_report.py eval-viewer/generate_review.py eval-viewer/viewer.html assets/eval_review.html; do
+    if [ ! -s "$SKILL_DIR/$tool" ]; then
+        echo "  [FAIL] $tool missing or empty"
+        exit 1
+    fi
+    echo "  [PASS] $tool exists"
+done
+for mention in 'generate_review.py' 'aggregate_benchmark' 'run_loop' 'package_skill' 'assets/eval_review.html'; do
+    if ! grep -qF "$mention" "$SKILL_MD"; then
+        echo "  [FAIL] SKILL.md does not mention $mention"
+        exit 1
+    fi
+    echo "  [PASS] SKILL.md mentions $mention"
+done
+echo ""
+
+# Test 7: SKILL.md surfaces the core lifecycle stages
+echo "Test 7: SKILL.md surfaces lifecycle stages..."
+for keyword in 'Capture Intent' 'Test Cases' 'Improving the skill' 'Description Optimization' 'trigger regression' 'marketplace'; do
     if grep -qiF "$keyword" "$SKILL_MD"; then
         echo "  [PASS] SKILL.md mentions $keyword"
     else
@@ -139,73 +138,38 @@ for keyword in scaffold iterate pressure-test 'optimize description' extract; do
 done
 echo ""
 
-# Test 7: SKILL.md mentions marketplace detection
-echo "Test 7: SKILL.md mentions marketplace detection..."
-for term in '.claude-plugin/marketplace.json' '.agents/plugins/marketplace.json'; do
-    if grep -qF "$term" "$SKILL_MD"; then
-        echo "  [PASS] SKILL.md mentions $term"
-    else
-        echo "  [FAIL] SKILL.md missing $term"
-        exit 1
-    fi
-done
-echo ""
-
-# Test 8: SKILL.md mentions the three SKILL.md template types
-echo "Test 8: SKILL.md mentions three template types..."
-for kind in 'api' 'workflow' 'reference'; do
-    if grep -qiE "$kind" "$SKILL_MD"; then
-        echo "  [PASS] SKILL.md mentions $kind template"
-    else
-        echo "  [FAIL] SKILL.md missing $kind template type"
-        exit 1
-    fi
-done
-echo ""
-
-# Test 9: SKILL.md description includes specific trigger keywords
-echo "Test 9: Description has triggers..."
+# Test 8: SKILL.md description includes specific trigger keywords
+echo "Test 8: Description has triggers..."
 desc=$(awk '/^description:/{flag=1;sub(/^description:[ ]*/,"")} /^---$/{flag=0} flag' "$SKILL_MD")
-if echo "$desc" | grep -qiE 'scaffold|iterat|pressure|optim|extract'; then
-    echo "  [PASS] description mentions lifecycle verbs"
+if echo "$desc" | grep -qiE 'creat|improv|edit'; then
+    echo "  [PASS] description mentions creation and improvement"
 else
-    echo "  [FAIL] description missing lifecycle verbs"
+    echo "  [FAIL] description missing creation and improvement verbs"
     exit 1
 fi
-if echo "$desc" | grep -qi 'marketplace'; then
-    echo "  [PASS] description mentions marketplace"
+if echo "$desc" | grep -qiE 'eval|benchmark|triggering'; then
+    echo "  [PASS] description mentions evals and triggering"
 else
-    echo "  [FAIL] description missing marketplace context"
+    echo "  [FAIL] description missing eval and triggering context"
     exit 1
 fi
 echo ""
 
-# Test 10: SKILL.md no em-dashes (project rule)
-echo "Test 10: No em-dashes in SKILL.md..."
-if grep -nP '[\x{2014}\x{2013}]' "$SKILL_MD"; then
-    echo "  [FAIL] em-dashes found in SKILL.md"
+# Test 9: No em-dashes or en-dashes anywhere in the skill subtree (project rule)
+# Byte-literal UTF-8 patterns instead of grep -P: stock macOS BSD grep has no -P,
+# and a failing grep invocation reads as "no match", silently passing the test.
+echo "Test 9: No em-dashes in skill subtree..."
+EMDASH=$'\xe2\x80\x94'
+ENDASH=$'\xe2\x80\x93'
+if grep -rn -e "$EMDASH" -e "$ENDASH" "$SKILL_DIR"; then
+    echo "  [FAIL] em-dashes or en-dashes found in skill subtree"
     exit 1
 fi
-echo "  [PASS] no em-dashes in SKILL.md"
-for ref in test-patterns iteration-loop pressure-testing description-optimization; do
-    f="$SKILL_DIR/references/$ref.md"
-    if grep -nP '[\x{2014}\x{2013}]' "$f"; then
-        echo "  [FAIL] em-dashes found in references/$ref.md"
-        exit 1
-    fi
-    echo "  [PASS] no em-dashes in references/$ref.md"
-done
-while IFS= read -r f; do
-    if grep -nP '[\x{2014}\x{2013}]' "$f"; then
-        echo "  [FAIL] em-dashes found in $f"
-        exit 1
-    fi
-    echo "  [PASS] no em-dashes in ${f#$SKILL_DIR/}"
-done < <(find "$SKILL_DIR/references/templates" -name '*.md')
+echo "  [PASS] no em-dashes or en-dashes in skill subtree"
 echo ""
 
-# Test 11: Marketplace registration in both files
-echo "Test 11: Marketplace registration..."
+# Test 10: Marketplace registration in both files
+echo "Test 10: Marketplace registration..."
 for mkt in .claude-plugin/marketplace.json .agents/plugins/marketplace.json; do
     if jq -r '.plugins[].name' "$REPO_ROOT/$mkt" | grep -q '^agent-system-management$'; then
         echo "  [PASS] $mkt registers agent-system-management"
@@ -216,12 +180,12 @@ for mkt in .claude-plugin/marketplace.json .agents/plugins/marketplace.json; do
 done
 echo ""
 
-# Test 12: Version bump invariant is explicit
-echo "Test 12: Version bump invariant..."
-if grep -qF 'Version bump required for every plugin change' "$SKILL_MD"; then
-    echo "  [PASS] SKILL.md requires plugin version bumps"
+# Test 11: Version bump invariant is explicit
+echo "Test 11: Version bump invariant..."
+if grep -qF 'plugin change' "$SKILL_DIR/references/marketplace-integration.md"; then
+    echo "  [PASS] marketplace-integration.md covers version bump discipline"
 else
-    echo "  [FAIL] SKILL.md missing version bump invariant"
+    echo "  [FAIL] marketplace-integration.md missing version bump discipline"
     exit 1
 fi
 if grep -qF 'Every plugin change bumps version' "$REPO_ROOT/AGENTS.md"; then
@@ -230,10 +194,10 @@ else
     echo "  [FAIL] AGENTS.md missing plugin version bump rule"
     exit 1
 fi
-if jq -e '.plugins[] | select(.name == "agent-system-management") | .version == "0.4.3"' "$REPO_ROOT/.claude-plugin/marketplace.json" >/dev/null; then
-    echo "  [PASS] Claude marketplace agent-system-management at 0.4.3"
+if jq -e '.plugins[] | select(.name == "agent-system-management") | .version == "0.5.0"' "$REPO_ROOT/.claude-plugin/marketplace.json" >/dev/null; then
+    echo "  [PASS] Claude marketplace agent-system-management at 0.5.0"
 else
-    echo "  [FAIL] Claude marketplace agent-system-management not at 0.4.3"
+    echo "  [FAIL] Claude marketplace agent-system-management not at 0.5.0"
     exit 1
 fi
 echo ""

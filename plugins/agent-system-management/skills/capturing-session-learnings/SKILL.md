@@ -74,6 +74,8 @@ Avoid:
 - Obvious information
 - One-off fixes unlikely to recur
 
+When a learning takes the form of a prohibition, capture the reason or the preferred alternative in the same line. A bare "do not X" does not generalize to the next session; "prefer Y over X because Z" does.
+
 ## Step 5: Show proposed changes
 
 For each addition:

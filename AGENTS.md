@@ -70,13 +70,13 @@ containers/
 | `research` | 2.1.1 | `research` (multi-agent pipeline with review gates) |
 | `writing` | 1.7.0 | `writing`, `pyramid`, `tech-doc`, `presentations` |
 | `runtime-bridge` | 0.1.0 | `claude-codex-bridge` |
-| `agent-system-management` | 0.4.2 | `improving-instructions`, `capturing-session-learnings`, `creating-skills` |
-| `workbench` | 0.20.0 | `brainstorming`, `writing-spec`, `writing-plans`, `visualizing-options`, `using-workbench`, `terse-mode`, `autopilot`, `copilot`, `verification-before-completion`, `test-driven-development`, `dispatching-parallel-agents`, `subagent-driven-development`, `systematic-debugging`, `crafting-html`, `crafting-design-systems`, `crafting-presentations`, `exporting-decks-to-pptx`, `perfecting-presentations` |
+| `agent-system-management` | 0.4.3 | `improving-instructions`, `capturing-session-learnings`, `creating-skills` |
+| `workbench` | 0.21.0 | `brainstorming`, `writing-spec`, `writing-plans`, `visualizing-options`, `using-workbench`, `terse-mode`, `autopilot`, `copilot`, `verification-before-completion`, `test-driven-development`, `dispatching-parallel-agents`, `subagent-driven-development`, `systematic-debugging`, `crafting-html`, `crafting-design-systems`, `crafting-presentations`, `exporting-decks-to-pptx`, `perfecting-presentations` |
 | `terminal` | 0.1.0 | `tmux` |
 | `frontend-design` | 0.2.1 | `frontend-design` (ported from Anthropic, Apache 2.0 upstream), `emil-design-eng` (ported from emilkowalski/skill, no upstream license declared) |
 | `playground` | 0.1.0 | `playground` (ported from Anthropic, Apache 2.0 upstream) |
 | `databricks` | 0.3.0 | `databricks-core` (ported from databricks/databricks-agent-skills under upstream Databricks License, restricted to Databricks Services), `databricks-docs` |
-| `learning` | 0.1.0 | `quizzing-the-session`, `quizzing-a-topic` (adapted from the ThariqS "Learn Quiz" gist) |
+| `learning` | 0.2.0 | `quizzing-the-session`, `quizzing-a-topic` (adapted from the ThariqS "Learn Quiz" gist), `surveying-blind-spots` (adapted from Thariq Shihipar's blind-spot-pass technique) |
 
 ## How to Develop a New Skill
 

@@ -81,9 +81,9 @@ if grep -rqP '[\x{2014}\x{2013}]' "$SKILL_DIR"; then
 fi
 echo "[PASS]"
 
-echo "Test 13: workbench plugin version pinned to 0.20.0..."
-jq -e '.version == "0.20.0"' "$PLUGIN_JSON" > /dev/null \
-  || { echo "[FAIL] workbench plugin.json not at 0.20.0"; exit 1; }
+echo "Test 13: workbench plugin version pinned to 0.21.0..."
+jq -e '.version == "0.21.0"' "$PLUGIN_JSON" > /dev/null \
+  || { echo "[FAIL] workbench plugin.json not at 0.21.0"; exit 1; }
 echo "[PASS]"
 
 echo

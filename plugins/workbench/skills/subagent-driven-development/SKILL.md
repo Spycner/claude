@@ -29,11 +29,12 @@ For each plan task:
 3. Include acceptance criteria and verification commands.
 4. Tell the agent it is not alone in the codebase and must not revert edits made by others.
 5. Wait for the implementation agent to return.
-6. Run the spec compliance reviewer.
-7. Fix any spec gaps and re-review.
-8. Run the code quality reviewer.
-9. Fix any quality issues and re-review.
-10. Mark the task complete only after both review gates pass.
+6. Record any deviations the agent returned in a running list for the whole plan execution.
+7. Run the spec compliance reviewer.
+8. Fix any spec gaps and re-review.
+9. Run the code quality reviewer.
+10. Fix any quality issues and re-review.
+11. Mark the task complete only after both review gates pass.
 
 ## Two review gates
 
@@ -76,6 +77,7 @@ Return:
 - Files changed.
 - Verification commands and results.
 - Concerns, if any.
+- Deviations: each decision point the task did not specify and how you resolved it, or none.
 ```
 
 ## Handling Agent Status
@@ -108,4 +110,5 @@ After all tasks pass both review gates:
 
 - Run the full relevant verification set.
 - Inspect `git status` and `git diff`.
+- Report the collected deviations from all tasks to the user, or state that there were none.
 - Use `workbench:verification-before-completion` before claiming the branch is complete or ready.

@@ -38,6 +38,16 @@ Autopilot maintains a visible task list for the whole run and keeps it current. 
 - Keep the task list aligned with the committed or scratch plan. If the plan changes, update the task list in the same turn before executing the changed work.
 - In the end-of-turn summary, mention any task-list item that remains incomplete and why.
 
+## Deviation Log
+
+Autonomy means deciding without pausing, not deciding without a trace. Keep a per-run deviation log so the user can see afterward where the run departed from the spec, plan, or profile.
+
+- Start the log fresh at the beginning of every run: `mkdir -p /tmp/<project-name>-autopilot && rm -f /tmp/<project-name>-autopilot/deviations.md`.
+- When you hit a decision point the plan, spec, or profile did not specify, or where reality contradicts them (an API that does not behave as the spec assumed, a missing file, a wrong test command), decide per the fork rule in Tone and reporting, then append one entry before continuing: the step you were in, what was unspecified or wrong, what you decided, and one line of reasoning.
+- Log every departure from the committed plan: a task executed differently than written, a task skipped, or a task added. Also log any deviation a subagent reports in its return (a `DONE_WITH_CONCERNS` status or a deviations block).
+- Do not log routine choices the plan anticipated (variable names, commit wording). The log records forks, not noise.
+- The log lives in scratch and is never committed.
+
 ## Non-negotiables
 
 See `references/invariants.md` for the full list. Summary:
@@ -292,5 +302,5 @@ If the user explicitly says "don't merge" before or during the run, override `au
 ## Tone and reporting
 
 - Terse between tool calls. The user sees the PR diff; they don't need narration.
-- End-of-turn summary: PR URL, one sentence on what changed, next step (usually "review when ready" or, for automerge, "merged at <commit>"). Also list any required skill that was unavailable in the runtime and therefore skipped.
+- End-of-turn summary: PR URL, one sentence on what changed, next step (usually "review when ready" or, for automerge, "merged at <commit>"). Also list any required skill that was unavailable in the runtime and therefore skipped. Also list every deviation-log entry, one line each, or state that there were no deviations; a deviation that changed user-visible behavior also belongs in the PR body's `## Summary`.
 - If you hit an unexpected fork in the road that truly needs the user (not a routine choice), stop and ask. But bias strongly toward deciding yourself; that is the point of autopilot.

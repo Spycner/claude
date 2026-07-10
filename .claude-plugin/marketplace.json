@@ -38,13 +38,13 @@
       "name": "agent-system-management",
       "source": "./plugins/agent-system-management",
       "description": "Audit AGENTS.md / CLAUDE.md, capture session learnings, and create Claude Code / Codex skills.",
-      "version": "0.4.2"
+      "version": "0.4.3"
     },
     {
       "name": "workbench",
       "source": "./plugins/workbench",
       "description": "Personal Workbench skills for design and autonomous feature work.",
-      "version": "0.20.0"
+      "version": "0.21.0"
     },
     {
       "name": "terminal",
@@ -73,8 +73,8 @@
     {
       "name": "learning",
       "source": "./plugins/learning",
-      "description": "Socratic teach-and-quiz skills that verify you deeply understand a session or a topic.",
-      "version": "0.1.0"
+      "description": "Socratic teach-and-quiz skills plus a pre-work blind-spot survey, so you deeply understand a session, a topic, or an unfamiliar area.",
+      "version": "0.2.0"
     }
   ]
 }

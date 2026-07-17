@@ -1,1 +1,0 @@
-I want to ship this feature with copilot: let me drive the brainstorm and the spec by hand, then you automate the plan, implementation, and PR.

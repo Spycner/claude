@@ -1,1 +1,0 @@
-Set up a design system for this project under .workbench/design-systems/ that themes our generated HTML artifacts.

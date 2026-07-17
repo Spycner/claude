@@ -1,1 +1,0 @@
-I'm about to start working on the auth module and I know nothing about it. Do a blind spot pass so I find my unknown unknowns before I write a prompt.

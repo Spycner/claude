@@ -46,6 +46,42 @@ select_default_shell() {
     fi
 }
 
+# NET_MODE=proxied: all egress goes through the squid sidecar, which may
+# still be starting when this entrypoint runs. Wait until it accepts TCP
+# before attempting the agent installs.
+wait_for_proxy() {
+    [ -n "${HTTPS_PROXY:-}" ] || return 0
+    local hostport="${HTTPS_PROXY#http://}"
+    local host="${hostport%%:*}"
+    local port="${hostport##*:}"
+    for _ in $(seq 1 30); do
+        if (exec 3<>"/dev/tcp/$host/$port") 2>/dev/null; then
+            exec 3>&- 3<&-
+            return 0
+        fi
+        sleep 1
+    done
+    echo "proxy $host:$port not reachable after 30s" >&2
+    return 1
+}
+
+# AGENT_STATE=auth: ~/.claude and ~/.codex are not mounted. Copy only the
+# credential files from the read-only host-home mount so the agents run
+# authenticated but otherwise clean (no host plugins, settings, or history).
+# Runs on every container start, so a restart re-syncs freshly rotated tokens.
+copy_auth_only() {
+    [ "${AGENT_STATE:-full}" = "auth" ] || return 0
+    mkdir -p /home/dev/.claude /home/dev/.codex
+    if [ -f /host-home/.claude/.credentials.json ]; then
+        cp -f /host-home/.claude/.credentials.json /home/dev/.claude/.credentials.json
+        chmod 600 /home/dev/.claude/.credentials.json
+    fi
+    if [ -f /host-home/.codex/auth.json ]; then
+        cp -f /host-home/.codex/auth.json /home/dev/.codex/auth.json
+        chmod 600 /home/dev/.codex/auth.json
+    fi
+}
+
 install_agents() {
     if ! command -v claude >/dev/null 2>&1; then
         eval "$CLAUDE_INSTALL_CMD"
@@ -59,7 +95,9 @@ if [ "${COPY_DOTFILES:-1}" = "1" ]; then
     snapshot_dotfiles
     neutralize_unsupported_lines
 fi
+copy_auth_only
 select_default_shell
+wait_for_proxy
 install_agents
 
 exec tail -f /dev/null

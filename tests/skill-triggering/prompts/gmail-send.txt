@@ -1,1 +1,0 @@
-Send an email to bob@example.com about the project update

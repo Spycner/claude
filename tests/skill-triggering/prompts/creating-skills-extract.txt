@@ -1,1 +1,0 @@
-We just spent an hour figuring out how to render PDFs into Notion-compatible markdown. Turn this conversation into a reusable skill.

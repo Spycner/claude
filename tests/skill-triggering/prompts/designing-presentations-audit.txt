@@ -1,1 +1,0 @@
-I have an existing slide deck saved at /tmp/example/deck.md. Can you audit it against good-presentation principles and tell me what to fix before I deliver it next week?

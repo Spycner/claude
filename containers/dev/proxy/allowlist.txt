@@ -1,0 +1,24 @@
+# Outbound domain allowlist for NET_MODE=proxied dev containers.
+# SEED TEMPLATE: run-dev copies this to ~/.config/claude-codex-dev/ on first
+# use; edit the live copy there, then restart the proxy container to reload.
+# One entry per line. A leading dot matches the domain and all its
+# subdomains; a bare hostname matches exactly. Do not list a bare domain
+# and its dotted form together (squid rejects subdomain duplicates).
+
+# Claude Code: API, installer, release downloads
+.anthropic.com
+.claude.ai
+storage.googleapis.com
+
+# Codex: ChatGPT auth and API
+.openai.com
+.chatgpt.com
+
+# Package registries and toolchain installs
+registry.npmjs.org
+mise.run
+mise.jdx.dev
+
+# Git hosting over HTTPS
+.github.com
+.githubusercontent.com

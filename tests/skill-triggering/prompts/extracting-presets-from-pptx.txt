@@ -1,1 +1,0 @@
-Add acme-corp as a presentation preset: extract the colors, fonts, and a few reusable slides from the attached corporate PowerPoint template at brand/acme-template.pptx.

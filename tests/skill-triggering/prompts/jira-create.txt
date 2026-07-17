@@ -1,1 +1,0 @@
-Create a new bug ticket in the TEST project about a login page error

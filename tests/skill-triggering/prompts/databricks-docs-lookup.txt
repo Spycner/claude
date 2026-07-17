@@ -1,1 +1,0 @@
-How do I configure autoscaling for a Databricks Model Serving endpoint?

@@ -1,1 +1,0 @@
-Autonomously implement and ship a feature that adds CSV export to the report page, all the way through to a green CI build.

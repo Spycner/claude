@@ -3,9 +3,44 @@
 set -euo pipefail
 
 IMAGE_TAG="pgoell-dev-container:latest"
+# AGENT_STATE=full mounts ~/.claude and ~/.codex (plugins, settings, history).
+# AGENT_STATE=auth copies only the credential files in, everything else clean.
+# Each mode gets its own container so both can coexist and a mode switch never
+# silently reuses a container created in the other mode.
+AGENT_STATE="${AGENT_STATE:-full}"
+case "$AGENT_STATE" in
+    full|auth) ;;
+    *) echo "AGENT_STATE must be 'full' or 'auth', got: $AGENT_STATE" >&2; exit 2 ;;
+esac
+# NET_MODE=open gives normal outbound network access.
+# NET_MODE=proxied attaches the container to an internal network with no
+# route out; the only egress is a squid sidecar enforcing the host-owned
+# allowlist in proxy/allowlist.txt. Inbound is deny-all in both modes
+# (nothing is published). Like AGENT_STATE, the mode is baked in at
+# container creation, so it is part of the container name.
+NET_MODE="${NET_MODE:-open}"
+case "$NET_MODE" in
+    open|proxied) ;;
+    *) echo "NET_MODE must be 'open' or 'proxied', got: $NET_MODE" >&2; exit 2 ;;
+esac
 CONTAINER_NAME="claude-codex-dev"
+[ "$AGENT_STATE" = "auth" ] && CONTAINER_NAME="$CONTAINER_NAME-auth"
+[ "$NET_MODE" = "proxied" ] && CONTAINER_NAME="$CONTAINER_NAME-proxied"
 MISE_VOLUME="claude-codex-mise"
 HISTORY_VOLUME="claude-codex-shell-history"
+
+PROXY_NAME="claude-codex-proxy"
+PROXY_IMAGE="docker.io/ubuntu/squid:latest"
+# Live proxy config lives OUTSIDE any repo so no dev container can reach it
+# through a read-write /workspace mount (this repo itself would otherwise
+# expose the seed files writable). Seeded from ./proxy/ on first use.
+PROXY_CONF_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/claude-codex-dev"
+INTERNAL_NET="claude-codex-internal"
+INTERNAL_SUBNET="10.130.130.0/24"
+# Static IP so the dev container needs no DNS to find the proxy (rootless
+# netavark DNS on internal networks is unreliable on older versions).
+PROXY_INTERNAL_IP="10.130.130.2"
+EGRESS_NET="claude-codex-egress"
 
 detect_engine() {
     if [ -n "${CONTAINER_ENGINE:-}" ]; then
@@ -29,7 +64,8 @@ image_exists() {
 
 container_exists() {
     local engine="$1"
-    "$engine" inspect "$CONTAINER_NAME" >/dev/null 2>&1
+    local name="${2:-$CONTAINER_NAME}"
+    "$engine" inspect "$name" >/dev/null 2>&1
 }
 
 build_image() {
@@ -37,6 +73,39 @@ build_image() {
     local script_dir
     script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
     "$engine" build -t "$IMAGE_TAG" "$script_dir"
+}
+
+network_exists() {
+    local engine="$1" net="$2"
+    "$engine" network inspect "$net" >/dev/null 2>&1
+}
+
+# Networks + squid sidecar for NET_MODE=proxied. The internal network has no
+# route out; the proxy bridges it to the egress network. squid.conf and
+# allowlist.txt are mounted read-only from the host into the proxy only, so
+# no dev container can see or edit them.
+ensure_proxy() {
+    local engine="$1"
+    local script_dir
+    script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    network_exists "$engine" "$INTERNAL_NET" \
+        || "$engine" network create --internal --subnet "$INTERNAL_SUBNET" "$INTERNAL_NET" >/dev/null
+    network_exists "$engine" "$EGRESS_NET" \
+        || "$engine" network create "$EGRESS_NET" >/dev/null
+    mkdir -p "$PROXY_CONF_DIR"
+    [ -f "$PROXY_CONF_DIR/squid.conf" ] || cp "$script_dir/proxy/squid.conf" "$PROXY_CONF_DIR/squid.conf"
+    [ -f "$PROXY_CONF_DIR/allowlist.txt" ] || cp "$script_dir/proxy/allowlist.txt" "$PROXY_CONF_DIR/allowlist.txt"
+    if container_exists "$engine" "$PROXY_NAME"; then
+        "$engine" start "$PROXY_NAME" >/dev/null
+    else
+        "$engine" run -d \
+            --name "$PROXY_NAME" \
+            --network "$EGRESS_NET" \
+            -v "$PROXY_CONF_DIR/squid.conf:/etc/squid/squid.conf:ro" \
+            -v "$PROXY_CONF_DIR/allowlist.txt:/etc/squid/allowlist.txt:ro" \
+            "$PROXY_IMAGE" >/dev/null
+        "$engine" network connect --ip "$PROXY_INTERNAL_IP" "$INTERNAL_NET" "$PROXY_NAME"
+    fi
 }
 
 run_container() {
@@ -55,17 +124,42 @@ run_container() {
     else
         userns_args=(--user "$(id -u):$(id -g)")
     fi
+    # In auth mode the agent dirs stay container-local; the entrypoint copies
+    # the credential files from the read-only /host-home mount instead.
+    local state_mounts=()
+    if [ "$AGENT_STATE" = "full" ]; then
+        state_mounts=(
+            -v "$HOME/.claude:/home/dev/.claude"
+            -v "$HOME/.codex:/home/dev/.codex"
+        )
+    fi
+    local net_args=()
+    if [ "$NET_MODE" = "proxied" ]; then
+        ensure_proxy "$engine"
+        local proxy_url="http://$PROXY_INTERNAL_IP:3128"
+        net_args=(
+            --network "$INTERNAL_NET"
+            -e "HTTP_PROXY=$proxy_url"
+            -e "HTTPS_PROXY=$proxy_url"
+            -e "http_proxy=$proxy_url"
+            -e "https_proxy=$proxy_url"
+            -e "NO_PROXY=localhost,127.0.0.1"
+            -e "no_proxy=localhost,127.0.0.1"
+        )
+    fi
     "$engine" run -d \
         --name "$CONTAINER_NAME" \
         "${userns_args[@]}" \
-        -v "$HOME/.claude:/home/dev/.claude" \
-        -v "$HOME/.codex:/home/dev/.codex" \
+        "${state_mounts[@]}" \
+        "${net_args[@]}" \
         -v "$PWD:/workspace" \
         -v "$HOME:/host-home:ro" \
         -v "$MISE_VOLUME:/home/dev/.local/share/mise" \
         -v "$HISTORY_VOLUME:/home/dev/.shell_history" \
         -e "HOST_SHELL=$host_shell" \
         -e "COPY_DOTFILES=$copy_dotfiles" \
+        -e "AGENT_STATE=$AGENT_STATE" \
+        -e "MISE_TRUSTED_CONFIG_PATHS=/workspace" \
         "$IMAGE_TAG"
 }
 
@@ -74,6 +168,7 @@ start_container() {
     engine="$(detect_engine)"
     image_exists "$engine" || build_image "$engine"
     if container_exists "$engine"; then
+        [ "$NET_MODE" = "proxied" ] && ensure_proxy "$engine"
         "$engine" start "$CONTAINER_NAME" >/dev/null
     else
         run_container "$engine" >/dev/null
@@ -97,7 +192,14 @@ status_container() {
     local engine
     engine="$(detect_engine)"
     echo "engine: $engine"
+    echo "agent state: $AGENT_STATE"
+    echo "net mode: $NET_MODE"
     echo "container: $CONTAINER_NAME"
+    if [ "$NET_MODE" = "proxied" ]; then
+        local proxy_running
+        proxy_running="$("$engine" inspect -f '{{.State.Running}}' "$PROXY_NAME" 2>/dev/null || echo "not created")"
+        echo "proxy: $PROXY_NAME (running: $proxy_running)"
+    fi
     if container_exists "$engine"; then
         local running
         running="$("$engine" inspect -f '{{.State.Running}}' "$CONTAINER_NAME" 2>/dev/null || echo unknown)"

@@ -11,13 +11,52 @@ cd containers/dev
 ./run-dev status   # report state
 ./run-dev stop     # stop the container
 ./run-dev rebuild  # nuke container + image, start fresh (volumes survive)
+
+AGENT_STATE=auth ./run-dev      # clean-state variant: auth only, no host config
+NET_MODE=proxied ./run-dev      # egress locked to an allowlist via squid sidecar
 ```
 
 The container is named `claude-codex-dev` and is reused across projects. Run `run-dev` from each project directory; the project bind mount picks up `$PWD` automatically.
 
+## Agent State Modes
+
+`AGENT_STATE` picks how much host agent state the container sees. The mode is baked in when the container is created, so each mode gets its own container; both can coexist and share the mise and history volumes.
+
+- `AGENT_STATE=full` (default), container `claude-codex-dev`: bind-mounts `~/.claude` and `~/.codex` read-write. Plugins, settings, and memory are shared with the host, and changes made inside the container land on the host.
+- `AGENT_STATE=auth`, container `claude-codex-dev-auth`: mounts neither directory. The entrypoint copies only `~/.claude/.credentials.json` and `~/.codex/auth.json` from the read-only host-home mount, so both agents run authenticated but otherwise factory-clean (no host plugins, settings, or history), and nothing written inside `~/.claude` or `~/.codex` reaches the host.
+
+The copies are re-synced on every container start. If tokens rotate on the host and the auth container's copies go stale, restart it (`AGENT_STATE=auth ./run-dev stop && AGENT_STATE=auth ./run-dev`). Token refreshes that happen inside the auth container stay container-local.
+
+Every other subcommand honors the variable too: `AGENT_STATE=auth ./run-dev shell|status|stop|rebuild` operates on the auth container.
+
+## Network Modes
+
+`NET_MODE` picks the container's network posture. Like `AGENT_STATE`, it is baked in at creation and becomes part of the container name, so all four mode combinations can coexist (`claude-codex-dev`, `-auth`, `-proxied`, `-auth-proxied`).
+
+- `NET_MODE=open` (default): normal outbound access via the engine's default network.
+- `NET_MODE=proxied`: the container joins an internal network with no route to the internet. The only egress is a squid sidecar (`claude-codex-proxy`, static IP `10.130.130.2`) that bridges to a NAT network and enforces a domain allowlist. Standard proxy env vars (`HTTP_PROXY`, `HTTPS_PROXY`) are injected; tools that ignore them simply have no route, which is the intended deny-by-default.
+
+### The allowlist, and why the container cannot edit it
+
+`containers/dev/proxy/squid.conf` and `allowlist.txt` are seed templates. On first proxied start, `run-dev` copies them to `~/.config/claude-codex-dev/` and mounts the live copies read-only into the proxy container only. To change what is reachable, edit `~/.config/claude-codex-dev/allowlist.txt` on the host and restart the proxy (`podman restart claude-codex-proxy`).
+
+Tamper resistance, by construction rather than policy:
+
+- The dev container has no mount of the live config. It can see it read-only through `/host-home`, but writes fail even with sudo.
+- The live config deliberately lives outside any repo. A copy inside a project would be writable through the read-write `/workspace` mount (this repo's own seed templates are exactly that; they are templates, not the enforced config).
+- The proxy container itself has the files mounted read-only.
+- The dev container cannot reach the container engine, so it cannot restart the proxy or detach networks.
+
+### Proxied-mode caveats
+
+- Inbound is deny-all in every mode (nothing is published); proxied mode additionally cuts direct outbound.
+- Only ports 80 and 443 pass, and CONNECT is 443-only. SSH-based git does not work; use HTTPS remotes.
+- The squid access log (`podman logs claude-codex-proxy`) shows every allow/deny, which is the fastest way to find a domain a tool still needs.
+- The proxy is shared by all proxied containers and stays running after `./run-dev stop`; stop it manually with `podman stop claude-codex-proxy` if you want it gone.
+
 ## What Gets Mounted
 
-- `~/.claude` and `~/.codex` (read-write): your existing agent configs.
+- `~/.claude` and `~/.codex` (read-write): your existing agent configs. Full mode only; auth mode copies just the credential files instead.
 - `$PWD` to `/workspace` (read-write): the current project.
 - Named volume `claude-codex-mise` to `/home/dev/.local/share/mise`: language installs cached across rebuilds.
 - Named volume `claude-codex-shell-history` to `/home/dev/.shell_history`: bash and zsh history.
@@ -39,7 +78,7 @@ Starship init and mise activate remain functional.
 Beyond bash, zsh, tmux, mise, git, and the build dependencies needed by mise, the image includes a small curated CLI set so snapshot-copied dotfiles work without errors and common workflows feel native:
 
 - `ripgrep` (`rg`), `fd-find` (exposed as `fd`), `fzf`, `jq`, `bat` (exposed as `bat`), `eza`, `btop`.
-- Via mise: `starship` (prompt), `node@lts` + `npm` (Codex install), `rust@stable` (cargo, rustc).
+- Via mise: `starship` (prompt), `node@lts` + `npm` (Codex install), `rust@stable` (cargo, rustc). The workspace's `mise.toml` is auto-trusted (`MISE_TRUSTED_CONFIG_PATHS=/workspace`), so mise shims work in projects that ship one.
 - Anything else you need: install at runtime inside the container with `mise install <tool>` or `apt install <pkg>`.
 
 ## What Is NOT Mounted

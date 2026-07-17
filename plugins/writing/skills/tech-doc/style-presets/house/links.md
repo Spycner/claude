@@ -1,10 +1,11 @@
 # House: Links and cross-references
 
 Sources:
+
 - Google: https://developers.google.com/style/cross-references, https://developers.google.com/style/link-text (CC BY 4.0)
 - Microsoft: https://learn.microsoft.com/en-us/style-guide/links-hyperlinks/ (paraphrased)
-Merge policy: see SOURCES.md
-Last refreshed: 2026-04-29
+  Merge policy: see SOURCES.md
+  Last refreshed: 2026-04-29
 
 ## Link text
 

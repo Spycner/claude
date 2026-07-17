@@ -18,7 +18,7 @@ Do not use this skill to build a new presentation; that is `workbench:crafting-p
 1. The deck HTML. Auto-detect the layout:
    - Single-file deck: a directory containing one `.html` with styles, runtime, and notes inlined.
    - Multi-file deck: a `slides/` layout with `slides/index.html` plus `slides/slides.css` and the runtime JS.
-   Every `<section>` is one slide; `data-screen-label` names it. A `<script type="application/json" id="speaker-notes">` block holds presenter notes keyed by 1-based slide number.
+     Every `<section>` is one slide; `data-screen-label` names it. A `<script type="application/json" id="speaker-notes">` block holds presenter notes keyed by 1-based slide number.
 2. The design tokens (`:root` CSS variables) and per-slide-type layout rules. Read the shared CSS first, then the deck's own inline `<style>` block in the HTML head. Decks override tokens locally, so the inline overrides win; lifting a token from the shared CSS alone will recolor the deck wrongly.
 3. Image assets the deck references (headshots, brand SVGs, logos).
 

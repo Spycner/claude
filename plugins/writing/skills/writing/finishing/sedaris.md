@@ -4,7 +4,7 @@
 
 **Dispatch:** Fourth and final finishing pass. Reads `draft.md`, `interview-synthesis.md` (for tone signal and lived anchors), and the active style guide. Updates `draft.md` in place. Appends to `finishing-notes.md`.
 
-```
+````
 Dispatched agent prompt:
   description: "Sedaris voice pass"
   prompt: |
@@ -73,4 +73,4 @@ Dispatched agent prompt:
     ## Reviewer Feedback
 
     {REVIEWER_FEEDBACK}
-```
+````

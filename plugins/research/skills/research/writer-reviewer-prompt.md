@@ -4,7 +4,7 @@
 
 **Dispatch:** Spawned by the orchestrator after writer. Reads brief + synthesis + report. Writes `report-review-{N}.md`.
 
-```
+````
 Dispatched agent prompt:
   description: "Review report prose"
   prompt: |
@@ -127,4 +127,4 @@ Dispatched agent prompt:
     ## Final Step
 
     Write the review file and return the verdict line + issue id list.
-```
+````

@@ -79,6 +79,7 @@ Use this shape for each task:
 ### Task N: [Component Name]
 
 **Files:**
+
 - Create: `exact/path/to/new-file.ext`
 - Modify: `exact/path/to/existing-file.ext`
 - Test: `tests/exact/path/to/test-file.ext`

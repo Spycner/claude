@@ -4,7 +4,7 @@
 
 **Dispatch:** One of eight critics in the tech-doc panel (always-on). Reads `intake.md`, `draft.md`, and the active style preset. Writes `critique-quadrant-fit.md`.
 
-```
+````
 Dispatched agent prompt:
   description: "Quadrant fit critique"
   prompt: |
@@ -123,4 +123,4 @@ Dispatched agent prompt:
     ## Reviewer Feedback
 
     {REVIEWER_FEEDBACK}
-```
+````

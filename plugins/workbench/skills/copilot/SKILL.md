@@ -66,15 +66,15 @@ See `../autopilot/references/invariants.md` for the full list. Summary:
 
 Read `../autopilot/references/required-skills.md` for the full table and `replaces` / `additional` semantics. The pre-PR audit (after step 6, before step 7) walks the merged table. The required skills are identical to autopilot; copilot differs only in how steps 2 and 3 are driven (by the user, not autonomously), never in which skills run.
 
-| Step | Universal skill |
-|---|---|
-| 0 | `workbench:using-workbench` |
-| 2 | `workbench:brainstorming` |
-| 3 | `workbench:writing-spec` |
-| 4 | `workbench:writing-plans` |
-| 5 | `workbench:test-driven-development`, `workbench:dispatching-parallel-agents`, and `workbench:subagent-driven-development` |
-| 6 | `agent-system-management:capturing-session-learnings` and `agent-system-management:improving-instructions` |
-| pre-PR | `workbench:verification-before-completion` |
+| Step   | Universal skill                                                                                                           |
+| ------ | ------------------------------------------------------------------------------------------------------------------------- |
+| 0      | `workbench:using-workbench`                                                                                               |
+| 2      | `workbench:brainstorming`                                                                                                 |
+| 3      | `workbench:writing-spec`                                                                                                  |
+| 4      | `workbench:writing-plans`                                                                                                 |
+| 5      | `workbench:test-driven-development`, `workbench:dispatching-parallel-agents`, and `workbench:subagent-driven-development` |
+| 6      | `agent-system-management:capturing-session-learnings` and `agent-system-management:improving-instructions`                |
+| pre-PR | `workbench:verification-before-completion`                                                                                |
 
 If a listed skill is unavailable in the current runtime, say so explicitly in the end-of-turn summary and skip only that entry. Never silently drop a row.
 

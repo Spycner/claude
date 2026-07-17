@@ -15,10 +15,10 @@ echo "=== Test: databricks:databricks-docs skill ==="
 for manifest in \
     "$PLUGIN_DIR/.claude-plugin/plugin.json" \
     "$PLUGIN_DIR/.codex-plugin/plugin.json"; do
-    if jq -e '.name == "databricks" and .version == "0.3.0" and .license == "MIT"' "$manifest" >/dev/null; then
-        echo "[PASS] $manifest metadata pinned at 0.3.0"
+    if jq -e '.name == "databricks" and .version == "0.3.1" and .license == "MIT"' "$manifest" >/dev/null; then
+        echo "[PASS] $manifest metadata pinned at 0.3.1"
     else
-        echo "[FAIL] $manifest metadata invalid (expected name=databricks, version=0.3.0, license=MIT)"; exit 1
+        echo "[FAIL] $manifest metadata invalid (expected name=databricks, version=0.3.1, license=MIT)"; exit 1
     fi
 done
 

@@ -10,13 +10,13 @@ Review the current session for context that was missing and would have helped th
 
 ## Platform Adaptation
 
-| Capability | Claude Code | Codex |
-|---|---|---|
-| Find files | `Glob` / `Grep` | `shell` (`find`, `grep`) |
-| Read a file | `Read` | `shell` (`cat`) |
-| Edit a file | `Edit` | `apply_patch` / `shell` heredoc |
+| Capability        | Claude Code       | Codex                                 |
+| ----------------- | ----------------- | ------------------------------------- |
+| Find files        | `Glob` / `Grep`   | `shell` (`find`, `grep`)              |
+| Read a file       | `Read`            | `shell` (`cat`)                       |
+| Edit a file       | `Edit`            | `apply_patch` / `shell` heredoc       |
 | User confirmation | `AskUserQuestion` | `ask_user` / built-in approval prompt |
-| Shell commands | `Bash` | `shell` |
+| Shell commands    | `Bash`            | `shell`                               |
 
 The skill body refers to actions abstractly. The host agent maps to its own tool inventory.
 
@@ -55,11 +55,11 @@ When two paths share the same `realpath`, treat them as one logical file. Edits 
 
 Decide where each addition belongs before drafting it:
 
-| Scope | Target file | Examples |
-|---|---|---|
-| Project-shared | `AGENTS.md` / `CLAUDE.md` (canonical) | Build commands, this codebase's quirks, team-wide conventions |
-| Project-local | `AGENTS.local.md` / `CLAUDE.local.md` | Your personal overrides for this project, not for the team |
-| User-global | `~/.claude/CLAUDE.md` / `~/.codex/AGENTS.md` | Cross-project rules: writing style, tool preferences, system-wide preferences |
+| Scope          | Target file                                  | Examples                                                                      |
+| -------------- | -------------------------------------------- | ----------------------------------------------------------------------------- |
+| Project-shared | `AGENTS.md` / `CLAUDE.md` (canonical)        | Build commands, this codebase's quirks, team-wide conventions                 |
+| Project-local  | `AGENTS.local.md` / `CLAUDE.local.md`        | Your personal overrides for this project, not for the team                    |
+| User-global    | `~/.claude/CLAUDE.md` / `~/.codex/AGENTS.md` | Cross-project rules: writing style, tool preferences, system-wide preferences |
 
 If a learning is generic enough to apply to other projects, route it to the user-global file rather than this project's AGENTS.md. Avoid duplication: if a rule already exists in the user-global file, don't restate it project-locally.
 
@@ -70,6 +70,7 @@ If a learning is generic enough to apply to other projects, route it to the user
 Format: `<command or pattern>`, `<brief description>`
 
 Avoid:
+
 - Verbose explanations
 - Obvious information
 - One-off fixes unlikely to recur

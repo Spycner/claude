@@ -1,10 +1,11 @@
 # House: Core Style
 
 Sources:
+
 - Google: https://developers.google.com/style (CC BY 4.0)
 - Microsoft: https://learn.microsoft.com/en-us/style-guide/welcome/ (paraphrased)
-Merge policy: see SOURCES.md
-Last refreshed: 2026-04-29
+  Merge policy: see SOURCES.md
+  Last refreshed: 2026-04-29
 
 ## Voice and tone
 

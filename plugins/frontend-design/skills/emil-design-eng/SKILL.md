@@ -39,12 +39,12 @@ People select tools based on the overall experience, not just functionality. Goo
 
 When reviewing UI code, you MUST use a markdown table with Before/After columns. Do NOT use a list with "Before:" and "After:" on separate lines. Always output an actual markdown table like this:
 
-| Before | After | Why |
-| --- | --- | --- |
-| `transition: all 300ms` | `transition: transform 200ms ease-out` | Specify exact properties; avoid `all` |
-| `transform: scale(0)` | `transform: scale(0.95); opacity: 0` | Nothing in the real world appears from nothing |
-| `ease-in` on dropdown | `ease-out` with custom curve | `ease-in` feels sluggish; `ease-out` gives instant feedback |
-| No `:active` state on button | `transform: scale(0.97)` on `:active` | Buttons must feel responsive to press |
+| Before                                | After                                                             | Why                                                                         |
+| ------------------------------------- | ----------------------------------------------------------------- | --------------------------------------------------------------------------- |
+| `transition: all 300ms`               | `transition: transform 200ms ease-out`                            | Specify exact properties; avoid `all`                                       |
+| `transform: scale(0)`                 | `transform: scale(0.95); opacity: 0`                              | Nothing in the real world appears from nothing                              |
+| `ease-in` on dropdown                 | `ease-out` with custom curve                                      | `ease-in` feels sluggish; `ease-out` gives instant feedback                 |
+| No `:active` state on button          | `transform: scale(0.97)` on `:active`                             | Buttons must feel responsive to press                                       |
 | `transform-origin: center` on popover | `transform-origin: var(--radix-popover-content-transform-origin)` | Popovers should scale from their trigger (not modals, modals stay centered) |
 
 Wrong format (never do this):
@@ -63,30 +63,30 @@ Correct format: A single markdown table with | Before | After | Why | columns, o
 
 When the user's question fits a topic below, read the relevant reference file before responding. For a holistic UI review, scan all of them first.
 
-| Topic | File | When to read |
-|---|---|---|
-| Animation timing, easing, duration, springs, stagger | `references/animation-framework.md` | Choosing whether to animate, picking easing, durations, springs, list reveals |
-| Buttons, popovers, tooltips, transitions vs keyframes, `@starting-style`, blur for crossfades | `references/component-principles.md` | Building or reviewing component-level interactions |
-| CSS transform mastery and `clip-path` patterns | `references/css-techniques.md` | When transform-origin, percentages, 3D, or clipping is in scope |
-| Gestures and drag with momentum, friction, multi-touch | `references/gestures.md` | Building drag, swipe, or drawer-style interactions |
-| Performance rules and debugging animations | `references/performance.md` | Frame drops, profiling, GPU vs main thread, slow-motion review |
-| Reduced motion and touch-device hover | `references/accessibility.md` | Anytime motion is added |
-| Sonner principles, building loved components | `references/sonner-principles.md` | Designing a component people love |
+| Topic                                                                                         | File                                 | When to read                                                                  |
+| --------------------------------------------------------------------------------------------- | ------------------------------------ | ----------------------------------------------------------------------------- |
+| Animation timing, easing, duration, springs, stagger                                          | `references/animation-framework.md`  | Choosing whether to animate, picking easing, durations, springs, list reveals |
+| Buttons, popovers, tooltips, transitions vs keyframes, `@starting-style`, blur for crossfades | `references/component-principles.md` | Building or reviewing component-level interactions                            |
+| CSS transform mastery and `clip-path` patterns                                                | `references/css-techniques.md`       | When transform-origin, percentages, 3D, or clipping is in scope               |
+| Gestures and drag with momentum, friction, multi-touch                                        | `references/gestures.md`             | Building drag, swipe, or drawer-style interactions                            |
+| Performance rules and debugging animations                                                    | `references/performance.md`          | Frame drops, profiling, GPU vs main thread, slow-motion review                |
+| Reduced motion and touch-device hover                                                         | `references/accessibility.md`        | Anytime motion is added                                                       |
+| Sonner principles, building loved components                                                  | `references/sonner-principles.md`    | Designing a component people love                                             |
 
 ## Review Checklist
 
 When reviewing UI code, check for:
 
-| Issue                                      | Fix                                                              |
-| ------------------------------------------ | ---------------------------------------------------------------- |
-| `transition: all`                          | Specify exact properties: `transition: transform 200ms ease-out` |
-| `scale(0)` entry animation                 | Start from `scale(0.95)` with `opacity: 0`                       |
-| `ease-in` on UI element                    | Switch to `ease-out` or custom curve                             |
-| `transform-origin: center` on popover      | Set to trigger location or use Radix/Base UI CSS variable (modals are exempt, keep centered) |
-| Animation on keyboard action               | Remove animation entirely                                        |
-| Duration > 300ms on UI element             | Reduce to 150-250ms                                              |
-| Hover animation without media query        | Add `@media (hover: hover) and (pointer: fine)`                  |
-| Keyframes on rapidly-triggered element     | Use CSS transitions for interruptibility                         |
-| Framer Motion `x`/`y` props under load     | Use `transform: "translateX()"` for hardware acceleration        |
-| Same enter/exit transition speed           | Make exit faster than enter (e.g., enter 2s, exit 200ms)         |
-| Elements all appear at once                | Add stagger delay (30-80ms between items)                        |
+| Issue                                  | Fix                                                                                          |
+| -------------------------------------- | -------------------------------------------------------------------------------------------- |
+| `transition: all`                      | Specify exact properties: `transition: transform 200ms ease-out`                             |
+| `scale(0)` entry animation             | Start from `scale(0.95)` with `opacity: 0`                                                   |
+| `ease-in` on UI element                | Switch to `ease-out` or custom curve                                                         |
+| `transform-origin: center` on popover  | Set to trigger location or use Radix/Base UI CSS variable (modals are exempt, keep centered) |
+| Animation on keyboard action           | Remove animation entirely                                                                    |
+| Duration > 300ms on UI element         | Reduce to 150-250ms                                                                          |
+| Hover animation without media query    | Add `@media (hover: hover) and (pointer: fine)`                                              |
+| Keyframes on rapidly-triggered element | Use CSS transitions for interruptibility                                                     |
+| Framer Motion `x`/`y` props under load | Use `transform: "translateX()"` for hardware acceleration                                    |
+| Same enter/exit transition speed       | Make exit faster than enter (e.g., enter 2s, exit 200ms)                                     |
+| Elements all appear at once            | Add stagger delay (30-80ms between items)                                                    |

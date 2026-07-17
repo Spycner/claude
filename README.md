@@ -6,48 +6,48 @@ Bundles 12 plugins across Atlassian, Google Workspace, Databricks, agent-system 
 
 ## Skills at a glance
 
-| Skill | Plugin | What it does |
-|---|---|---|
-| `jira` | `atlassian` | Search Jira issues, create and update tickets, transition workflows, comment, manage sprints, run bulk operations |
-| `confluence` | `atlassian` | Search Confluence pages, read documentation, create and update pages, browse spaces |
-| `gmail` | `google-workspace` | Triage inbox, search and read messages, send mail, manage drafts, labels, and filters via the `gws` CLI |
-| `calendar` | `google-workspace` | View agenda, manage events, check availability, manage calendars via the `gws` CLI |
-| `research` | `research` | Research complex topics and produce sourced reports |
-| `writing` | `writing` | Draft, review, and finish long form prose |
-| `pyramid` | `writing` | Structure analytical documents with the Pyramid Principle |
-| `tech-doc` | `writing` | Draft, review, and finish technical documentation |
-| `presentations` | `writing` | Design slide-deck content (audience, message, storyboard, per-slide briefs); hands off to `crafting-presentations` for HTML |
-| `claude-codex-bridge` | `runtime-bridge` | Align Claude Code and Codex project files |
-| `improving-instructions` | `agent-system-management` | Audit and improve agent instruction files |
-| `capturing-session-learnings` | `agent-system-management` | Capture session learnings into the right instruction file |
-| `creating-skills` | `agent-system-management` | Create, eval, benchmark, bulletproof, and tune skills across the full lifecycle |
-| `brainstorming` | `workbench` | Sequential Q&A to clarify design intent |
-| `writing-spec` | `workbench` | Synthesize a design discussion into a spec doc |
-| `writing-plans` | `workbench` | Turn approved specs into concrete implementation plans |
-| `visualizing-options` | `workbench` | Browser-based visual companion for layout choices |
-| `using-workbench` | `workbench` | Load Workbench skill rules and routing |
-| `terse-mode` | `workbench` | Compact token-saving replies until disabled |
-| `autopilot` | `workbench` | Ship a feature from brainstorm to PR using a project profile |
-| `copilot` | `workbench` | Human-in-the-loop autopilot: you drive brainstorm and spec, the agent ships the rest |
-| `verification-before-completion` | `workbench` | Require fresh verification evidence before completion claims |
-| `test-driven-development` | `workbench` | Enforce test-first RED-GREEN-REFACTOR implementation discipline |
-| `dispatching-parallel-agents` | `workbench` | Split independent tasks across concurrent agents |
-| `subagent-driven-development` | `workbench` | Execute implementation plans with fresh agents and review gates |
-| `systematic-debugging` | `workbench` | Root-cause investigation before proposing bug fixes |
-| `crafting-html` | `workbench` | Reference gallery of 21 HTML artifact patterns |
-| `crafting-design-systems` | `workbench` | Design systems (CSS variables, components, images) that theme HTML producers |
-| `crafting-presentations` | `workbench` | Multi-slide HTML decks with deck navigation, slide-type catalog, and a presenter view |
-| `exporting-decks-to-pptx` | `workbench` | Export a deck-stage HTML deck to a native, editable PowerPoint (.pptx) via python-pptx |
-| `perfecting-presentations` | `workbench` | Strict deck review loop: hard gates plus adversarial judge panels until rounds come back dry |
-| `tmux` | `terminal` | Control interactive terminal programs through isolated tmux sessions |
-| `frontend-design` | `frontend-design` | Distinctive, production-grade frontend interfaces that avoid generic AI aesthetics |
-| `emil-design-eng` | `frontend-design` | Emil Kowalski's design engineering philosophy: animation timing, component polish, UI craft |
-| `playground` | `playground` | Interactive single-file HTML playgrounds with controls, live preview, and copy-out prompt |
-| `databricks-core` | `databricks` | Databricks CLI, authentication, profile management, and data exploration |
-| `databricks-docs` | `databricks` | Live `docs.databricks.com` lookups for product-surface questions |
-| `quizzing-the-session` | `learning` | Get taught and quizzed on the current session's work until you demonstrably understand the problem, solution, and impact |
-| `quizzing-a-topic` | `learning` | Get taught and quizzed on any topic or theme you name until you demonstrably understand it |
-| `surveying-blind-spots` | `learning` | Pre-work blind-spot pass over an unfamiliar codebase area or field, surfacing unknown unknowns, gotchas, and better prompts |
+| Skill                            | Plugin                    | What it does                                                                                                                |
+| -------------------------------- | ------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| `jira`                           | `atlassian`               | Search Jira issues, create and update tickets, transition workflows, comment, manage sprints, run bulk operations           |
+| `confluence`                     | `atlassian`               | Search Confluence pages, read documentation, create and update pages, browse spaces                                         |
+| `gmail`                          | `google-workspace`        | Triage inbox, search and read messages, send mail, manage drafts, labels, and filters via the `gws` CLI                     |
+| `calendar`                       | `google-workspace`        | View agenda, manage events, check availability, manage calendars via the `gws` CLI                                          |
+| `research`                       | `research`                | Research complex topics and produce sourced reports                                                                         |
+| `writing`                        | `writing`                 | Draft, review, and finish long form prose                                                                                   |
+| `pyramid`                        | `writing`                 | Structure analytical documents with the Pyramid Principle                                                                   |
+| `tech-doc`                       | `writing`                 | Draft, review, and finish technical documentation                                                                           |
+| `presentations`                  | `writing`                 | Design slide-deck content (audience, message, storyboard, per-slide briefs); hands off to `crafting-presentations` for HTML |
+| `claude-codex-bridge`            | `runtime-bridge`          | Align Claude Code and Codex project files                                                                                   |
+| `improving-instructions`         | `agent-system-management` | Audit and improve agent instruction files                                                                                   |
+| `capturing-session-learnings`    | `agent-system-management` | Capture session learnings into the right instruction file                                                                   |
+| `creating-skills`                | `agent-system-management` | Create, eval, benchmark, bulletproof, and tune skills across the full lifecycle                                             |
+| `brainstorming`                  | `workbench`               | Sequential Q&A to clarify design intent                                                                                     |
+| `writing-spec`                   | `workbench`               | Synthesize a design discussion into a spec doc                                                                              |
+| `writing-plans`                  | `workbench`               | Turn approved specs into concrete implementation plans                                                                      |
+| `visualizing-options`            | `workbench`               | Browser-based visual companion for layout choices                                                                           |
+| `using-workbench`                | `workbench`               | Load Workbench skill rules and routing                                                                                      |
+| `terse-mode`                     | `workbench`               | Compact token-saving replies until disabled                                                                                 |
+| `autopilot`                      | `workbench`               | Ship a feature from brainstorm to PR using a project profile                                                                |
+| `copilot`                        | `workbench`               | Human-in-the-loop autopilot: you drive brainstorm and spec, the agent ships the rest                                        |
+| `verification-before-completion` | `workbench`               | Require fresh verification evidence before completion claims                                                                |
+| `test-driven-development`        | `workbench`               | Enforce test-first RED-GREEN-REFACTOR implementation discipline                                                             |
+| `dispatching-parallel-agents`    | `workbench`               | Split independent tasks across concurrent agents                                                                            |
+| `subagent-driven-development`    | `workbench`               | Execute implementation plans with fresh agents and review gates                                                             |
+| `systematic-debugging`           | `workbench`               | Root-cause investigation before proposing bug fixes                                                                         |
+| `crafting-html`                  | `workbench`               | Reference gallery of 21 HTML artifact patterns                                                                              |
+| `crafting-design-systems`        | `workbench`               | Design systems (CSS variables, components, images) that theme HTML producers                                                |
+| `crafting-presentations`         | `workbench`               | Multi-slide HTML decks with deck navigation, slide-type catalog, and a presenter view                                       |
+| `exporting-decks-to-pptx`        | `workbench`               | Export a deck-stage HTML deck to a native, editable PowerPoint (.pptx) via python-pptx                                      |
+| `perfecting-presentations`       | `workbench`               | Strict deck review loop: hard gates plus adversarial judge panels until rounds come back dry                                |
+| `tmux`                           | `terminal`                | Control interactive terminal programs through isolated tmux sessions                                                        |
+| `frontend-design`                | `frontend-design`         | Distinctive, production-grade frontend interfaces that avoid generic AI aesthetics                                          |
+| `emil-design-eng`                | `frontend-design`         | Emil Kowalski's design engineering philosophy: animation timing, component polish, UI craft                                 |
+| `playground`                     | `playground`              | Interactive single-file HTML playgrounds with controls, live preview, and copy-out prompt                                   |
+| `databricks-core`                | `databricks`              | Databricks CLI, authentication, profile management, and data exploration                                                    |
+| `databricks-docs`                | `databricks`              | Live `docs.databricks.com` lookups for product-surface questions                                                            |
+| `quizzing-the-session`           | `learning`                | Get taught and quizzed on the current session's work until you demonstrably understand the problem, solution, and impact    |
+| `quizzing-a-topic`               | `learning`                | Get taught and quizzed on any topic or theme you name until you demonstrably understand it                                  |
+| `surveying-blind-spots`          | `learning`                | Pre-work blind-spot pass over an unfamiliar codebase area or field, surfacing unknown unknowns, gotchas, and better prompts |
 
 Skills are invoked from the host agent (Claude Code or Codex) using the fully qualified form `/<plugin>:<skill>`, for example `/atlassian:jira` or `/workbench:autopilot`.
 
@@ -92,6 +92,7 @@ To pick up updates: `codex plugin marketplace upgrade pgoell-claude-tools` and r
 Jira and Confluence skills for Atlassian Cloud.
 
 **Skills:**
+
 - `/atlassian:jira`: Search issues, update tickets, transition status, add comments, and manage sprints.
 - `/atlassian:confluence`: Search pages, read documentation, update pages, and browse spaces.
 
@@ -121,6 +122,7 @@ export ATLASSIAN_API_TOKEN="your-token"
 Gmail and Calendar skills for Google Workspace, powered by the `gws` CLI.
 
 **Skills:**
+
 - `/google-workspace:gmail`: Search, read, send, and manage Gmail messages, drafts, labels, and filters.
 - `/google-workspace:calendar`: View agendas, manage events, check availability, and manage calendars.
 
@@ -140,6 +142,7 @@ Full setup instructions: https://github.com/googleworkspace/cli
 Research complex topics and produce sourced reports.
 
 **Skills:**
+
 - `/research:research`: Plan focused investigations, gather sources, synthesize findings, review conclusions, and write reports. Reports default to HTML at `reports/<topic-slug>-<YYYY-MM-DD>/report.html`; override per invocation with "give me a markdown research report".
 
 ### writing
@@ -147,6 +150,7 @@ Research complex topics and produce sourced reports.
 Writing skills for prose, analytical structure, and technical documentation.
 
 **Skills:**
+
 - `/writing:writing`: Draft, review, and finish long form prose.
 - `/writing:pyramid`: Structure memos, recommendations, briefings, and decision documents with the Pyramid Principle.
 - `/writing:tech-doc`: Draft, review, and finish tutorials, how-to guides, references, and explanations.
@@ -157,6 +161,7 @@ Writing skills for prose, analytical structure, and technical documentation.
 Aligns Claude Code and Codex project configuration.
 
 **Skills:**
+
 - `/runtime-bridge:claude-codex-bridge`: Align project files, settings, hooks, agents, and plugin availability across the two runtimes.
 
 ### agent-system-management
@@ -164,6 +169,7 @@ Aligns Claude Code and Codex project configuration.
 Manage the host agent's instruction layer and skill layer: audit `AGENTS.md` / `CLAUDE.md`, capture session learnings, and scaffold or iterate on Claude Code / Codex skills.
 
 **Skills:**
+
 - `/agent-system-management:improving-instructions`: Audit and improve `AGENTS.md` and `CLAUDE.md` files.
 - `/agent-system-management:capturing-session-learnings`: Capture session learnings into the right instruction file.
 - `/agent-system-management:creating-skills`: Create a new skill, iterate on an existing one with eval loops and benchmarks, bulletproof discipline skills, optimize triggering, or extract a skill from a conversation.
@@ -173,6 +179,7 @@ Manage the host agent's instruction layer and skill layer: audit `AGENTS.md` / `
 Workbench skills for design dialogue, skill routing, and profile-driven feature shipping.
 
 **Skills:**
+
 - `/workbench:brainstorming`: Sequential question-and-answer loop to clarify design intent. Hands off to `writing-spec` when the design is ready to be written down.
 - `/workbench:writing-spec`: Synthesize a design discussion into a spec doc, run a fresh-eyes self-review subagent, gate on user approval, then hand off to `workbench:writing-plans`.
 - `/workbench:writing-plans`: Turn approved specs into concrete implementation plans.
@@ -199,6 +206,7 @@ Workbench skills for design dialogue, skill routing, and profile-driven feature 
 Terminal skills for interactive command-line programs.
 
 **Skills:**
+
 - `/terminal:tmux`: Drive interactive CLIs, REPLs, debuggers, and experimental nested agent sessions through isolated tmux sessions.
 
 **Setup:**
@@ -210,6 +218,7 @@ Install `tmux` on Linux, macOS, or WSL. Native Windows terminals are not support
 Distinctive, production-grade frontend interfaces with deep UI craft and animation discipline. Ports two complementary skills: Anthropic's `frontend-design` (Apache 2.0) for creative direction, and Emil Kowalski's [`emil-design-eng`](https://github.com/emilkowalski/skill) for design engineering and animation discipline (the upstream repo declares no license; included under the upstream author's public publishing intent). See `plugins/frontend-design/NOTICE` for full attribution.
 
 **Skills:**
+
 - `/frontend-design:frontend-design`: Build web components, pages, and applications with a clear aesthetic point of view (typography, color, motion, composition).
 - `/frontend-design:emil-design-eng`: Review UI craft, choose easing curves and durations, build interaction-rich components, and audit motion.
 
@@ -218,6 +227,7 @@ Distinctive, production-grade frontend interfaces with deep UI craft and animati
 Interactive single-file HTML playgrounds: control panel, live preview, and copy-out prompt. Ports Anthropic's `playground` plugin (Apache 2.0; see `plugins/playground/NOTICE` for attribution).
 
 **Skills:**
+
 - `/playground:playground`: Build self-contained HTML playgrounds for design, data, concept maps, document critique, diff review, or code architecture.
 
 ### databricks
@@ -225,6 +235,7 @@ Interactive single-file HTML playgrounds: control panel, live preview, and copy-
 Two Databricks skills. `databricks-core` is a verbatim port from [databricks/databricks-agent-skills](https://github.com/databricks/databricks-agent-skills) at commit `bf6d932`, governed by the upstream Databricks License (use restricted to Databricks Services; see `plugins/databricks/LICENSE-upstream` and `plugins/databricks/NOTICE`). `databricks-docs` is original authorship: it points the host agent at `docs.databricks.com` via WebFetch using a curated URL index. The plugin also preserves `references/research/` with 12 MB of Genie Code reverse-engineering notes; see `plugins/databricks/README.md` for details.
 
 **Skills:**
+
 - `/databricks:databricks-core`: CLI, authentication, profile management, data exploration, and bundles.
 - `/databricks:databricks-docs`: Live `docs.databricks.com` lookups for product-surface questions (Apps, DABs, Jobs, Lakebase, Model Serving, Pipelines, Unity Catalog, SQL Warehouses, MLflow, serverless, secrets, workflows).
 
@@ -237,6 +248,7 @@ Two Databricks skills. `databricks-core` is a verbatim port from [databricks/dat
 Skills that teach the human: Socratic teach-and-quiz loops plus a pre-work blind-spot survey. An original adaptation of Thariq Shihipar's "Learn Quiz" gist and his AI Engineer talk techniques (see `plugins/learning/README.md` for attribution).
 
 **Skills:**
+
 - `/learning:quizzing-the-session`: Build a problem/solution/impact checklist from the current session and recent git activity, then teach and quiz you item by item to mastery. Also fits right before a PR or merge, to confirm you can represent the work in review.
 - `/learning:quizzing-a-topic`: The same teaching engine pointed at any topic or theme you name, grounded in repo files when the topic is local code.
 - `/learning:surveying-blind-spots`: A pre-work blind-spot pass over a codebase area or field you do not know. Surfaces unknown unknowns, gotchas, and dead ends, then hands you rewritten prompts. A briefing, not a quiz.

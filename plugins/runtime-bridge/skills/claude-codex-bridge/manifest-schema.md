@@ -19,18 +19,22 @@ The scout subagent returns a manifest matching this JSON schema. The apply subag
 
 Five op kinds. The `op_index` field referenced by the reviewer is this op's position in the `ops` array.
 
-| kind | required fields | meaning |
-|---|---|---|
-| `symlink` | `from`, `to` | Create a symlink at `from` pointing to `to`. Both paths are repo-relative. If `from` already exists as a regular file, it is preserved on disk and the op fails with `wrong_target`. |
-| `translate` | `from`, `to`, `diff` | Read source at `from`, transform to target format, write at `to`. `diff` is a unified diff preview (informational only) showing what would change. |
-| `drift` | `paths`, `newer`, `diff` | Both files at `paths` exist with different content. `newer` is the path with the newer mtime, suggested as canonical. Apply rewires the non-canonical side as a symlink to the canonical side. |
-| `rewire-symlink` | `from`, `to` | An existing symlink at `from` points elsewhere; replace its target with `to`. |
-| `already-aligned` | `path` | No-op. Recorded so the reviewer can confirm the filesystem is correct. |
+| kind              | required fields          | meaning                                                                                                                                                                                        |
+| ----------------- | ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `symlink`         | `from`, `to`             | Create a symlink at `from` pointing to `to`. Both paths are repo-relative. If `from` already exists as a regular file, it is preserved on disk and the op fails with `wrong_target`.           |
+| `translate`       | `from`, `to`, `diff`     | Read source at `from`, transform to target format, write at `to`. `diff` is a unified diff preview (informational only) showing what would change.                                             |
+| `drift`           | `paths`, `newer`, `diff` | Both files at `paths` exist with different content. `newer` is the path with the newer mtime, suggested as canonical. Apply rewires the non-canonical side as a symlink to the canonical side. |
+| `rewire-symlink`  | `from`, `to`             | An existing symlink at `from` points elsewhere; replace its target with `to`.                                                                                                                  |
+| `already-aligned` | `path`                   | No-op. Recorded so the reviewer can confirm the filesystem is correct.                                                                                                                         |
 
 ### Skip shape
 
 ```jsonc
-{ "path": "<repo-relative path>", "reason": "<one-line reason>", "suggested_followup": "<one-line user instruction>" }
+{
+  "path": "<repo-relative path>",
+  "reason": "<one-line reason>",
+  "suggested_followup": "<one-line user instruction>"
+}
 ```
 
 ### Plugin shape

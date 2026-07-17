@@ -42,7 +42,7 @@ for preset in google microsoft house; do
   # Check the Mechanical column values are exactly "yes" or "no" in data rows.
   bad_mechanical=$(grep -E '^\| [^|]+ \| [^|]+ \| ' "$wordlist" \
     | grep -v '^| Term ' \
-    | grep -v '^|---' \
+    | grep -vE '^\| *:?-+:? *\|' \
     | awk -F'|' '{print $4}' \
     | sed 's/^ *//;s/ *$//' \
     | grep -vE '^(yes|no)$' || true)

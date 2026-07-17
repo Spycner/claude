@@ -20,13 +20,13 @@ Document the essential commands for working with the project.
 ```markdown
 ## Commands
 
-| Command | Description |
-|---------|-------------|
-| `<install command>` | Install dependencies |
-| `<dev command>` | Start development server |
-| `<build command>` | Production build |
-| `<test command>` | Run tests |
-| `<lint command>` | Lint/format code |
+| Command             | Description              |
+| ------------------- | ------------------------ |
+| `<install command>` | Install dependencies     |
+| `<dev command>`     | Start development server |
+| `<build command>`   | Production build         |
+| `<test command>`    | Run tests                |
+| `<lint command>`    | Lint/format code         |
 ```
 
 ### Architecture
@@ -35,10 +35,11 @@ Describe the project structure so Claude understands where things live.
 
 ```markdown
 ## Architecture
-
 ```
+
 <root>/
-  <dir>/    # <purpose>
+
+<dir>/    # <purpose>
   <dir>/    # <purpose>
   <dir>/    # <purpose>
 ```
@@ -75,10 +76,12 @@ Document required environment variables and setup.
 ## Environment
 
 Required:
+
 - `<VAR_NAME>` - <purpose>
 - `<VAR_NAME>` - <purpose>
 
 Setup:
+
 - <setup step>
 ```
 
@@ -127,21 +130,21 @@ Document development workflow patterns.
 
 ## Commands
 
-| Command | Description |
-|---------|-------------|
+| Command     | Description   |
+| ----------- | ------------- |
 | `<command>` | <description> |
 
 ## Architecture
-
 ```
+
 <structure>
 ```
 
 ## Gotchas
 
 - <gotcha>
-```
 
+````
 ---
 
 ## Template: Project Root (Comprehensive)
@@ -158,8 +161,8 @@ Document development workflow patterns.
 | `<command>` | <description> |
 
 ## Architecture
+````
 
-```
 <structure with descriptions>
 ```
 
@@ -182,8 +185,8 @@ Document development workflow patterns.
 ## Gotchas
 
 - <gotcha>
-```
 
+````
 ---
 
 ## Template: Package/Module
@@ -196,11 +199,11 @@ For packages within a monorepo or distinct modules.
 <Purpose of this package>
 
 ## Usage
+````
 
-```
 <import/usage example>
-```
 
+```
 ## Key Exports
 
 - `<export>` - <purpose>
@@ -225,14 +228,14 @@ For packages within a monorepo or distinct modules.
 
 ## Packages
 
-| Package | Description | Path |
-|---------|-------------|------|
-| `<name>` | <purpose> | `<path>` |
+| Package  | Description | Path     |
+| -------- | ----------- | -------- |
+| `<name>` | <purpose>   | `<path>` |
 
 ## Commands
 
-| Command | Description |
-|---------|-------------|
+| Command     | Description   |
+| ----------- | ------------- |
 | `<command>` | <description> |
 
 ## Cross-Package Patterns

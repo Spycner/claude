@@ -24,13 +24,13 @@ Schema for documenting a configuration option, environment variable, or settings
 ```markdown
 # `<config-key>`
 
-| Field | Value |
-|-------|-------|
-| Type | `<type>` |
-| Default | `<default>` |
-| Required | Yes/No |
+| Field          | Value           |
+| -------------- | --------------- |
+| Type           | `<type>`        |
+| Default        | `<default>`     |
+| Required       | Yes/No          |
 | Allowed values | <enum or range> |
-| Since | `<version>` |
+| Since          | `<version>`     |
 
 ## Description
 

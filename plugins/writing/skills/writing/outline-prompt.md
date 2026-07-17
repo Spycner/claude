@@ -4,7 +4,7 @@
 
 **Dispatch:** Second agent in the pipeline. Reads `interview-synthesis.md` and the active style guide. Writes `outline.md`.
 
-```
+````
 Dispatched agent prompt:
   description: "Negotiate outline"
   prompt: |
@@ -92,4 +92,4 @@ Dispatched agent prompt:
     If reviewer feedback is provided above, read the existing outline at
     `{OUTPUT_PATH}/outline.md`, address the specific structural issues raised, and
     update the file in place.
-```
+````

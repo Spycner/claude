@@ -47,7 +47,7 @@ Schema for documenting an error code or error class. May be one error per page (
 ```markdown
 # Error reference
 
-| Code | Message | Cause | Resolution |
-|------|---------|-------|------------|
+| Code     | Message   | Cause   | Resolution   |
+| -------- | --------- | ------- | ------------ |
 | `<code>` | <message> | <cause> | <resolution> |
 ```

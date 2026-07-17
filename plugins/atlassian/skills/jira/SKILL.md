@@ -42,6 +42,7 @@ For write operations, add:
 ### Search Issues
 
 **curl:**
+
 ```bash
 curl -s -u "$ATLASSIAN_EMAIL:$ATLASSIAN_API_TOKEN" \
   -H "Accept: application/json" \
@@ -51,6 +52,7 @@ curl -s -u "$ATLASSIAN_EMAIL:$ATLASSIAN_API_TOKEN" \
 ```
 
 **acli (fallback):**
+
 ```bash
 acli jira workitem search --jql "assignee = currentUser() AND resolution = Unresolved" --json
 ```
@@ -58,6 +60,7 @@ acli jira workitem search --jql "assignee = currentUser() AND resolution = Unres
 ### View Issue
 
 **curl:**
+
 ```bash
 curl -s -u "$ATLASSIAN_EMAIL:$ATLASSIAN_API_TOKEN" \
   -H "Accept: application/json" \
@@ -65,6 +68,7 @@ curl -s -u "$ATLASSIAN_EMAIL:$ATLASSIAN_API_TOKEN" \
 ```
 
 **acli (fallback):**
+
 ```bash
 acli jira workitem view KEY-123 --json
 ```
@@ -72,11 +76,13 @@ acli jira workitem view KEY-123 --json
 ### List Projects
 
 **acli:**
+
 ```bash
 acli jira project list
 ```
 
 **curl:**
+
 ```bash
 curl -s -u "$ATLASSIAN_EMAIL:$ATLASSIAN_API_TOKEN" \
   -H "Accept: application/json" \
@@ -86,11 +92,13 @@ curl -s -u "$ATLASSIAN_EMAIL:$ATLASSIAN_API_TOKEN" \
 ### View Comments
 
 **acli:**
+
 ```bash
 acli jira workitem comment list --key KEY-123
 ```
 
 **curl:**
+
 ```bash
 curl -s -u "$ATLASSIAN_EMAIL:$ATLASSIAN_API_TOKEN" \
   -H "Accept: application/json" \
@@ -100,11 +108,13 @@ curl -s -u "$ATLASSIAN_EMAIL:$ATLASSIAN_API_TOKEN" \
 ### Sprints
 
 **List sprints for a board:**
+
 ```bash
 acli jira board list-sprints --board-id {id}
 ```
 
 **List work items in a sprint:**
+
 ```bash
 acli jira sprint list-workitems --sprint-id {id}
 ```
@@ -126,6 +136,7 @@ For sprint operations without acli, use the Jira Agile REST API (`/rest/agile/1.
 If the user has their own template, follow it. If they opt into the default (or don't have one), read `ticket-template.md` and structure the `--summary`, `--description`, and acceptance criteria fields according to it. For trivial bug reports or quick one-line tasks, skip the prompt unless the user explicitly asks for a structured ticket.
 
 **curl** (requires ADF body for description — see `adf-format.md`):
+
 ```bash
 curl -s -u "$ATLASSIAN_EMAIL:$ATLASSIAN_API_TOKEN" \
   -H "Accept: application/json" \
@@ -151,6 +162,7 @@ curl -s -u "$ATLASSIAN_EMAIL:$ATLASSIAN_API_TOKEN" \
 ```
 
 **acli (fallback, plain text — no ADF needed):**
+
 ```bash
 acli jira workitem create \
   --project PROJ \
@@ -162,6 +174,7 @@ acli jira workitem create \
 ### Add Comment
 
 **curl** (requires ADF body):
+
 ```bash
 curl -s -u "$ATLASSIAN_EMAIL:$ATLASSIAN_API_TOKEN" \
   -H "Accept: application/json" \
@@ -182,6 +195,7 @@ curl -s -u "$ATLASSIAN_EMAIL:$ATLASSIAN_API_TOKEN" \
 ```
 
 **acli (fallback, plain text):**
+
 ```bash
 acli jira workitem comment create --key KEY-123 --body "Investigated the issue. Root cause identified. Fix incoming."
 ```
@@ -189,6 +203,7 @@ acli jira workitem comment create --key KEY-123 --body "Investigated the issue. 
 ### Edit Fields
 
 **curl:**
+
 ```bash
 curl -s -u "$ATLASSIAN_EMAIL:$ATLASSIAN_API_TOKEN" \
   -H "Accept: application/json" \
@@ -203,6 +218,7 @@ curl -s -u "$ATLASSIAN_EMAIL:$ATLASSIAN_API_TOKEN" \
 ```
 
 **acli (fallback):**
+
 ```bash
 acli jira workitem edit --key KEY-123 --summary "Updated summary" --description "New description" --labels "backend,urgent"
 ```
@@ -214,6 +230,7 @@ acli jira workitem edit --key KEY-123 --summary "Updated summary" --description 
 ### Transition Issue
 
 **curl** (must fetch transition IDs first, then POST):
+
 ```bash
 # Step 1: Get available transitions
 curl -s -u "$ATLASSIAN_EMAIL:$ATLASSIAN_API_TOKEN" \
@@ -229,6 +246,7 @@ curl -s -u "$ATLASSIAN_EMAIL:$ATLASSIAN_API_TOKEN" \
 ```
 
 **acli (fallback, uses status name directly):**
+
 ```bash
 acli jira workitem transition --key KEY-123 --status "Done"
 ```
@@ -236,6 +254,7 @@ acli jira workitem transition --key KEY-123 --status "Done"
 ### Assign Issue
 
 **curl:**
+
 ```bash
 curl -s -u "$ATLASSIAN_EMAIL:$ATLASSIAN_API_TOKEN" \
   -H "Accept: application/json" \
@@ -247,6 +266,7 @@ curl -s -u "$ATLASSIAN_EMAIL:$ATLASSIAN_API_TOKEN" \
 Note: with curl, you must know the user's `accountId`. Use `GET /rest/api/3/myself` to get the current user's account ID for self-assignment.
 
 **acli (fallback):**
+
 ```bash
 acli jira workitem assign --key KEY-123 --assignee "@me"
 ```
@@ -254,6 +274,7 @@ acli jira workitem assign --key KEY-123 --assignee "@me"
 ### Link Issues
 
 **curl:**
+
 ```bash
 curl -s -u "$ATLASSIAN_EMAIL:$ATLASSIAN_API_TOKEN" \
   -H "Accept: application/json" \
@@ -267,6 +288,7 @@ curl -s -u "$ATLASSIAN_EMAIL:$ATLASSIAN_API_TOKEN" \
 ```
 
 **acli (fallback):**
+
 ```bash
 acli jira workitem link create --inward-key KEY-123 --outward-key KEY-456 --type "Blocks"
 ```
@@ -274,6 +296,7 @@ acli jira workitem link create --inward-key KEY-123 --outward-key KEY-456 --type
 ### Bulk Operations
 
 **acli** (transition all matching issues at once):
+
 ```bash
 acli jira workitem transition \
   --jql "project = PROJ AND status = 'To Do'" \
@@ -335,11 +358,13 @@ If neither auth path is available, tell the user:
 > I cannot connect to Jira. You need one of these:
 >
 > **Option A (recommended):** Install and authenticate the Atlassian CLI:
+>
 > ```
 > acli auth login
 > ```
 >
 > **Option B:** Set these environment variables:
+>
 > - `ATLASSIAN_DOMAIN` — your subdomain (e.g., `mycompany` for `mycompany.atlassian.net`)
 > - `ATLASSIAN_EMAIL` — your Atlassian account email
 > - `ATLASSIAN_API_TOKEN` — generate one at https://id.atlassian.com/manage/api-tokens

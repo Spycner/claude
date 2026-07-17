@@ -432,23 +432,23 @@ Colour values: `Grey`, `Red`, `Yellow`, `Blue`, `Green`.
 
 ## Markdown to Storage Format Mapping
 
-| Markdown | Storage Format |
-|---|---|
-| `# Heading 1` | `<h1>Heading 1</h1>` |
-| `## Heading 2` | `<h2>Heading 2</h2>` |
-| `**bold**` | `<strong>bold</strong>` |
-| `*italic*` | `<em>italic</em>` |
-| `~~strikethrough~~` | `<del>strikethrough</del>` |
-| `` `inline code` `` | `<code>inline code</code>` |
-| `[text](url)` | `<a href="url">text</a>` |
-| `![alt](image.png)` | `<ac:image><ri:url ri:value="image.png" /></ac:image>` |
-| `- item` | `<ul><li>item</li></ul>` |
-| `1. item` | `<ol><li>item</li></ol>` |
-| `> blockquote` | `<blockquote><p>blockquote</p></blockquote>` |
-| `---` | `<hr />` |
+| Markdown                 | Storage Format                                                                         |
+| ------------------------ | -------------------------------------------------------------------------------------- |
+| `# Heading 1`            | `<h1>Heading 1</h1>`                                                                   |
+| `## Heading 2`           | `<h2>Heading 2</h2>`                                                                   |
+| `**bold**`               | `<strong>bold</strong>`                                                                |
+| `*italic*`               | `<em>italic</em>`                                                                      |
+| `~~strikethrough~~`      | `<del>strikethrough</del>`                                                             |
+| `` `inline code` ``      | `<code>inline code</code>`                                                             |
+| `[text](url)`            | `<a href="url">text</a>`                                                               |
+| `![alt](image.png)`      | `<ac:image><ri:url ri:value="image.png" /></ac:image>`                                 |
+| `- item`                 | `<ul><li>item</li></ul>`                                                               |
+| `1. item`                | `<ol><li>item</li></ol>`                                                               |
+| `> blockquote`           | `<blockquote><p>blockquote</p></blockquote>`                                           |
+| `---`                    | `<hr />`                                                                               |
 | `` ``` code block ``` `` | `<ac:structured-macro ac:name="code">...</ac:structured-macro>` (see Code Block above) |
-| `\| table \|` | `<table>...</table>` (see Tables above) |
-| `- [ ] task` | `<ac:task-list><ac:task>...</ac:task></ac:task-list>` (see Task List above) |
+| `\| table \|`            | `<table>...</table>` (see Tables above)                                                |
+| `- [ ] task`             | `<ac:task-list><ac:task>...</ac:task></ac:task-list>` (see Task List above)            |
 
 ---
 

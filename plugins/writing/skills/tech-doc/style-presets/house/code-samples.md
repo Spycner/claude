@@ -8,7 +8,7 @@ Last refreshed: 2026-04-29
 House style follows Google on code-formatting. Placeholder syntax: `UPPERCASE_WITH_UNDERSCORES`.
 
 - Format: `UPPERCASE_WITH_UNDERSCORES` in code contexts. No `MY_` or `YOUR_` prefixes.
-- In Markdown inline code: render as italic backtick. Example: *`PLACEHOLDER_NAME`*.
+- In Markdown inline code: render as italic backtick. Example: _`PLACEHOLDER_NAME`_.
 - In fenced code blocks: use the uppercase form directly; explain it outside the block.
 - Do not use bare angle brackets as the placeholder delimiter (Google wins over Microsoft `<version>` style), except where the language itself uses angle brackets (e.g., C++ templates, generics).
 - Document every placeholder immediately after its code block:
@@ -67,16 +67,16 @@ Google wins on fence style. Microsoft content planning guidelines apply.
 
 Google wins. Use language-appropriate comment syntax. Never use bare ellipsis characters (`...` or `…`) outside a comment construct.
 
-| Language | Omission indicator |
-|---|---|
-| Python | `# ...` |
-| JavaScript / TypeScript | `// ...` |
-| Java, Go, C, C++ | `// ...` |
-| C# | `// ...` |
-| Shell / Bash / PowerShell | `# ...` |
-| SQL | `-- ...` |
-| HTML | `<!-- ... -->` |
-| CSS | `/* ... */` |
+| Language                  | Omission indicator |
+| ------------------------- | ------------------ |
+| Python                    | `# ...`            |
+| JavaScript / TypeScript   | `// ...`           |
+| Java, Go, C, C++          | `// ...`           |
+| C#                        | `// ...`           |
+| Shell / Bash / PowerShell | `# ...`            |
+| SQL                       | `-- ...`           |
+| HTML                      | `<!-- ... -->`     |
+| CSS                       | `/* ... */`        |
 
 A block that contains omissions must not be presented as copy-runnable. Note in the introductory sentence that the block is partial.
 

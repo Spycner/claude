@@ -4,7 +4,7 @@
 
 **Dispatch:** One of eight critics in the tech-doc panel (always-on). Reads `draft.md` and the active style preset. Writes `critique-inclusive-language.md`.
 
-```
+````
 Dispatched agent prompt:
   description: "Inclusive language critique"
   prompt: |
@@ -78,4 +78,4 @@ Dispatched agent prompt:
     ## Reviewer Feedback
 
     {REVIEWER_FEEDBACK}
-```
+````

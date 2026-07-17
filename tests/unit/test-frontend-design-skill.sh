@@ -65,7 +65,7 @@ fi
 for manifest in \
     "$REPO_ROOT/plugins/frontend-design/.claude-plugin/plugin.json" \
     "$REPO_ROOT/plugins/frontend-design/.codex-plugin/plugin.json"; do
-    if jq -e '.name == "frontend-design" and .version == "0.2.1" and .license == "MIT"' "$manifest" >/dev/null; then
+    if jq -e '.name == "frontend-design" and .version == "0.2.2" and .license == "MIT"' "$manifest" >/dev/null; then
         echo "[PASS] $manifest metadata is valid"
     else
         echo "[FAIL] $manifest metadata invalid"; exit 1

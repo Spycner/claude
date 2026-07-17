@@ -5,13 +5,13 @@ Last refreshed: 2026-04-28
 
 ## Severity tiers
 
-| Tier | When to use | Visual marker |
-|------|-------------|---------------|
-| Note | Supplementary information that helps the reader understand something but is not required to complete the task. | `> **Note**` block |
-| Tip | Optional advice that makes a task faster, easier, or more effective. Best practices and efficiency shortcuts. | `> **Tip**` block |
+| Tier      | When to use                                                                                                                           | Visual marker           |
+| --------- | ------------------------------------------------------------------------------------------------------------------------------------- | ----------------------- |
+| Note      | Supplementary information that helps the reader understand something but is not required to complete the task.                        | `> **Note**` block      |
+| Tip       | Optional advice that makes a task faster, easier, or more effective. Best practices and efficiency shortcuts.                         | `> **Tip**` block       |
 | Important | Information the reader must know to avoid a misunderstanding or a failure that is not dangerous but would require significant rework. | `> **Important**` block |
-| Caution | An action that could cause data loss, an error state, or other moderate harm. The consequence is recoverable but disruptive. | `> **Caution**` block |
-| Warning | An action that could cause irreversible damage, a security breach, or physical harm. Use sparingly. | `> **Warning**` block |
+| Caution   | An action that could cause data loss, an error state, or other moderate harm. The consequence is recoverable but disruptive.          | `> **Caution**` block   |
+| Warning   | An action that could cause irreversible damage, a security breach, or physical harm. Use sparingly.                                   | `> **Warning**` block   |
 
 ## Usage rules
 

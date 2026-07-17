@@ -31,11 +31,13 @@ Always prefer `+` helpers when one exists for the operation.
 ### Triage Inbox
 
 Show unread inbox summary:
+
 ```bash
 gws gmail +triage
 ```
 
 Filtered/customized:
+
 ```bash
 gws gmail +triage --query 'from:boss' --max 5
 gws gmail +triage --labels
@@ -158,6 +160,7 @@ which gws && gws auth status
 ```
 
 If gws is not installed or not authenticated, tell the user:
+
 > "The gws CLI is not installed or not authenticated. Install and configure it: https://github.com/googleworkspace/cli"
 
 ### Other Errors

@@ -60,14 +60,14 @@ Microsoft table structure; ascending numeric sort order (Google).
 - Format the code as `` `200 OK` `` (numeric code plus reason phrase in code font).
 - For 4xx and 5xx codes, end the description with a "what to do" sentence.
 
-| HTTP code | Description |
-|---|---|
-| `200 OK` | The request succeeded. |
-| `400 Bad Request` | The request body is malformed or missing required fields. Correct the request and retry. |
-| `401 Unauthorized` | The access token is missing or invalid. Acquire a new token and retry. |
-| `404 Not Found` | No resource with the given identifier exists. Verify the identifier and retry. |
-| `429 Too Many Requests` | Rate limit exceeded. Retry after the interval in the `Retry-After` header. |
-| `500 Internal Server Error` | An unexpected server error occurred. Retry after a short delay. |
+| HTTP code                   | Description                                                                              |
+| --------------------------- | ---------------------------------------------------------------------------------------- |
+| `200 OK`                    | The request succeeded.                                                                   |
+| `400 Bad Request`           | The request body is malformed or missing required fields. Correct the request and retry. |
+| `401 Unauthorized`          | The access token is missing or invalid. Acquire a new token and retry.                   |
+| `404 Not Found`             | No resource with the given identifier exists. Verify the identifier and retry.           |
+| `429 Too Many Requests`     | Rate limit exceeded. Retry after the interval in the `Retry-After` header.               |
+| `500 Internal Server Error` | An unexpected server error occurred. Retry after a short delay.                          |
 
 ## Error documentation
 

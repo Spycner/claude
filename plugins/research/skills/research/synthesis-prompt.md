@@ -4,7 +4,7 @@
 
 **Dispatch:** Spawned by the orchestrator after all researchers (and any gap-fill researchers) complete. Reads brief + plan + all `research/*.md` (excluding synthesis and review files). Writes `research/synthesis.md` (overwritten each iteration).
 
-```
+````
 Dispatched agent prompt:
   description: "Synthesize research findings"
   prompt: |
@@ -133,4 +133,4 @@ Dispatched agent prompt:
 
     Write `{OUTPUT_PATH}/research/synthesis.md` and report the path. Do not
     summarize findings in your response.
-```
+````

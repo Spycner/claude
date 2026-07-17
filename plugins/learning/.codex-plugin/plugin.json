@@ -1,10 +1,22 @@
 {
   "name": "learning",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Socratic teach-and-quiz skills that verify you deeply understand a session or a topic.",
-  "author": { "name": "Pascal Göllner" },
+  "author": {
+    "name": "Pascal Göllner"
+  },
   "license": "MIT",
-  "keywords": ["learning", "teaching", "tutoring", "quiz", "socratic", "understanding", "study", "claude-code", "codex"],
+  "keywords": [
+    "learning",
+    "teaching",
+    "tutoring",
+    "quiz",
+    "socratic",
+    "understanding",
+    "study",
+    "claude-code",
+    "codex"
+  ],
   "skills": "./skills/",
   "interface": {
     "displayName": "Learning",
@@ -12,7 +24,9 @@
     "longDescription": "Two Socratic tutoring skills: quiz yourself on the current session's work, or on any topic you name. The assistant builds a must-understand checklist, teaches the gaps, and quizzes you item by item until you demonstrate mastery.",
     "developerName": "Pascal Göllner",
     "category": "Productivity",
-    "capabilities": ["Interactive"],
+    "capabilities": [
+      "Interactive"
+    ],
     "defaultPrompt": [
       "Quiz me on what we just did this session",
       "Teach me about Kafka consumer groups and test my understanding",

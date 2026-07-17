@@ -2,7 +2,7 @@
 # Test: frontend-design plugin's emil-design-eng skill structure
 # Verifies the port of emilkowalski/skill: SKILL.md exists with all expected
 # headings, no em-dashes/en-dashes, animations.dev attribution preserved,
-# NOTICE attributes the upstream, plugin manifests bumped to 0.2.1.
+# NOTICE attributes the upstream, plugin manifests bumped to 0.2.2.
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
@@ -22,28 +22,28 @@ MARKETPLACE="$REPO_ROOT/.claude-plugin/marketplace.json"
 echo "=== Test: frontend-design emil-design-eng skill structure ==="
 echo ""
 
-# Test 1: Plugin manifests bumped to 0.2.1
-echo "Test 1: Plugin manifests at 0.2.1..."
-if jq -e '.version == "0.2.1"' "$PLUGIN_JSON" >/dev/null; then
-    echo "  [PASS] Claude manifest at 0.2.1"
+# Test 1: Plugin manifests bumped to 0.2.2
+echo "Test 1: Plugin manifests at 0.2.2..."
+if jq -e '.version == "0.2.2"' "$PLUGIN_JSON" >/dev/null; then
+    echo "  [PASS] Claude manifest at 0.2.2"
 else
-    echo "  [FAIL] Claude manifest not at 0.2.1"
+    echo "  [FAIL] Claude manifest not at 0.2.2"
     exit 1
 fi
-if jq -e '.version == "0.2.1"' "$CODEX_PLUGIN_JSON" >/dev/null; then
-    echo "  [PASS] Codex manifest at 0.2.1"
+if jq -e '.version == "0.2.2"' "$CODEX_PLUGIN_JSON" >/dev/null; then
+    echo "  [PASS] Codex manifest at 0.2.2"
 else
-    echo "  [FAIL] Codex manifest not at 0.2.1"
+    echo "  [FAIL] Codex manifest not at 0.2.2"
     exit 1
 fi
 echo ""
 
 # Test 2: Marketplace entry bumped
-echo "Test 2: Claude marketplace frontend-design entry at 0.2.1..."
-if jq -e '.plugins[] | select(.name == "frontend-design") | .version == "0.2.1"' "$MARKETPLACE" >/dev/null; then
-    echo "  [PASS] Claude marketplace frontend-design at 0.2.1"
+echo "Test 2: Claude marketplace frontend-design entry at 0.2.2..."
+if jq -e '.plugins[] | select(.name == "frontend-design") | .version == "0.2.2"' "$MARKETPLACE" >/dev/null; then
+    echo "  [PASS] Claude marketplace frontend-design at 0.2.2"
 else
-    echo "  [FAIL] Claude marketplace frontend-design not at 0.2.1"
+    echo "  [FAIL] Claude marketplace frontend-design not at 0.2.2"
     exit 1
 fi
 echo ""

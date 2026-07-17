@@ -36,22 +36,22 @@ Schema for documenting a single CLI command or subcommand.
 
 ## Options
 
-| Flag | Argument | Default | Description |
-|------|----------|---------|-------------|
+| Flag       | Argument | Default   | Description   |
+| ---------- | -------- | --------- | ------------- |
 | `--<flag>` | `<TYPE>` | `<value>` | <description> |
 
 ## Arguments
 
-| Name | Required | Description |
-|------|----------|-------------|
-| `<NAME>` | Yes/No | <description> |
+| Name     | Required | Description   |
+| -------- | -------- | ------------- |
+| `<NAME>` | Yes/No   | <description> |
 
 ## Exit codes
 
-| Code | Meaning |
-|------|---------|
-| 0 | Success |
-| 1 | <meaning> |
+| Code | Meaning   |
+| ---- | --------- |
+| 0    | Success   |
+| 1    | <meaning> |
 
 ## Examples
 

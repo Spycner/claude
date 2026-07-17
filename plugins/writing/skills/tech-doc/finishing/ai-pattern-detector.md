@@ -4,7 +4,7 @@
 
 **Dispatch:** Phase 6 finishing, first of three sequential passes (ai-pattern-detector, style-enforcer-tech, terminology-consistency). Reads `draft.md`. Updates `draft.md` in place. Appends a section to `finishing-notes.md`.
 
-```
+````
 Dispatched agent prompt:
   description: "AI-pattern detector pass"
   prompt: |
@@ -76,4 +76,4 @@ Dispatched agent prompt:
     ## Reviewer Feedback
 
     {REVIEWER_FEEDBACK}
-```
+````

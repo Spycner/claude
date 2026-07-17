@@ -29,9 +29,9 @@ Schema for documenting a function, method, or class member. Required fields must
 
 ## Parameters
 
-| Name | Type | Required | Description |
-|------|------|----------|-------------|
-| `<name>` | `<type>` | Yes/No | <description> |
+| Name     | Type     | Required | Description   |
+| -------- | -------- | -------- | ------------- |
+| `<name>` | `<type>` | Yes/No   | <description> |
 
 ## Returns
 
@@ -39,8 +39,8 @@ Schema for documenting a function, method, or class member. Required fields must
 
 ## Exceptions
 
-| Exception | When raised | How to handle |
-|-----------|-------------|---------------|
+| Exception     | When raised | How to handle    |
+| ------------- | ----------- | ---------------- |
 | `<Exception>` | <condition> | <recommendation> |
 
 ## Examples
@@ -60,5 +60,5 @@ Schema for documenting a function, method, or class member. Required fields must
 ## See also
 
 - `<related-function>`
-- [<related-doc>](<link>)
+- [<related-doc>](link)
 ```

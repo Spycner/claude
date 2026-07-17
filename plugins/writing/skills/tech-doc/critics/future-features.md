@@ -4,7 +4,7 @@
 
 **Dispatch:** One of eight critics in the tech-doc panel (always-on). Reads `draft.md`. Writes `critique-future-features.md`.
 
-```
+````
 Dispatched agent prompt:
   description: "Future features critique"
   prompt: |
@@ -80,4 +80,4 @@ Dispatched agent prompt:
     ## Reviewer Feedback
 
     {REVIEWER_FEEDBACK}
-```
+````

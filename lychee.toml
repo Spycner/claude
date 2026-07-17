@@ -1,0 +1,13 @@
+# These files are illustrative templates and style-guide examples: their
+# markdown/HTML link syntax is deliberately a placeholder (literal "URL",
+# "...", "[link-to-spec-session]", or an example path that isn't meant to
+# resolve), not a real navigable link. Excluded from link-checking rather
+# than "fixed", since fixing them would break the illustration.
+exclude_path = [
+  "plugins/research/skills/research/report-template.md",
+  "plugins/workbench/skills/brainstorming/references/brainstorm-summary-template.html",
+  "plugins/workbench/skills/writing-plans/references/plan-template.html",
+  "plugins/writing/skills/tech-doc/style-presets/google/links.md",
+  "plugins/writing/skills/tech-doc/style-presets/house/links.md",
+  "plugins/writing/skills/tech-doc/style-presets/microsoft/links.md",
+]

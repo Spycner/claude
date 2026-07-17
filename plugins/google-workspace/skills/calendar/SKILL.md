@@ -146,6 +146,7 @@ which gws && gws auth status
 ```
 
 If gws is not installed or not authenticated, tell the user:
+
 > "The gws CLI is not installed or not authenticated. Install and configure it: https://github.com/googleworkspace/cli"
 
 ### Other Errors

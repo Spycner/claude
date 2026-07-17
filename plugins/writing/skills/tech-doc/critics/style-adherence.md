@@ -4,7 +4,7 @@
 
 **Dispatch:** One of eight critics in the tech-doc panel (always-on). Reads `draft.md` and the active style preset. Writes `critique-style-adherence.md`.
 
-```
+````
 Dispatched agent prompt:
   description: "Style adherence critique"
   prompt: |
@@ -129,4 +129,4 @@ Dispatched agent prompt:
     ## Reviewer Feedback
 
     {REVIEWER_FEEDBACK}
-```
+````

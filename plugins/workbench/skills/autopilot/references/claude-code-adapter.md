@@ -4,14 +4,14 @@ This doc maps the autopilot skill's tool references to Claude Code tool names an
 
 ## Tool name mapping
 
-| `SKILL.md` reference | Claude Code tool |
-|---|---|
-| Skill invocation | `Skill` |
-| Subagent dispatch | `Agent` with `subagent_type=general-purpose` for plan tasks |
+| `SKILL.md` reference            | Claude Code tool                                                            |
+| ------------------------------- | --------------------------------------------------------------------------- |
+| Skill invocation                | `Skill`                                                                     |
+| Subagent dispatch               | `Agent` with `subagent_type=general-purpose` for plan tasks                 |
 | Background process / CI polling | `Monitor` for stream-style polling; `run_in_background` for fire-and-forget |
-| Shell | `Bash` |
-| File ops | `Read`, `Write`, `Edit` |
-| GitHub | `gh` (via `Bash`) |
+| Shell                           | `Bash`                                                                      |
+| File ops                        | `Read`, `Write`, `Edit`                                                     |
+| GitHub                          | `gh` (via `Bash`)                                                           |
 
 ## Subagent dispatch pattern (step 5)
 

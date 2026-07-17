@@ -12,13 +12,13 @@ Audit, evaluate, and improve agent-instruction files (AGENTS.md, CLAUDE.md, and 
 
 ## Platform Adaptation
 
-| Capability | Claude Code | Codex |
-|---|---|---|
-| Find files | `Glob` / `Grep` | `shell` (`find`, `grep`) |
-| Read a file | `Read` | `shell` (`cat`) |
-| Edit a file | `Edit` | `apply_patch` / `shell` heredoc |
+| Capability        | Claude Code       | Codex                                 |
+| ----------------- | ----------------- | ------------------------------------- |
+| Find files        | `Glob` / `Grep`   | `shell` (`find`, `grep`)              |
+| Read a file       | `Read`            | `shell` (`cat`)                       |
+| Edit a file       | `Edit`            | `apply_patch` / `shell` heredoc       |
 | User confirmation | `AskUserQuestion` | `ask_user` / built-in approval prompt |
-| Shell commands | `Bash` | `shell` |
+| Shell commands    | `Bash`            | `shell`                               |
 
 The skill body refers to actions abstractly ("read the file", "apply the diff"). The host agent maps to its own tool inventory.
 
@@ -44,13 +44,13 @@ Find every agent-instruction file in scope (project + user-global), dedupe symli
 
 **File Types & Locations:**
 
-| Type | Location | Purpose |
-|------|----------|---------|
-| Project-shared | `./AGENTS.md`, `./CLAUDE.md`, `./.claude.md` | Primary project context, in git, shared with team |
-| Project-local | `./AGENTS.local.md`, `./CLAUDE.local.md`, `./.claude.local.md` | Personal overrides, gitignored |
-| User-global | `~/.claude/CLAUDE.md`, `~/.codex/AGENTS.md` | User-wide defaults across all projects |
-| Package-specific | `./packages/*/AGENTS.md`, `./packages/*/CLAUDE.md` | Module-level context in monorepos |
-| Subdirectory | Any nested location | Feature/domain-specific context |
+| Type             | Location                                                       | Purpose                                           |
+| ---------------- | -------------------------------------------------------------- | ------------------------------------------------- |
+| Project-shared   | `./AGENTS.md`, `./CLAUDE.md`, `./.claude.md`                   | Primary project context, in git, shared with team |
+| Project-local    | `./AGENTS.local.md`, `./CLAUDE.local.md`, `./.claude.local.md` | Personal overrides, gitignored                    |
+| User-global      | `~/.claude/CLAUDE.md`, `~/.codex/AGENTS.md`                    | User-wide defaults across all projects            |
+| Package-specific | `./packages/*/AGENTS.md`, `./packages/*/CLAUDE.md`             | Module-level context in monorepos                 |
+| Subdirectory     | Any nested location                                            | Feature/domain-specific context                   |
 
 **Note:** The host agent auto-discovers agent-instruction files in parent directories, making monorepo setups work automatically. When two paths share the same `realpath` (typical when CLAUDE.md is a symlink to AGENTS.md), audit them as one logical file and edit the canonical realpath target.
 
@@ -62,16 +62,17 @@ For each unique file, evaluate against quality criteria. See [references/quality
 
 **Quick Assessment Checklist:**
 
-| Criterion | Weight | Check |
-|-----------|--------|-------|
-| Commands/workflows documented | High | Are build/test/deploy commands present? |
-| Architecture clarity | High | Can the host agent understand the codebase structure? |
-| Non-obvious patterns | Medium | Are gotchas and quirks documented? |
-| Conciseness | Medium | No verbose explanations or obvious info? |
-| Currency | High | Does it reflect current codebase state? |
-| Actionability | High | Are instructions executable, not vague? |
+| Criterion                     | Weight | Check                                                 |
+| ----------------------------- | ------ | ----------------------------------------------------- |
+| Commands/workflows documented | High   | Are build/test/deploy commands present?               |
+| Architecture clarity          | High   | Can the host agent understand the codebase structure? |
+| Non-obvious patterns          | Medium | Are gotchas and quirks documented?                    |
+| Conciseness                   | Medium | No verbose explanations or obvious info?              |
+| Currency                      | High   | Does it reflect current codebase state?               |
+| Actionability                 | High   | Are instructions executable, not vague?               |
 
 **Quality Scores:**
+
 - **A (90-100)**: Comprehensive, current, actionable
 - **B (70-89)**: Good coverage, minor gaps
 - **C (50-69)**: Basic info, missing key sections
@@ -142,20 +143,20 @@ After outputting the quality report, ask user for confirmation before updating.
 
 **Diff Format:**
 
-````markdown
+`````markdown
 ### Update: ./AGENTS.md
 
 **Why:** Build command was missing, causing confusion about how to run the project.
 
-```diff
+````diff
 + ## Quick Start
 +
 + ```bash
 + npm install
 + npm run dev  # Start development server on port 3000
 + ```
-```
 ````
+`````
 
 ### Phase 5: Apply Updates
 
@@ -196,12 +197,14 @@ When presenting recommendations, remind users:
 ## What Makes a Great Agent-Instruction File
 
 **Key principles:**
+
 - Concise and human-readable
 - Actionable commands that can be copy-pasted
 - Project-specific patterns, not generic advice
 - Non-obvious gotchas and warnings
 
 **Recommended sections** (use only what's relevant):
+
 - Commands (build, test, dev, lint)
 - Architecture (directory structure)
 - Key Files (entry points, config)

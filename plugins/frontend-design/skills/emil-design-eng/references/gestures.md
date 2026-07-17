@@ -39,4 +39,3 @@ function onPress() {
 ### Friction instead of hard stops
 
 Instead of preventing upward drag entirely, allow it with increasing friction. It feels more natural than hitting an invisible wall.
-

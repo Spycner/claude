@@ -52,11 +52,11 @@ Last refreshed: 2026-04-29
 
 Example format:
 
-| Code | Summary | When returned |
-|---|---|---|
-| `200 OK` | Success | Request completed normally. |
-| `400 Bad Request` | Invalid parameters | One or more required fields are missing or malformed. |
-| `404 Not Found` | Resource missing | No resource with the given `name` exists. |
+| Code                    | Summary             | When returned                                         |
+| ----------------------- | ------------------- | ----------------------------------------------------- |
+| `200 OK`                | Success             | Request completed normally.                           |
+| `400 Bad Request`       | Invalid parameters  | One or more required fields are missing or malformed. |
+| `404 Not Found`         | Resource missing    | No resource with the given `name` exists.             |
 | `429 Too Many Requests` | Rate limit exceeded | Retry after the interval in the `Retry-After` header. |
 
 ## Error documentation

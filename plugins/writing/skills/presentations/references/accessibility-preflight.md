@@ -68,6 +68,7 @@ Either approach must use accurate captions (not raw auto-generated text). Auto-g
 For talks delivered in a language other than the audience's first language, plan for translated captions or subtitles in addition to same-language captions. Recorded talks shared internationally should ship with at least an English caption track; one additional language is a meaningful courtesy if the audience is concentrated in a specific market.
 
 Each slide's `accessibility.caption_plan` field records the strategy for that slide. For most decks the same strategy applies deck-wide; record it once on the title slide and reference it from others (`caption_plan: see Slide 01`). Example values:
+
 - "Live captions via Zoom; recorded captions burned into the published MP4 via Descript."
 - "In-person delivery, CART provider engaged; no recording planned."
 - "Recorded asynchronously, VTT track published to YouTube."

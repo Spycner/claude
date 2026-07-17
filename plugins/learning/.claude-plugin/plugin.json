@@ -1,8 +1,20 @@
 {
   "name": "learning",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Socratic teach-and-quiz skills that verify you deeply understand a session or a topic.",
-  "author": { "name": "Pascal Göllner" },
+  "author": {
+    "name": "Pascal Göllner"
+  },
   "license": "MIT",
-  "keywords": ["learning", "teaching", "tutoring", "quiz", "socratic", "understanding", "study", "claude-code", "codex"]
+  "keywords": [
+    "learning",
+    "teaching",
+    "tutoring",
+    "quiz",
+    "socratic",
+    "understanding",
+    "study",
+    "claude-code",
+    "codex"
+  ]
 }

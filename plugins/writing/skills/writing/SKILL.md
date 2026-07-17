@@ -22,14 +22,14 @@ Multi-phase writing pipeline with a panel of specialised critics. Modeled on Kat
 
 Use the host platform's equivalent tools without changing the workflow:
 
-| Capability | Claude Code | Codex |
-|---|---|---|
-| Subagent dispatch | Agent tool | `spawn_agent` only when available and permitted. Otherwise run the phase inline. |
-| Progress list | TaskCreate, TaskUpdate | `update_plan` |
-| User questions | AskUserQuestion | Ask a concise direct question, or use the host structured question tool when available |
-| File reads | Read | shell reads such as `sed`, `rg`, or equivalent file read tools |
-| File writes and edits | Write, Edit | `apply_patch` or equivalent file edit tools |
-| Shell | Bash | shell command tool |
+| Capability            | Claude Code            | Codex                                                                                  |
+| --------------------- | ---------------------- | -------------------------------------------------------------------------------------- |
+| Subagent dispatch     | Agent tool             | `spawn_agent` only when available and permitted. Otherwise run the phase inline.       |
+| Progress list         | TaskCreate, TaskUpdate | `update_plan`                                                                          |
+| User questions        | AskUserQuestion        | Ask a concise direct question, or use the host structured question tool when available |
+| File reads            | Read                   | shell reads such as `sed`, `rg`, or equivalent file read tools                         |
+| File writes and edits | Write, Edit            | `apply_patch` or equivalent file edit tools                                            |
+| Shell                 | Bash                   | shell command tool                                                                     |
 
 Where this skill says "Agent tool", "TaskCreate", "TaskUpdate", "AskUserQuestion", "Read", "Write", "Edit", or "Bash", use the mapped host capability. When a platform cannot dispatch subagents for the current request, keep the same artifact boundaries and run each phase inline in the orchestrator.
 
@@ -42,6 +42,7 @@ State root is platform-specific. Claude Code uses `~/.claude/projects`. Codex us
 Ask the user what they want to write about (or what existing piece they want to work on).
 
 Resolve working directory in this order:
+
 1. **Explicit flag**: `--dir ./path/to/project/`
 2. **Existing artifacts in cwd**: if the cwd already contains any of `interview.md`, `outline.md`, `intake.md`, `pyramid.md`, `draft.md`, `critique.md`, treat the cwd as the working directory
 3. **State file lookup**: read `<state-root>/<project-id>/writing-skill-state.json` (where `<project-id>` is the cwd path with slashes replaced by hyphens, leading hyphen). If a working directory is recorded for an in-flight piece, offer to resume there.
@@ -50,6 +51,7 @@ Resolve working directory in this order:
 ### Step 2: Resolve the active style guide
 
 Resolution order:
+
 1. Explicit flag: `--style-guide ./path/to/guide.md`
 2. Project-level: search for `style-guide.md` or `CLAUDE.md` in the working directory and parents (up to repo root)
 3. State memory: the state file's recorded style guide for this project
@@ -64,11 +66,13 @@ Surface the active guide in the first response: "Using style guide: {path}".
 Panel composition and the outline / draft phases change based on format. The pipeline branches on whether the format is **analytical** (memo, briefing, announcement) or **narrative** (essay, blog, talk, newsletter).
 
 Supported formats:
+
 - Narrative: `essay` (default), `blog`, `talk`, `newsletter`
 - Analytical: `memo`, `briefing`, `announcement`
 - Technical: `tutorial`, `how-to`, `reference`, `explanation`
 
 Resolution order:
+
 1. Explicit flag: `--format <format>`
 2. State memory: the state file's recorded format for this project
 3. Default silently to `essay` and surface the default in the first response with an inline change hint: "Format: essay (default). Pass `--format memo|briefing|announcement|newsletter|blog|talk|tutorial|how-to|reference|explanation` to change."
@@ -76,6 +80,7 @@ Resolution order:
 Ask via AskUserQuestion only when the working directory name or the interview synthesis strongly signals a different format than the recorded state (for example, a state-stored `essay` format but the working directory is `memos/q3-roadmap-2026-04-23/`). In ambiguous cases, surface both candidates and let the user pick. Otherwise, resolve silently.
 
 Format gates:
+
 - **Pyramid pipeline:** analytical formats (`memo`, `briefing`, `announcement`) skip writing's interview and outline phases entirely. Phase 1 dispatches the pyramid skill's intake; Phase 2 dispatches pyramid's construct, audit, opener, and render phases. The pyramid pipeline produces `pyramid.md`, which is then consumed by writing's throughline (Phase 3) and analytical draft (Phase 4) phases.
 - **Smart-Brevity critic:** formats `memo`, `newsletter`, `announcement` add the Smart-Brevity critic to the panel fan-out. Other formats run the default seven-critic panel. Note: `briefing` does NOT add Smart-Brevity, because briefings are dense by construction and the Smart-Brevity lens has lower signal there.
 - **Tech-doc pipeline:** technical formats (`tutorial`, `how-to`, `reference`, `explanation`) skip writing's interview, outline, draft, panel, and finishing phases entirely. Phase 1 dispatches the tech-doc skill's intake; Phase 2 dispatches tech-doc's outline + throughline + draft + panel + finishing as one cohesive sub-pipeline. Writing's Phase 5 (panel) and Phase 6 (finishing) are skipped because tech-doc owns end-to-end. The tech-doc pipeline produces `draft.md`, `critique.md`, `finishing-notes.md`, and `glossary.md`.
@@ -87,6 +92,7 @@ Surface the active format in the first response alongside the style guide: "Form
 Scan the working directory for existing artifacts. Two artifact families exist depending on format:
 
 **Narrative format artifacts (essay, blog, talk, newsletter):**
+
 - `interview-synthesis.md` exists → interview phase complete
 - `outline.md` exists → outline phase complete
 - `throughline.md` exists → throughline phase complete
@@ -95,6 +101,7 @@ Scan the working directory for existing artifacts. Two artifact families exist d
 - `finishing-notes.md` exists → finishing phase has started or completed
 
 **Analytical format artifacts (memo, briefing, announcement):**
+
 - `intake.md` exists → pyramid intake (Phase 1) complete
 - `construction.md` exists → pyramid construct (Phase 2 substep) complete
 - `audit-summary.md` exists → pyramid audit (Phase 2 substep) complete
@@ -106,6 +113,7 @@ Scan the working directory for existing artifacts. Two artifact families exist d
 - `finishing-notes.md` exists → finishing phase has started or completed
 
 **Technical format artifacts (tutorial, how-to, reference, explanation):**
+
 - `intake.md` exists → tech-doc intake (Phase 1) complete
 - `outline.md` exists (tutorial/how-to/explanation) OR `schema.md` exists (reference) → tech-doc outline (Phase 2 substep) complete
 - `throughline.md` exists → tech-doc throughline (Phase 2 substep) complete
@@ -117,6 +125,7 @@ Scan the working directory for existing artifacts. Two artifact families exist d
 For technical formats, writing's phase identifiers map to tech-doc's: writing's "Phase 1" is tech-doc's intake; writing's "Phase 2" is tech-doc's everything-after-intake.
 
 Determine the latest completed phase. Present to user:
+
 - "I see you have completed phases X. Resume from {next phase}?"
 - Offer phase-jump option: user can name any phase to jump to
 
@@ -202,7 +211,7 @@ Dispatch each phase agent via the host subagent tool when supported. The orchest
 
 - **`{OUTPUT_PATH}` is always the working directory**, never a file path. Each prompt file appends its own filename.
 - **Prompt file extraction.** Each prompt file documents the dispatched prompt inside a fenced block under the `**Dispatch:**` header. The dispatched body itself contains nested fences for example outputs. The simplest robust approach: read the entire prompt file as text, perform placeholder substitution (`{TOPIC}`, `{OUTPUT_PATH}`, `{STYLE_GUIDE_PATH}`, `{REVIEWER_FEEDBACK}`, `{YYYY-MM-DD}`), and pass the full result to the host subagent tool. The dispatched agent ignores the surrounding commentary because the actionable instructions sit inside the visible prompt body.
-- **Reviewer feedback injection.** When `{REVIEWER_FEEDBACK}` is non-empty (re-dispatch on a failed gate), append this standing instruction to the dispatched prompt, regardless of what the prompt template itself says: *"Reviewer feedback is provided above. Read the existing artifact in the output directory, address the specific concerns, and update the file in place rather than starting fresh."* This compensates for the asymmetric treatment of feedback across the prompt files.
+- **Reviewer feedback injection.** When `{REVIEWER_FEEDBACK}` is non-empty (re-dispatch on a failed gate), append this standing instruction to the dispatched prompt, regardless of what the prompt template itself says: _"Reviewer feedback is provided above. Read the existing artifact in the output directory, address the specific concerns, and update the file in place rather than starting fresh."_ This compensates for the asymmetric treatment of feedback across the prompt files.
 - **Date substitution.** `{YYYY-MM-DD}` resolves to today's date in ISO format.
 
 #### Phase 1: Interview (narrative formats) or Pyramid intake (analytical formats)
@@ -282,6 +291,7 @@ Run tech-doc skill's Phases 2-6 (outline, throughline, draft, panel, finishing) 
 Orchestrator-only synchronous gate. No agent dispatch. Happens after Phase 2 completes, before the draft agent is dispatched. If the writer cannot compress the piece into ten words, the piece is not ready to draft.
 
 **Source of truth varies by format:**
+
 - Narrative formats: read `{OUTPUT_PATH}/outline.md` and extract the `**Thesis (one sentence):**` line.
 - Analytical formats: read `{OUTPUT_PATH}/pyramid.md` and extract the line under the `## Apex` header (the one-sentence governing thought rendered verbatim from `construction.md`).
 
@@ -321,23 +331,24 @@ Fan out: dispatch all critic agents in parallel when supported. The critic set d
 
 **Default panel (seven critics).** Used for `essay`, `blog`, `talk` formats.
 
-| Prompt file | Output file | Lens |
-|---|---|---|
-| `critics/hemingway.md` | `critique-hemingway.md` | Economy: cut adjectives, kill darlings |
-| `critics/hitchcock.md` | `critique-hitchcock.md` | Pacing: reader engagement, bomb under the table |
-| `critics/mom-reader.md` | `critique-mom.md` | Accessibility: where the general reader gets lost |
-| `critics/asshole-reader.md` | `critique-asshole.md` | Rigor: unearned claims, missing counterarguments |
-| `critics/clarity.md` | `critique-clarity.md` | Precision: vague abstractions, unclear antecedents (Zinsser) |
-| `critics/usage.md` | `critique-usage.md` | Correctness of form: grammar, parallelism, misused words (Strunk & White) |
-| `critics/steel-man.md` | `critique-steelman.md` | Preemption: strongest opposing thesis and whether the draft engages it |
+| Prompt file                 | Output file             | Lens                                                                      |
+| --------------------------- | ----------------------- | ------------------------------------------------------------------------- |
+| `critics/hemingway.md`      | `critique-hemingway.md` | Economy: cut adjectives, kill darlings                                    |
+| `critics/hitchcock.md`      | `critique-hitchcock.md` | Pacing: reader engagement, bomb under the table                           |
+| `critics/mom-reader.md`     | `critique-mom.md`       | Accessibility: where the general reader gets lost                         |
+| `critics/asshole-reader.md` | `critique-asshole.md`   | Rigor: unearned claims, missing counterarguments                          |
+| `critics/clarity.md`        | `critique-clarity.md`   | Precision: vague abstractions, unclear antecedents (Zinsser)              |
+| `critics/usage.md`          | `critique-usage.md`     | Correctness of form: grammar, parallelism, misused words (Strunk & White) |
+| `critics/steel-man.md`      | `critique-steelman.md`  | Preemption: strongest opposing thesis and whether the draft engages it    |
 
 **Extended panel (eight critics).** Used for formats `memo`, `newsletter`, `announcement`. Adds one format-gated critic to the default seven:
 
-| Prompt file | Output file | Lens |
-|---|---|---|
+| Prompt file                | Output file                | Lens                                                                                             |
+| -------------------------- | -------------------------- | ------------------------------------------------------------------------------------------------ |
 | `critics/smart-brevity.md` | `critique-smartbrevity.md` | Scannable structure: muscular lead, one takeaway early, short sentences, no fluff (Axios method) |
 
 For each critic in the active set:
+
 1. Read the prompt file from the tables above
 2. Inject: output path, style guide path, empty reviewer feedback
 3. Dispatch via the host subagent tool
@@ -351,39 +362,47 @@ When all active critics return, consolidate into `critique.md` (include Smart-Br
 
 ## Verdicts
 
-| Critic | Verdict | Headline |
-|--------|---------|----------|
-| Hemingway | <PASS / MINOR / CRITICAL> | <one-line summary> |
-| Hitchcock | ... | ... |
-| Mom reader | ... | ... |
-| Asshole reader | ... | ... |
-| Clarity | ... | ... |
-| Usage | ... | ... |
-| Steel-man | ... | ... |
-| Smart-Brevity | ... | ... | (only when format gated it in)
+| Critic         | Verdict                   | Headline           |
+| -------------- | ------------------------- | ------------------ |
+| Hemingway      | <PASS / MINOR / CRITICAL> | <one-line summary> |
+| Hitchcock      | ...                       | ...                |
+| Mom reader     | ...                       | ...                |
+| Asshole reader | ...                       | ...                |
+| Clarity        | ...                       | ...                |
+| Usage          | ...                       | ...                |
+| Steel-man      | ...                       | ...                |
+| Smart-Brevity  | ...                       | ...                |
 
 ## Hemingway
+
 <full content of critique-hemingway.md>
 
 ## Hitchcock
+
 <full content of critique-hitchcock.md>
 
 ## Mom reader
+
 <full content of critique-mom.md>
 
 ## Asshole reader
+
 <full content of critique-asshole.md>
 
 ## Clarity
+
 <full content of critique-clarity.md>
 
 ## Usage
+
 <full content of critique-usage.md>
 
 ## Steel-man
+
 <full content of critique-steelman.md>
 
 ## Smart-Brevity
+
 <full content of critique-smartbrevity.md, only when the Smart-Brevity critic ran>
 ```
 
@@ -415,6 +434,7 @@ Sequential, NOT parallel. Each pass updates the draft in place; later passes nee
 4. `finishing/analytical-voice.md` (executive voice; reads `intake.md` for audience calibration; replaces Sedaris because analytical formats do not run the interview phase that Sedaris depends on)
 
 For each pass in order:
+
 1. Read the prompt file
 2. Inject: output path, style guide path, empty reviewer feedback
 3. Dispatch via the host subagent tool
@@ -425,7 +445,8 @@ After all four passes, present `draft.md` and `finishing-notes.md` to the user. 
 
 ### Step 7: Update state and present
 
-Update the state file. The working directory is the *key* under `projects` (not a field). For that key, write:
+Update the state file. The working directory is the _key_ under `projects` (not a field). For that key, write:
+
 - `active_style_guide`: absolute path
 - `last_completed_phase`: name of last successful phase
 - `last_run_at`: ISO timestamp

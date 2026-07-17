@@ -1,1 +1,0 @@
-Check if my AGENTS.md is up to date with the current codebase.

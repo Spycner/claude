@@ -1,1 +1,0 @@
-Teach me about how Kafka consumer groups rebalance, and test my understanding as we go.

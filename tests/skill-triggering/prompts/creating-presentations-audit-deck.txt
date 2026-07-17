@@ -1,1 +1,0 @@
-Audit the presentation in decks/quarterly-review.html for layout problems, weak headlines, and inconsistencies, and fix what you find.

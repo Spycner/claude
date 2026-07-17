@@ -1,1 +1,0 @@
-Write a five-minute talk about why we should adopt continuous deployment. I want a polished script I can read aloud, not slides.

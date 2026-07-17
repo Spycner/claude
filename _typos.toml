@@ -18,3 +18,5 @@ writeable = "writeable"
 driveable = "driveable"
 # CSS class name in a reference HTML template, not an English word.
 ba = "ba"
+# PPTX chart-series XML element (`c:ser`); the tokenizer splits on the colon.
+ser = "ser"

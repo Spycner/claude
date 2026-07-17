@@ -1,0 +1,137 @@
+---
+name: creating-presentations
+description: Use when the user wants to build a multi-slide HTML presentation styled from a brand preset with a bundled default, or wants an existing deck reviewed, audited, or polished until it is genuinely done. Triggers on requests to create a deck, build slides, turn content into a presentation, or to audit, polish, or make a deck crisp. Includes a two-window presenter view for live sharing in Teams, Zoom, or Meet. For converting a finished HTML deck into editable PowerPoint, see the exporting-presentations-to-pptx skill.
+---
+
+# Creating Presentations
+
+Multi-slide HTML decks styled from a brand preset, presented straight from the browser through a bundled deck-stage engine, and reviewed to done through a strict convergence loop. HTML is the working medium: fast to iterate, diffable, and exportable to native PowerPoint later without a redesign pass.
+
+Building and perfecting are one lifecycle. A new deck flows top to bottom through the sections below; a deck that already exists and only needs review enters directly at "Perfecting the deck". The perfecting loop is opt-in: it burns subagent tokens every round, so it starts only when the user asks for it or accepts the offer.
+
+## Dependencies
+
+The decks themselves are dependency-free: self-contained HTML that opens from `file://`. Tools enter only for presenting and perfecting; check for them when those branches start.
+
+- A Chromium-based browser (Edge, Chrome, Arc) presents the deck: `BroadcastChannel` sync and the presenter's "Save to deck" (File System Access API) are Chromium-only. The same binary, headless, screenshots slides for the review loop: `chrome --headless --screenshot=slide.png --window-size=1920,1080 --hide-scrollbars <url>` (on Windows the preinstalled `msedge.exe` accepts the same flags).
+- `uv` serves the deck over HTTP for the hard gates (`uv run python -m http.server 8123 --directory <deck-dir>`); webfonts and `BroadcastChannel` behave differently on `file://` origins.
+- The perfecting loop needs subagent dispatch (the Workflow tool, or the Agent tool as fallback) for its judges and verifiers. Context isolation is what keeps the loop honest; without subagents, offer the user a single-pass review and say so, rather than simulating the loop inline.
+
+## Resolve the preset first
+
+Before writing any slide, resolve which preset styles the deck:
+
+1. Prompt wins. An explicit preset name ("use the acme-corp preset") or a path to a preset directory settles it.
+2. Otherwise check `.pgoell/presentations/config.md` at the working repo root. Its `## Preset` section selects the active preset by `Name:` (resolved against local presets first, then bundled ones) or `Path:` (any directory that follows the preset contract). When the file names a preset, use it and say so.
+3. Otherwise gather the candidate pool: local presets in `.pgoell/presentations/presets/*/` at the working repo root, plus the bundled presets in `presets/` at the plugin root (`../../presets/` relative to this skill's directory). Exactly one candidate: use it and say so. More than one: ask the user which to apply (the bundled `default` preset always exists, so once a local preset is installed, config or prompt is what disambiguates).
+4. Nothing usable: tell the user, offer the `extracting-presets` skill to create a preset from their brand material, and proceed with neutral styling only after they agree.
+
+A preset contributes seven things: `colors.css` (inline into the deck head after the deck's own defaults so the preset values win the cascade), `typography.css` when present, `guidelines.md` when present (brand expression guidance: read it before composing, let it steer language, imagery, and layout choices, and hold finished slides against it as a filter), `language.md` when present (language and copy rules: terminology, word usage, citations, and required legal language; apply it to every written surface from titles to speaker notes, and honor its required legal elements, which can dictate per-slide footer content and back-cover legal blocks), `assets/` (inline SVG directly as markup, base64-encode raster images), `icons/` when present (the brand icon library: grep its `index.tsv` by name, category, or keyword, then inline the SVG as markup and set its color through CSS `color`, following any icon rules in `guidelines.md`), and `slides/` as the gallery of proven layouts to adapt. The full preset contract lives in `../../presets/README.md`; read it before consuming preset files.
+
+## The canvas
+
+Author every slide on a 1920x1080 canvas (16:9). Layout grammar:
+
+- Outer padding 80 to 120 px. The empty space is part of the brand.
+- 12-column grid with 32 px gutters as a soft guide.
+- One idea per slide. Three ideas means three slides.
+- Footer band on every non-title slide: brand wordmark left, slide number right, plus any per-slide elements the preset's `language.md` requires (a confidentiality and copyright line on internal decks, for example).
+
+## Deck contract
+
+Emit decks that honor this structure, so the stage engine, the presenter view, the review probes, and the PPTX exporter consume them without rework:
+
+- Each slide is a `<section>` with a `data-screen-label` attribute carrying a short human-readable slide name (the presenter view displays it and the PPTX export uses it as the slide name). Slides are the direct element children of one `<deck-stage>` element; never place slides outside it.
+- Slides are addressed by 1-based index on the URL hash (`#3`).
+- Speaker notes live in a JSON island keyed by 1-based slide index. Notes are the presenter's voice, not filler: carry over what a `deck.md` source brief or the user provides, and otherwise leave a slide's entry out; the presenter view handles missing notes gracefully ("No notes for this slide"), while an invented note puts words in the presenter's mouth.
+
+  ```html
+  <script type="application/json" id="speaker-notes">
+  { "1": "Open with the value prop. Twenty seconds." }
+  </script>
+  ```
+
+- All styling flows through CSS custom properties declared in `:root` or in a preset variant scope such as `.inverse`. Hardcoded colors in slide markup break preset swapping and the PPTX token lift.
+
+## The stage engine
+
+This skill bundles the deck-stage engine in its `assets/` directory: `deck-stage.js`, `presenter.js`, and `presenter.html`. Copy them unmodified next to the deck; they are brand-neutral and carry no preset styling. `deck-stage.js` defines the `<deck-stage>` web component: CSS-transform scaling of the authored canvas to any viewport, keyboard navigation (arrows, Space, Home/End, number keys), a resizable thumbnail rail with drag-to-reorder and skip, a print stylesheet that lays one slide per page so Print to PDF just works, and slide hiding via `visibility` so iframe and video state survives navigation. Tooling that measures geometry (the review probes, the PPTX exporter) sets the `noscale` attribute on `<deck-stage>` to read authored-canvas pixels.
+
+Wire a deck like this:
+
+```html
+<style>deck-stage:not(:defined){visibility:hidden}</style>
+<deck-stage>
+  <section data-screen-label="01 Title">...</section>
+  ...
+</deck-stage>
+<script src="deck-stage.js"></script>
+<script src="presenter.js"></script>
+```
+
+## Composing the deck
+
+When a `deck.md` from the `designing-presentations` skill exists, it is the source brief: its per-slide blocks name each slide's type, headline, visual, and speaker notes, and its audience brief seeds the deck brief in the perfecting constitution. A block's headline is the action title: render it on the layout's takeaway surface, which in layouts pairing a title with a subtitle is the subtitle, with the block's short `title` label above it. A visual brief that pins a preset gallery layout by name settles the layout choice. Without a `deck.md`, compose directly from the user's content.
+
+Start from the preset's `slides/` gallery: pick the closest example slide for each content need and adapt the copy, keeping the layout. The typical rhythm draws from a small catalog of slide types:
+
+| Type            | When to reach for it                                                       |
+| --------------- | -------------------------------------------------------------------------- |
+| Title           | Cover / hero: deck title, subtitle, meta row (audience, date, version).    |
+| Agenda          | Multi-item list, optionally highlighting the current section.              |
+| Section divider | Major chapter break in a long deck; a dark variant gives visual rhythm.    |
+| Content         | The workhorse: a lede on top, supporting points below, one or two columns. |
+| Stat            | One or more hero numbers with captions, when the number is the message.    |
+| Comparison      | Side-by-side before/after or us/them, when the contrast is the message.    |
+| Quote           | Pull quote with attribution on a clean background.                         |
+| Timeline        | Linear sequence with phase labels and milestones.                          |
+| Closing         | Call to action, contacts, next steps; mirrors the title slide visually.    |
+
+When the preset has no matching example, compose a new slide from the preset's variables, then offer it back into the preset's gallery as a contribution. That feedback loop is how the gallery grows.
+
+## Output layout
+
+Multi-file is the shape for a deck that lives in a repo: `index.html`, the deck's own CSS file, the three engine files, and an `assets/` directory. Single-file is the shape for a deck that travels as one attachment (mail, Teams): inline the deck CSS, `deck-stage.js`, and `presenter.js` into the HTML, inline SVG as markup, and base64-encode raster images. Either shape opens from `file://` without a server. The presenter view needs the `presenter.html` sidecar next to the deck file, so a strictly single file has no presenter mode; when presenter mode matters for a traveling deck, ship the pair.
+
+## Presenter mode
+
+Open the deck in a Chromium browser (Edge, Chrome, Arc). From the deck window, `P` opens the presenter window (allow the popup once), `B` blacks out the audience screen. From the presenter window: `B` blackout, `T` resets the timer, `E` edits the current slide's notes (`Esc` finishes), `.` or `K` blacks out the presenter view itself. Arrow keys, Space, Home, End, and clicks move both windows.
+
+Notes are editable live from the presenter: edits autosave to localStorage per deck and survive reloads, and "Save to deck" writes the updated JSON island back into the deck HTML via the File System Access API (Chromium only). While the presenter window is open, the deck window hides its thumbnail rail and overlay so the shared window shows clean slides.
+
+Sync uses `BroadcastChannel`, no server required, and works across `file://` pages in Chromium (they share one storage origin). Never reach into a sibling window's DOM: `file://` documents are opaque origins to each other, which is why notes and state travel over the channel and `postMessage`.
+
+Sharing in Teams, Zoom, or Meet: open the deck, press `P`, then pick **Share to Window** and select the deck window only. Never **Share screen**, or the presenter notes leak.
+
+## Perfecting the deck
+
+A strict reviewer that does not stop at "looks good". The loop dispatches fresh judge and verifier subagents every round, so it is token intensive; it runs only on the user's go-ahead. A request to review, audit, polish, or perfect the deck is that go-ahead. After building a deck, offer the loop instead of starting it: name the cost (several subagents per round, typically a few rounds) and wait for a yes. The deck is done when fresh reviewers can no longer find anything that survives adversarial scrutiny against an explicit standard. Never ask "is the deck perfect?": a self-graded loop collapses into early self-approval, and a "be very strict" reviewer never terminates. Ask "did this round find anything new that survives verification?" and stop only when:
+
+1. every hard gate passes, and
+2. two consecutive review rounds produce zero verified findings at or above the severity threshold, and
+3. the round cap (default 5) has not been hit. If it is hit, stop and report the remaining open findings honestly instead of looping forever.
+
+Three rules keep the loop convergent rather than oscillating:
+
+- **Judges cite the constitution, never taste.** A finding without a rule citation is not a finding.
+- **Fresh judges every round.** A judge subagent is never reused and never told which round it is. The fixer (the main session) never judges; judges never fix.
+- **The ledger ratchets.** Findings rejected by verification are recorded; an identical finding in a later round is auto-dismissed without re-judging. The finding space only shrinks.
+
+The constitution is `deck-standards.md` next to the deck HTML. If it does not exist, copy the bundled default from `references/deck-standards-default.md` there, tell the user, and invite them to edit it; the copy, not the bundled file, is what judges receive. The active preset's `guidelines.md` and `language.md` join the constitution when present. Before round 1, fill the constitution's deck brief (audience, goal, time budget, constraints); ask the user if you cannot infer it. The loop edits the deck, so commit or stash first; one commit per round keeps every round diffable.
+
+Each round, in a `.deck-review/` directory next to the deck:
+
+1. **Measure.** Run the deterministic probes from `references/hard-gates.md` (overflow, overlap, broken assets, console errors, banned characters, contrast, font loading) and capture one screenshot per slide. A hard-gate failure is a fix item by definition, no judging involved.
+2. **Review.** Dispatch one fresh judge subagent per soft dimension (narrative, clarity, visual, delivery), each given the constitution, deck source, and screenshots, nothing else.
+3. **Verify.** Every finding faces an adversarial verifier prompted to refute it. Refuted findings die into the ledger; blockers, and all findings in strict mode, get a three-verifier majority.
+4. **Fix.** The main session applies the smallest change that resolves each confirmed finding, hard-gate failures first. Never batch a speculative redesign into a fix round.
+5. **Repeat** from step 1 until the convergence rule terminates the loop.
+
+Prompts, schemas, the ledger format, and a Workflow script template for one round live in `references/review-loop.md`; read it before dispatching judges. Severity runs blocker, major, minor, nit; the default threshold is minor (nits are reported but do not block convergence), and strict mode (the user says "strict" or "no nits") drops the threshold to nit with three-verifier majorities throughout.
+
+Keep `report.md` in the run directory updated every round: findings raised, verified, rejected, auto-dismissed, fixed, plus hard-gate status and the final verdict with its evidence ("rounds 4 and 5 dry, all gates green"). Never claim the deck is done without the dry-round evidence.
+
+## Caveats
+
+- Decks that load webfonts or icons from CDNs render differently offline. Vendor such assets for production decks, and run the hard gates online, otherwise font fallbacks produce false overflow findings.
+- Screenshot judges need vision via the Read tool on PNG files; capture screenshots to disk first, then pass paths.

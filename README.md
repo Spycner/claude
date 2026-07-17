@@ -2,52 +2,54 @@
 
 Plugin marketplace for Claude Code and Codex.
 
-Bundles 12 plugins across Atlassian, Google Workspace, Databricks, agent-system management, design workflows, research, writing, terminal control, learning, and more.
+Bundles 14 plugins across Atlassian, Google Workspace, Databricks, agent-system management, design workflows, research, writing, presentations, terminal control, learning, and more.
 
 ## Skills at a glance
 
-| Skill                            | Plugin                    | What it does                                                                                                                |
-| -------------------------------- | ------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
-| `jira`                           | `atlassian`               | Search Jira issues, create and update tickets, transition workflows, comment, manage sprints, run bulk operations           |
-| `confluence`                     | `atlassian`               | Search Confluence pages, read documentation, create and update pages, browse spaces                                         |
-| `gmail`                          | `google-workspace`        | Triage inbox, search and read messages, send mail, manage drafts, labels, and filters via the `gws` CLI                     |
-| `calendar`                       | `google-workspace`        | View agenda, manage events, check availability, manage calendars via the `gws` CLI                                          |
-| `research`                       | `research`                | Research complex topics and produce sourced reports                                                                         |
-| `writing`                        | `writing`                 | Draft, review, and finish long form prose                                                                                   |
-| `pyramid`                        | `writing`                 | Structure analytical documents with the Pyramid Principle                                                                   |
-| `tech-doc`                       | `writing`                 | Draft, review, and finish technical documentation                                                                           |
-| `presentations`                  | `writing`                 | Design slide-deck content (audience, message, storyboard, per-slide briefs); hands off to `crafting-presentations` for HTML |
-| `claude-codex-bridge`            | `runtime-bridge`          | Align Claude Code and Codex project files                                                                                   |
-| `improving-instructions`         | `agent-system-management` | Audit and improve agent instruction files                                                                                   |
-| `capturing-session-learnings`    | `agent-system-management` | Capture session learnings into the right instruction file                                                                   |
-| `creating-skills`                | `agent-system-management` | Create, eval, benchmark, bulletproof, and tune skills across the full lifecycle                                             |
-| `brainstorming`                  | `workbench`               | Sequential Q&A to clarify design intent                                                                                     |
-| `writing-spec`                   | `workbench`               | Synthesize a design discussion into a spec doc                                                                              |
-| `writing-plans`                  | `workbench`               | Turn approved specs into concrete implementation plans                                                                      |
-| `visualizing-options`            | `workbench`               | Browser-based visual companion for layout choices                                                                           |
-| `using-workbench`                | `workbench`               | Load Workbench skill rules and routing                                                                                      |
-| `terse-mode`                     | `workbench`               | Compact token-saving replies until disabled                                                                                 |
-| `autopilot`                      | `workbench`               | Ship a feature from brainstorm to PR using a project profile                                                                |
-| `copilot`                        | `workbench`               | Human-in-the-loop autopilot: you drive brainstorm and spec, the agent ships the rest                                        |
-| `verification-before-completion` | `workbench`               | Require fresh verification evidence before completion claims                                                                |
-| `test-driven-development`        | `workbench`               | Enforce test-first RED-GREEN-REFACTOR implementation discipline                                                             |
-| `dispatching-parallel-agents`    | `workbench`               | Split independent tasks across concurrent agents                                                                            |
-| `subagent-driven-development`    | `workbench`               | Execute implementation plans with fresh agents and review gates                                                             |
-| `systematic-debugging`           | `workbench`               | Root-cause investigation before proposing bug fixes                                                                         |
-| `crafting-html`                  | `workbench`               | Reference gallery of 21 HTML artifact patterns                                                                              |
-| `crafting-design-systems`        | `workbench`               | Design systems (CSS variables, components, images) that theme HTML producers                                                |
-| `crafting-presentations`         | `workbench`               | Multi-slide HTML decks with deck navigation, slide-type catalog, and a presenter view                                       |
-| `exporting-decks-to-pptx`        | `workbench`               | Export a deck-stage HTML deck to a native, editable PowerPoint (.pptx) via python-pptx                                      |
-| `perfecting-presentations`       | `workbench`               | Strict deck review loop: hard gates plus adversarial judge panels until rounds come back dry                                |
-| `tmux`                           | `terminal`                | Control interactive terminal programs through isolated tmux sessions                                                        |
-| `frontend-design`                | `frontend-design`         | Distinctive, production-grade frontend interfaces that avoid generic AI aesthetics                                          |
-| `emil-design-eng`                | `frontend-design`         | Emil Kowalski's design engineering philosophy: animation timing, component polish, UI craft                                 |
-| `playground`                     | `playground`              | Interactive single-file HTML playgrounds with controls, live preview, and copy-out prompt                                   |
-| `databricks-core`                | `databricks`              | Databricks CLI, authentication, profile management, and data exploration                                                    |
-| `databricks-docs`                | `databricks`              | Live `docs.databricks.com` lookups for product-surface questions                                                            |
-| `quizzing-the-session`           | `learning`                | Get taught and quizzed on the current session's work until you demonstrably understand the problem, solution, and impact    |
-| `quizzing-a-topic`               | `learning`                | Get taught and quizzed on any topic or theme you name until you demonstrably understand it                                  |
-| `surveying-blind-spots`          | `learning`                | Pre-work blind-spot pass over an unfamiliar codebase area or field, surfacing unknown unknowns, gotchas, and better prompts |
+| Skill                             | Plugin                    | What it does                                                                                                                |
+| --------------------------------- | ------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| `jira`                            | `atlassian`               | Search Jira issues, create and update tickets, transition workflows, comment, manage sprints, run bulk operations           |
+| `confluence`                      | `atlassian`               | Search Confluence pages, read documentation, create and update pages, browse spaces                                         |
+| `gmail`                           | `google-workspace`        | Triage inbox, search and read messages, send mail, manage drafts, labels, and filters via the `gws` CLI                     |
+| `calendar`                        | `google-workspace`        | View agenda, manage events, check availability, manage calendars via the `gws` CLI                                          |
+| `research`                        | `research`                | Research complex topics and produce sourced reports                                                                         |
+| `writing`                         | `writing`                 | Draft, review, and finish long form prose                                                                                   |
+| `pyramid`                         | `writing`                 | Structure analytical documents with the Pyramid Principle                                                                   |
+| `tech-doc`                        | `writing`                 | Draft, review, and finish technical documentation                                                                           |
+| `claude-codex-bridge`             | `runtime-bridge`          | Align Claude Code and Codex project files                                                                                   |
+| `improving-instructions`          | `agent-system-management` | Audit and improve agent instruction files                                                                                   |
+| `capturing-session-learnings`     | `agent-system-management` | Capture session learnings into the right instruction file                                                                   |
+| `creating-skills`                 | `agent-system-management` | Create, eval, benchmark, bulletproof, and tune skills across the full lifecycle                                             |
+| `brainstorming`                   | `workbench`               | Sequential Q&A to clarify design intent                                                                                     |
+| `writing-spec`                    | `workbench`               | Synthesize a design discussion into a spec doc                                                                              |
+| `writing-plans`                   | `workbench`               | Turn approved specs into concrete implementation plans                                                                      |
+| `visualizing-options`             | `workbench`               | Browser-based visual companion for layout choices                                                                           |
+| `using-workbench`                 | `workbench`               | Load Workbench skill rules and routing                                                                                      |
+| `terse-mode`                      | `workbench`               | Compact token-saving replies until disabled                                                                                 |
+| `autopilot`                       | `workbench`               | Ship a feature from brainstorm to PR using a project profile                                                                |
+| `copilot`                         | `workbench`               | Human-in-the-loop autopilot: you drive brainstorm and spec, the agent ships the rest                                        |
+| `verification-before-completion`  | `workbench`               | Require fresh verification evidence before completion claims                                                                |
+| `test-driven-development`         | `workbench`               | Enforce test-first RED-GREEN-REFACTOR implementation discipline                                                             |
+| `dispatching-parallel-agents`     | `workbench`               | Split independent tasks across concurrent agents                                                                            |
+| `subagent-driven-development`     | `workbench`               | Execute implementation plans with fresh agents and review gates                                                             |
+| `systematic-debugging`            | `workbench`               | Root-cause investigation before proposing bug fixes                                                                         |
+| `crafting-html`                   | `workbench`               | Reference gallery of 21 HTML artifact patterns                                                                              |
+| `crafting-design-systems`         | `workbench`               | Design systems (CSS variables, components, images) that theme HTML producers                                                |
+| `tmux`                            | `terminal`                | Control interactive terminal programs through isolated tmux sessions                                                        |
+| `frontend-design`                 | `frontend-design`         | Distinctive, production-grade frontend interfaces that avoid generic AI aesthetics                                          |
+| `emil-design-eng`                 | `frontend-design`         | Emil Kowalski's design engineering philosophy: animation timing, component polish, UI craft                                 |
+| `playground`                      | `playground`              | Interactive single-file HTML playgrounds with controls, live preview, and copy-out prompt                                   |
+| `databricks-core`                 | `databricks`              | Databricks CLI, authentication, profile management, and data exploration                                                    |
+| `databricks-docs`                 | `databricks`              | Live `docs.databricks.com` lookups for product-surface questions                                                            |
+| `quizzing-the-session`            | `learning`                | Get taught and quizzed on the current session's work until you demonstrably understand the problem, solution, and impact    |
+| `quizzing-a-topic`                | `learning`                | Get taught and quizzed on any topic or theme you name until you demonstrably understand it                                  |
+| `surveying-blind-spots`           | `learning`                | Pre-work blind-spot pass over an unfamiliar codebase area or field, surfacing unknown unknowns, gotchas, and better prompts |
+| `designing-presentations`         | `presentations`           | Design slide-deck content from audience brief through critiqued storyboard, producing a `deck.md`                           |
+| `creating-presentations`          | `presentations`           | Build multi-slide HTML decks from brand presets, with a presenter view and an opt-in review-to-done loop                    |
+| `exporting-presentations-to-pptx` | `presentations`           | Convert a finished HTML deck into a native, editable PowerPoint (.pptx) via python-pptx                                     |
+| `extracting-presets`              | `presentations`           | Turn brand material (PPTX templates, PDF guidelines, decks) into reusable presentation presets                              |
+
+The `deprecated` plugin additionally archives four superseded skills (`crafting-presentations`, `perfecting-presentations`, `exporting-decks-to-pptx`, `presentations`); each points at its replacement in the `presentations` plugin.
 
 Skills are invoked from the host agent (Claude Code or Codex) using the fully qualified form `/<plugin>:<skill>`, for example `/atlassian:jira` or `/workbench:autopilot`.
 
@@ -69,7 +71,10 @@ Skills are invoked from the host agent (Claude Code or Codex) using the fully qu
 /plugin install playground@pgoell-claude-tools
 /plugin install databricks@pgoell-claude-tools
 /plugin install learning@pgoell-claude-tools
+/plugin install presentations@pgoell-claude-tools
 ```
+
+The `deprecated` plugin (`/plugin install deprecated@pgoell-claude-tools`) is an archive of superseded skills; only install it if an old workflow still calls the old skill names.
 
 ### Codex
 
@@ -81,7 +86,7 @@ codex
 /plugins
 ```
 
-In the `/plugins` picker, install any combination of `atlassian`, `google-workspace`, `research`, `writing`, `runtime-bridge`, `agent-system-management`, `workbench`, `terminal`, `frontend-design`, `playground`, `databricks`, and `learning`.
+In the `/plugins` picker, install any combination of `atlassian`, `google-workspace`, `research`, `writing`, `runtime-bridge`, `agent-system-management`, `workbench`, `terminal`, `frontend-design`, `playground`, `databricks`, `learning`, and `presentations` (plus `deprecated` if an old workflow needs the archived skill names).
 
 To pick up updates: `codex plugin marketplace upgrade pgoell-claude-tools` and re-install the affected plugins.
 
@@ -154,7 +159,8 @@ Writing skills for prose, analytical structure, and technical documentation.
 - `/writing:writing`: Draft, review, and finish long form prose.
 - `/writing:pyramid`: Structure memos, recommendations, briefings, and decision documents with the Pyramid Principle.
 - `/writing:tech-doc`: Draft, review, and finish tutorials, how-to guides, references, and explanations.
-- `/writing:presentations`: Design slide-deck content end to end (intake, message architecture, storyboard, per-slide drafts, critique panel). Produces a markdown `deck.md` you can hand off to `/workbench:crafting-presentations` for HTML rendering. Also runs in audit mode against an existing `deck.md`.
+
+Slide-deck content design moved to `/presentations:designing-presentations`; for a written prose talk, use `/writing:writing` with the talk format.
 
 ### runtime-bridge
 
@@ -195,9 +201,8 @@ Workbench skills for design dialogue, skill routing, and profile-driven feature 
 - `/workbench:systematic-debugging`: Enforce root-cause investigation before proposing bug fixes; bundles techniques for backward stack tracing, defense in depth, and condition-based waiting.
 - `/workbench:crafting-html`: Reference gallery of 21 HTML artifact patterns vendored from `ThariqS/html-effectiveness`. Activates for standalone HTML artifacts not covered by specs, plans, brainstorm summaries, debug reports, or research reports.
 - `/workbench:crafting-design-systems`: Create reusable design systems (CSS variables, components, images) at project (`.workbench/design-systems/<name>/`) or user (`~/.claude/workbench/design-systems/<name>/`) scope. HTML producers inline the active design system over their template defaults.
-- `/workbench:crafting-presentations`: Multi-slide HTML decks with a deck-stage engine, slide-type catalog (Title, SectionDivider, Agenda, Content, Stat, Capabilities, Comparison, Quote, Timeline, Closing), speaker notes JSON island, and a two-window presenter view that syncs over `BroadcastChannel`, hides the deck's editing chrome while presenting, and lets you edit notes live as markdown and save them back into the deck file. Bundles a Deloitte/Databricks Alliance example deck.
-- `/workbench:exporting-decks-to-pptx`: Convert a finished deck-stage HTML deck (single-file or multi-file) into a native, editable PowerPoint file via a freshly written python-pptx generator, with a dockerized LibreOffice render-verify loop and an optional per-slide adversarial verification panel.
-- `/workbench:perfecting-presentations`: Strict review loop for existing HTML decks. Deterministic hard gates (overflow, overlap, contrast, broken assets, typography lint) plus four fresh-context judge dimensions (narrative, clarity, visual, delivery) whose findings must cite a per-project constitution (`.workbench/deck-standards.md`, seeded from a bundled default) and survive adversarial verification. Terminates on convergence: two consecutive dry rounds, with a rejected-findings ledger to prevent oscillation.
+
+Multi-slide presentation skills (deck building, review loop, PPTX export) moved to the `presentations` plugin.
 
 `writing-spec`, `writing-plans`, `brainstorming`, and `systematic-debugging` can emit either markdown or HTML; defaults are markdown for specs and plans, HTML for brainstorm summaries and debug reports. Override per invocation or via `.workbench/config.md` (schema in `plugins/workbench/skills/autopilot/references/config-schema.md`).
 
@@ -252,6 +257,23 @@ Skills that teach the human: Socratic teach-and-quiz loops plus a pre-work blind
 - `/learning:quizzing-the-session`: Build a problem/solution/impact checklist from the current session and recent git activity, then teach and quiz you item by item to mastery. Also fits right before a PR or merge, to confirm you can represent the work in review.
 - `/learning:quizzing-a-topic`: The same teaching engine pointed at any topic or theme you name, grounded in repo files when the topic is local code.
 - `/learning:surveying-blind-spots`: A pre-work blind-spot pass over a codebase area or field you do not know. Surfaces unknown unknowns, gotchas, and dead ends, then hands you rewritten prompts. A briefing, not a quiz.
+
+### presentations
+
+The full presentation lifecycle in one plugin: content design, HTML deck building with an integrated perfecting loop, native PowerPoint export, and brand preset extraction.
+
+**Skills:**
+
+- `/presentations:designing-presentations`: Design slide-deck content end to end (audience brief, message architecture, storyboard, per-slide drafts, critique panel). Produces a markdown `deck.md`; also runs in audit mode against an existing `deck.md`.
+- `/presentations:creating-presentations`: Build multi-slide HTML decks styled from a brand preset, presented through a bundled deck-stage engine with a two-window presenter view (`BroadcastChannel` sync, live-editable speaker notes). Includes an opt-in review-to-done convergence loop with deterministic hard gates, fresh judge panels, and adversarial verification.
+- `/presentations:exporting-presentations-to-pptx`: Convert a finished HTML deck into a native, editable PowerPoint file via a freshly written python-pptx generator, with a containerized LibreOffice render-verify loop and an optional per-slide adversarial verification panel.
+- `/presentations:extracting-presets`: Turn brand material (PPTX templates and slide masters, PDF guidelines, icon libraries, example decks) into reusable presets: layered CSS variables, guidance files, assets, and self-contained example slides.
+
+Styling flows through presets (contract in `plugins/presentations/presets/README.md`). The plugin bundles a neutral `default` preset; project-local presets and a preset choice live under `.pgoell/presentations/` (`config.md` plus `presets/<name>/`) at the repo root of the project you are working in. Runtime dependencies (checked lazily, per branch): a Chromium-based browser, `uv`, and a container engine for preset extraction render checks.
+
+### deprecated
+
+Archive of superseded skills, kept installable so old workflows keep resolving. Each skill is frozen, carries a deprecation banner, and names its replacement: `crafting-presentations`, `perfecting-presentations`, and `exporting-decks-to-pptx` (formerly `workbench`) plus `presentations` (formerly `writing`) all point at the `presentations` plugin. Do not install alongside `presentations` unless you need the old skill names.
 
 ---
 

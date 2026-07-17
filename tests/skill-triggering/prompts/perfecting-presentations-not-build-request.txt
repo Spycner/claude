@@ -1,1 +1,0 @@
-Help me build a new 12-slide HTML presentation about our platform migration, with speaker notes and a presenter view.

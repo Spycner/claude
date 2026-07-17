@@ -1,0 +1,19 @@
+{
+  "name": "deprecated",
+  "version": "0.1.0",
+  "description": "Archive of superseded skills kept installable for old workflows; every skill points at its replacement",
+  "author": { "name": "Pascal Göllner" },
+  "license": "MIT",
+  "keywords": ["deprecated", "archive"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Deprecated",
+    "shortDescription": "Archive of superseded skills; prefer the replacements",
+    "longDescription": "Superseded skills moved out of their original plugins, kept installable so old workflows keep resolving. Each skill carries a deprecation banner naming its replacement in the presentations plugin. Do not install alongside the presentations plugin unless you need the old skill names.",
+    "developerName": "Pascal Göllner",
+    "category": "Productivity",
+    "capabilities": ["Interactive"],
+    "defaultPrompt": [],
+    "screenshots": []
+  }
+}

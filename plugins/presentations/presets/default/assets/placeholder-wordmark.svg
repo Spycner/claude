@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 48" width="220" height="48" role="img" aria-label="Placeholder wordmark">
+  <!-- Placeholder wordmark. Swap for the real brand's official wordmark; see manifest.md. -->
+  <circle cx="20" cy="26" r="10" fill="#86BC24"/>
+  <text x="44" y="36" font-family="'DM Sans', 'Segoe UI', Helvetica, sans-serif" font-size="30" font-weight="600" letter-spacing="2" fill="currentColor">ACME</text>
+</svg>

@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>09 Timeline</title>
+<style>
+  /* ==========================================================
+     Synced copy of ../colors.css. Source of truth is the file;
+     refresh this block whenever it changes.
+     ========================================================== */
+  /* ============================================================
+     Default preset, design tokens
+     ============================================================
+     Source of truth for every slide's embedded variable block.
+     Raw brand layer first, semantic layer second; slides read
+     only the semantic names unless a specific raw value is the
+     point (charts, swatches).
+     ============================================================ */
+
+  :root {
+    /* =====================================================
+       COLOR, Brand (raw layer)
+       ===================================================== */
+    --brand-green:        #86BC24;   /* Bright accent green; graphics only, fails as text on white */
+    --brand-green-dark:   #5C8A18;   /* Pressed / hover variant, text-safe ramp step */
+    --brand-green-tint:   #E5F2C9;   /* Background wash */
+    --brand-ink:          #0F0B0B;   /* Headlines, warmer than pure black */
+
+    --brand-ember:        #FF3621;   /* Warm red-orange, secondary accent */
+    --brand-ember-dark:   #D62914;   /* Pressed */
+    --brand-ember-tint:   #FFE3DE;
+    --brand-deep:         #1B3139;   /* Deep blue-green for dark slides */
+    --brand-oat:          #EEEDE9;   /* Warm off-white */
+    --brand-lava:         #FF8B6B;   /* Secondary warm */
+    --brand-navy:         #00263A;   /* Secondary deep */
+
+    /* =====================================================
+       COLOR, Semantic (light theme, default)
+       ===================================================== */
+    --bg:                 #FAFAF7;   /* Slide background, warmer than #fff */
+    --bg-elev:            #FFFFFF;   /* Card / tile surface */
+    --bg-subtle:          #F2F2EC;   /* Subtle wash for sections */
+    --bg-inverse:         #1B3139;   /* Dark slide background */
+
+    --fg:                 #0F0B0B;   /* Primary text */
+    --fg-muted:           #595452;   /* Secondary text */
+    --fg-subtle:          #8A8682;   /* Tertiary text / captions */
+    --fg-inverse:         #FAFAF7;   /* Text on dark bg */
+    --fg-inverse-muted:   rgba(250, 250, 247, 0.72);
+    --fg-inverse-subtle:  rgba(250, 250, 247, 0.50);
+
+    --border:             #E8E8E3;
+    --border-strong:      #D2D2CB;
+    --border-inverse:     rgba(255, 255, 255, 0.12);
+    --border-accent:      var(--brand-green);   /* Accent hairline */
+
+    --accent:             var(--brand-green);   /* Default accent */
+    --accent-fg:          var(--brand-ink);
+    --accent-partner:     var(--brand-ember);   /* Secondary-accent callouts */
+
+    /* Status (rare on slides, but useful) */
+    --status-success:     #2F7A1C;
+    --status-warning:     #C77700;
+    --status-danger:      #B0271A;
+    --status-info:        #00638A;
+
+    /* =====================================================
+       TYPE, slide scale (1920x1080 reference)
+       ===================================================== */
+    --fs-hero:        160px;
+    --fs-display:     120px;
+    --fs-section:     96px;
+    --fs-h1:          72px;
+    --fs-h2:          56px;
+    --fs-h3:          40px;
+    --fs-subtitle:    32px;
+    --fs-body-lg:     28px;
+    --fs-body:        24px;
+    --fs-caption:     20px;
+    --fs-micro:       16px;
+
+    --lh-tight:       1.05;
+    --lh-snug:        1.18;
+    --lh-normal:      1.35;
+    --lh-relaxed:     1.55;
+
+    --tracking-tight:   -0.02em;
+    --tracking-normal:  0;
+    --tracking-wide:    0.04em;
+    --tracking-caps:    0.08em;
+
+    --weight-regular:   400;
+    --weight-medium:    500;
+    --weight-semibold:  600;
+    --weight-bold:      700;
+
+    /* =====================================================
+       SPACING (8pt grid)
+       ===================================================== */
+    --space-0:   0;
+    --space-1:   4px;
+    --space-2:   8px;
+    --space-3:   12px;
+    --space-4:   16px;
+    --space-5:   24px;
+    --space-6:   32px;
+    --space-7:   48px;
+    --space-8:   64px;
+    --space-9:   80px;
+    --space-10:  120px;
+    --space-11:  160px;
+
+    /* Slide margins (1920x1080) */
+    --slide-pad-x:   120px;
+    --slide-pad-y:   96px;
+    --slide-w:       1920px;
+    --slide-h:       1080px;
+
+    /* =====================================================
+       RADIUS
+       ===================================================== */
+    --r-0:       0;
+    --r-sm:      4px;
+    --r-md:      6px;
+    --r-lg:      8px;
+    --r-pill:    999px;
+
+    /* =====================================================
+       SHADOWS (use sparingly, flat is default)
+       ===================================================== */
+    --shadow-0:  none;
+    --shadow-1:  0 1px 2px rgba(15, 11, 11, 0.04), 0 1px 3px rgba(15, 11, 11, 0.06);
+    --shadow-2:  0 10px 24px rgba(15, 11, 11, 0.08), 0 2px 6px rgba(15, 11, 11, 0.04);
+
+    /* =====================================================
+       MOTION
+       ===================================================== */
+    --ease-out:    cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-in:     cubic-bezier(0.7, 0, 0.84, 0);
+    --ease-in-out: cubic-bezier(0.7, 0, 0.3, 1);
+    --dur-fast:    150ms;
+    --dur-base:    240ms;
+    --dur-slow:    400ms;
+  }
+
+  /* =====================================================
+     DARK SLIDE THEME, apply `.dark` to a slide root
+     ===================================================== */
+  .dark,
+  [data-theme="dark"] {
+    --bg:            var(--brand-deep);
+    --bg-elev:       rgba(255, 255, 255, 0.04);
+    --bg-subtle:     rgba(255, 255, 255, 0.02);
+    --fg:            var(--fg-inverse);
+    --fg-muted:      var(--fg-inverse-muted);
+    --fg-subtle:     var(--fg-inverse-subtle);
+    --border:        var(--border-inverse);
+    --border-strong: rgba(255, 255, 255, 0.24);
+    --accent-fg:     var(--fg-inverse);
+  }
+
+  /* ==========================================================
+     Synced copy of ../typography.css. Source of truth is the
+     file; refresh this block whenever it changes.
+     ========================================================== */
+  /* ============================================================
+     Default preset, font stacks
+     ============================================================
+     Webfonts: "DM Sans" and "JetBrains Mono" (both on Google
+     Fonts, OFL-licensed). The preset does not vendor or import
+     them, so standalone slides render on the system fallbacks
+     below. Deck builds that must render identically offline
+     vendor the webfont files per the creating-presentations
+     caveats.
+     ============================================================ */
+
+  :root {
+    --font-sans:    'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, sans-serif;
+    --font-mono:    'JetBrains Mono', 'SF Mono', Menlo, Consolas, monospace;
+    --font-display: var(--font-sans);
+  }
+
+  /* ==== Standalone viewer shell ==== */
+  html, body { margin: 0; height: 100vh; background: #000; overflow: hidden; }
+  *, *::before, *::after { box-sizing: border-box; }
+  .frame {
+    position: absolute;
+    width: 1920px; height: 1080px;
+    transform-origin: top left;
+  }
+  .frame > section {
+    position: relative;
+    width: 1920px;
+    height: 1080px;
+    padding: var(--slide-pad-y) var(--slide-pad-x);
+    background: var(--bg);
+    color: var(--fg);
+    overflow: hidden;
+    font-family: var(--font-sans);
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ==== Shared bits ==== */
+  .accent-dot { color: var(--brand-green); }
+  .wordmark {
+    display: inline-flex; align-items: center; gap: 0.4em;
+    font-family: var(--font-display);
+    font-weight: var(--weight-semibold);
+    letter-spacing: 0.06em;
+  }
+  .wordmark .wordmark-dot {
+    width: 0.55em; height: 0.55em; border-radius: var(--r-pill);
+    background: var(--accent);
+  }
+  .footer {
+    position: absolute;
+    left: var(--slide-pad-x); right: var(--slide-pad-x); bottom: 56px;
+    padding-top: 20px;
+    border-top: 1px solid var(--brand-green);
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: 20px;
+    color: var(--fg-subtle);
+  }
+  .footer .wordmark { font-size: 22px; color: var(--fg); opacity: 0.85; }
+  .footer .right { font-family: var(--font-mono); font-size: 18px; letter-spacing: 0.04em; }
+  .eyebrow {
+    font-size: 24px; font-weight: var(--weight-medium);
+    text-transform: uppercase; letter-spacing: 0.12em;
+    color: var(--fg-muted);
+  }
+
+  /* ==== This slide ==== */
+  .s-time .header { margin-bottom: 80px; max-width: 1400px; }
+  .s-time h1 {
+    font-size: 72px; font-weight: var(--weight-semibold);
+    letter-spacing: -0.025em; line-height: 1.05;
+    margin: 16px 0 0;
+  }
+  .s-time .track {
+    position: relative;
+    padding: 60px 0 0;
+  }
+  .s-time .line {
+    position: absolute; top: 88px; left: 0; right: 0; height: 2px;
+    background: var(--border);
+  }
+  .s-time .line-fill {
+    position: absolute; top: 88px; left: 0; width: 50%; height: 2px;
+    background: var(--brand-green);
+  }
+  .s-time .nodes {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px;
+    position: relative;
+  }
+  .s-time .node { display: flex; flex-direction: column; gap: 18px; }
+  .s-time .dot {
+    width: 24px; height: 24px; border-radius: var(--r-pill);
+    background: var(--bg);
+    border: 3px solid var(--border-strong);
+    position: relative; top: -12px;
+  }
+  .s-time .node.done .dot { background: var(--brand-green); border-color: var(--brand-green); }
+  .s-time .node.current .dot {
+    background: var(--brand-green);
+    border-color: var(--brand-green);
+    box-shadow: 0 0 0 6px rgba(134, 188, 36, 0.2);
+  }
+  .s-time .when { font-family: var(--font-mono); font-size: 22px; color: var(--fg-subtle); }
+  .s-time .what { font-size: 36px; font-weight: var(--weight-semibold); letter-spacing: -0.015em; line-height: 1.1; }
+  .s-time .desc { font-size: 22px; color: var(--fg-muted); line-height: 1.4; }
+  .s-time .node:not(.done):not(.current) .what { color: var(--fg-subtle); }
+</style>
+<script>
+  function fit() {
+    const f = document.querySelector('.frame');
+    const s = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+    f.style.transform = 'scale(' + s + ')';
+    const sw = 1920 * s, sh = 1080 * s;
+    f.style.left = ((window.innerWidth - sw) / 2) + 'px';
+    f.style.top  = ((window.innerHeight - sh) / 2) + 'px';
+  }
+  window.addEventListener('resize', fit);
+  window.addEventListener('load', fit);
+</script>
+</head>
+<body>
+<div class="frame">
+<section class="s-time" data-screen-label="09 Timeline">
+    <div class="header">
+      <div class="eyebrow">Delivery playbook</div>
+      <h1>Twelve weeks to production<span class="accent-dot">.</span></h1>
+    </div>
+    <div class="track">
+      <div class="line"></div>
+      <div class="line-fill"></div>
+      <div class="nodes">
+        <div class="node done">
+          <div class="dot"></div>
+          <div class="when">Weeks 1-2</div>
+          <div class="what">Discovery</div>
+          <div class="desc">Workload inventory, business-case sizing, target-state architecture.</div>
+        </div>
+        <div class="node done">
+          <div class="dot"></div>
+          <div class="when">Weeks 3-5</div>
+          <div class="what">Foundation</div>
+          <div class="desc">Workspace, catalog, network, identity, and CI/CD wired up.</div>
+        </div>
+        <div class="node current">
+          <div class="dot"></div>
+          <div class="when">Weeks 6-10</div>
+          <div class="what">Migration</div>
+          <div class="desc">Three priority workloads ported with parity testing and rollback.</div>
+        </div>
+        <div class="node">
+          <div class="dot"></div>
+          <div class="when">Weeks 11-12</div>
+          <div class="what">Cutover</div>
+          <div class="desc">Run-state handoff to the platform team. Hypercare for 30 days.</div>
+        </div>
+      </div>
+    </div>
+    <div class="footer">
+      <div class="wordmark"><span class="wordmark-dot"></span>ACME</div>
+      <span class="right">09 / 10</span>
+    </div>
+  </section>
+</div>
+</body>
+</html>

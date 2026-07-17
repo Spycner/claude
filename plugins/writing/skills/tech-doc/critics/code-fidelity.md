@@ -4,7 +4,7 @@
 
 **Dispatch:** One of eight critics in the tech-doc panel (always-on). Reads `draft.md` and the active style preset. Writes `critique-code-fidelity.md`.
 
-```
+````
 Dispatched agent prompt:
   description: "Code fidelity critique"
   prompt: |
@@ -101,4 +101,4 @@ Dispatched agent prompt:
     ## Reviewer Feedback
 
     {REVIEWER_FEEDBACK}
-```
+````

@@ -34,19 +34,19 @@ This is the style guide that ships with the writing skill. It reflects opinionat
 
 ## 5. Anti-patterns and blacklist
 
-| Pattern | Solution |
-|---|---|
-| Em-dashes (the long horizontal character) | Rewrite with comma, period, colon, parentheses, or split into separate sentences |
-| En-dashes (the medium horizontal character) | Same as em-dashes |
-| Hyphens used as sentence punctuation (e.g., " - " standing in for a comma) | Same |
-| "leverage", "navigate the complexities", "harness the power", "robust", "seamless", "unlock", "empower" | Delete or rewrite with concrete language |
-| "in conclusion", "to sum up", "at the end of the day" | Delete; let the closing land on its own |
-| "some argue that", "many would say", "it's worth noting that" | Delete or attribute the argument specifically |
-| Rhetorical questions the author answers in the next sentence | Flip to assertion |
-| Correlative constructions: "not X, but Y" | Rewrite as direct claim |
-| "Here's the thing", "the truth is", "let's be honest" | Delete |
-| Italic emphasis on every key term | Use sparingly; only for genuine emphasis |
-| "delve" as a verb | Replace with "dig into", "examine", or remove |
+| Pattern                                                                                                 | Solution                                                                         |
+| ------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| Em-dashes (the long horizontal character)                                                               | Rewrite with comma, period, colon, parentheses, or split into separate sentences |
+| En-dashes (the medium horizontal character)                                                             | Same as em-dashes                                                                |
+| Hyphens used as sentence punctuation (e.g., " - " standing in for a comma)                              | Same                                                                             |
+| "leverage", "navigate the complexities", "harness the power", "robust", "seamless", "unlock", "empower" | Delete or rewrite with concrete language                                         |
+| "in conclusion", "to sum up", "at the end of the day"                                                   | Delete; let the closing land on its own                                          |
+| "some argue that", "many would say", "it's worth noting that"                                           | Delete or attribute the argument specifically                                    |
+| Rhetorical questions the author answers in the next sentence                                            | Flip to assertion                                                                |
+| Correlative constructions: "not X, but Y"                                                               | Rewrite as direct claim                                                          |
+| "Here's the thing", "the truth is", "let's be honest"                                                   | Delete                                                                           |
+| Italic emphasis on every key term                                                                       | Use sparingly; only for genuine emphasis                                         |
+| "delve" as a verb                                                                                       | Replace with "dig into", "examine", or remove                                    |
 
 Hyphens in compound words (spec-driven, AI-assisted, two-week) are hyphenation, not punctuation. They stay.
 

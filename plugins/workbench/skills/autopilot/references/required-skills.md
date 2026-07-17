@@ -4,18 +4,18 @@ The universal table that the autopilot skill walks at the pre-PR audit. Profiles
 
 ## Universal table (defaults)
 
-| Step | Skill | Notes |
-|---|---|---|
-| 0 | `workbench:using-workbench` | session-start meta, workbench-native fork |
-| 2 | `workbench:brainstorming` | already ported into workbench |
-| 3 | `workbench:writing-spec` | already ported into workbench |
-| 4 | `workbench:writing-plans` | already ported into workbench |
-| 5 | `workbench:test-driven-development` | ported into workbench |
-| 5 | `workbench:dispatching-parallel-agents` | governs safe fanout for independent tasks |
-| 5 | `workbench:subagent-driven-development` | governs plan execution with subagents |
-| 6 | `agent-system-management:capturing-session-learnings` | cross-plugin |
-| 6 | `agent-system-management:improving-instructions` | cross-plugin |
-| pre-PR | `workbench:verification-before-completion` | verify before push and PR readiness claims |
+| Step   | Skill                                                 | Notes                                      |
+| ------ | ----------------------------------------------------- | ------------------------------------------ |
+| 0      | `workbench:using-workbench`                           | session-start meta, workbench-native fork  |
+| 2      | `workbench:brainstorming`                             | already ported into workbench              |
+| 3      | `workbench:writing-spec`                              | already ported into workbench              |
+| 4      | `workbench:writing-plans`                             | already ported into workbench              |
+| 5      | `workbench:test-driven-development`                   | ported into workbench                      |
+| 5      | `workbench:dispatching-parallel-agents`               | governs safe fanout for independent tasks  |
+| 5      | `workbench:subagent-driven-development`               | governs plan execution with subagents      |
+| 6      | `agent-system-management:capturing-session-learnings` | cross-plugin                               |
+| 6      | `agent-system-management:improving-instructions`      | cross-plugin                               |
+| pre-PR | `workbench:verification-before-completion`            | verify before push and PR readiness claims |
 
 These are the rows shipped with Workbench. As more skills are ported into workbench, this table flips them to `workbench:*`.
 
@@ -27,10 +27,11 @@ Profiles override the table through a `## Required skills` heading shaped like t
 
 ```md
 ## Required skills
-| Step | Skill | Action |
-|---|---|---|
-| <n> | <skill-id> | replaces <existing-skill-id> |
-| <n> | <skill-id> | additional |
+
+| Step | Skill      | Action                       |
+| ---- | ---------- | ---------------------------- |
+| <n>  | <skill-id> | replaces <existing-skill-id> |
+| <n>  | <skill-id> | additional                   |
 ```
 
 ### Replace

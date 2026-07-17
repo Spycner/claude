@@ -60,6 +60,7 @@ Ownership: tests/unit/test-calendar-skill.sh and plugins/google-workspace/skills
 Do not edit Gmail, Jira, Confluence, or Workbench files.
 
 Return:
+
 - Root cause.
 - Files changed.
 - Verification command and result.

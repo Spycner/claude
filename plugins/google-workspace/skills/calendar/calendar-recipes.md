@@ -81,6 +81,7 @@ gws calendar events insert --params '{"calendarId": "primary"}' --json '{
 ```
 
 Common RRULE patterns:
+
 - `RRULE:FREQ=DAILY` — every day
 - `RRULE:FREQ=WEEKLY;BYDAY=MO,WE,FR` — Mon/Wed/Fri
 - `RRULE:FREQ=MONTHLY;BYMONTHDAY=1` — first of every month

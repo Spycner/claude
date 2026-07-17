@@ -109,24 +109,24 @@ Why this step is mandatory: Kent Beck states the two rules of TDD as "write new 
 
 ## Good Tests
 
-| Quality | Good | Bad |
-|---|---|---|
-| Minimal | One behavior. | A test name with "and" covering multiple behaviors. |
-| Clear | Name states the expected behavior. | `test1` or `works`. |
-| Behavior-focused | Exercises public behavior. | Checks private implementation details. |
-| Repeatable | Runs without manual state. | Depends on local setup not created by the test. |
+| Quality          | Good                               | Bad                                                 |
+| ---------------- | ---------------------------------- | --------------------------------------------------- |
+| Minimal          | One behavior.                      | A test name with "and" covering multiple behaviors. |
+| Clear            | Name states the expected behavior. | `test1` or `works`.                                 |
+| Behavior-focused | Exercises public behavior.         | Checks private implementation details.              |
+| Repeatable       | Runs without manual state.         | Depends on local setup not created by the test.     |
 
 ## Common Rationalizations
 
-| Excuse | Response |
-|---|---|
-| "Too simple to test." | Simple code still breaks. Write the small test. |
-| "I'll test after." | Tests written after implementation can pass without proving they catch the missing behavior. |
-| "I already manually tested it." | Manual checks are not repeatable regression coverage. |
-| "The existing code has no tests." | Add the narrowest test around the behavior you are changing. |
-| "Keeping the code as reference is harmless." | Reference code biases the test. Delete it and restart test-first. |
-| "TDD is slowing me down." | Debugging untested behavior is usually slower than proving it incrementally. |
-| "Refactor later." | GREEN intentionally produced code below your bar; REFACTOR pays back the gap on the same cycle. Deferring it accumulates duplication and unclear names that the next chunk inherits, and the test safety net is cheapest to use now. |
+| Excuse                                       | Response                                                                                                                                                                                                                             |
+| -------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| "Too simple to test."                        | Simple code still breaks. Write the small test.                                                                                                                                                                                      |
+| "I'll test after."                           | Tests written after implementation can pass without proving they catch the missing behavior.                                                                                                                                         |
+| "I already manually tested it."              | Manual checks are not repeatable regression coverage.                                                                                                                                                                                |
+| "The existing code has no tests."            | Add the narrowest test around the behavior you are changing.                                                                                                                                                                         |
+| "Keeping the code as reference is harmless." | Reference code biases the test. Delete it and restart test-first.                                                                                                                                                                    |
+| "TDD is slowing me down."                    | Debugging untested behavior is usually slower than proving it incrementally.                                                                                                                                                         |
+| "Refactor later."                            | GREEN intentionally produced code below your bar; REFACTOR pays back the gap on the same cycle. Deferring it accumulates duplication and unclear names that the next chunk inherits, and the test safety net is cheapest to use now. |
 
 ## Red Flags
 

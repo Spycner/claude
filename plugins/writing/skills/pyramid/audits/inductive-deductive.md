@@ -4,7 +4,7 @@
 
 **Dispatch:** One of four audit agents in Phase 3. Reads `construction.md` and the shipped reference. Writes `audit-logic.md`.
 
-```
+````
 Dispatched agent prompt:
   description: "Run Inductive/Deductive classification audit on pyramid groupings"
   prompt: |
@@ -141,4 +141,4 @@ Dispatched agent prompt:
     If reviewer feedback is provided above, treat it as context: the construct
     phase has re-run and you are re-auditing. Focus on whether the previously
     flagged CRITICAL issues are resolved; surface anything that is still broken.
-```
+````

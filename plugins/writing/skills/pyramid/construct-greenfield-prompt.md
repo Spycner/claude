@@ -4,7 +4,7 @@
 
 **Dispatch:** Phase 2 agent when `mode == greenfield`. Reads `intake.md` and the shipped reference. Writes `construction.md` in the shared schema that phases 3-5 expect.
 
-```
+````
 Dispatched agent prompt:
   description: "Build pyramid top-down (greenfield)"
   prompt: |
@@ -136,4 +136,4 @@ Dispatched agent prompt:
     locked nodes from Mode D stay locked unless they are the specific cause
     cited by the audit summary; everything else gets the in-place repair
     treatment.
-```
+````

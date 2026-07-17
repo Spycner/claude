@@ -1,0 +1,20 @@
+[default.extend-words]
+mise = "mise"
+cocogitto = "cocogitto"
+dprint = "dprint"
+lefthook = "lefthook"
+gws = "gws"
+acli = "acli"
+# Legitimate hyphen-prefixed compounds ("mis-formatting", "mis-teaches");
+# typos' tokenizer splits on the hyphen and flags the prefix alone.
+mis = "mis"
+# "CRDTs over OT" - OT (Operational Transform) is a real technical term.
+OT = "OT"
+# "PNGs" gets split as "PN" + "Gs" by the tokenizer.
+PN = "PN"
+# Accepted alternate spellings used intentionally and consistently.
+unparseable = "unparseable"
+writeable = "writeable"
+driveable = "driveable"
+# CSS class name in a reference HTML template, not an English word.
+ba = "ba"

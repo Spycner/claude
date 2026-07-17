@@ -7,13 +7,13 @@ Last refreshed: 2026-04-28
 
 House style uses all five tiers (the Microsoft superset). The Google subset (Note, Caution, Warning) maps cleanly to the same tiers here.
 
-| Tier | When to use | Visual marker |
-|------|-------------|---------------|
-| Note | Supplementary information that is useful but not required reading. Clarifications, cross-references, reminders. | `> **Note:**` block |
-| Tip | Optional advice that makes a task faster or more effective. Best practices and shortcuts. | `> **Tip:**` block |
-| Important | Required reading to avoid a misunderstanding or a failure that is not dangerous but costly to recover from. | `> **Important:**` block |
-| Caution | An action that could cause data loss, broken state, or other recoverable-but-disruptive harm. | `> **Caution:**` block |
-| Warning | An action that could cause irreversible damage, a security breach, or physical harm. Reserve for genuine danger. | `> **Warning:**` block |
+| Tier      | When to use                                                                                                      | Visual marker            |
+| --------- | ---------------------------------------------------------------------------------------------------------------- | ------------------------ |
+| Note      | Supplementary information that is useful but not required reading. Clarifications, cross-references, reminders.  | `> **Note:**` block      |
+| Tip       | Optional advice that makes a task faster or more effective. Best practices and shortcuts.                        | `> **Tip:**` block       |
+| Important | Required reading to avoid a misunderstanding or a failure that is not dangerous but costly to recover from.      | `> **Important:**` block |
+| Caution   | An action that could cause data loss, broken state, or other recoverable-but-disruptive harm.                    | `> **Caution:**` block   |
+| Warning   | An action that could cause irreversible damage, a security breach, or physical harm. Reserve for genuine danger. | `> **Warning:**` block   |
 
 ## Usage rules
 

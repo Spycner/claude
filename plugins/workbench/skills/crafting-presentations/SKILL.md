@@ -11,7 +11,7 @@ Multi-slide HTML decks with deck-stage navigation, slide-type composition, and a
 
 Reach for `crafting-presentations` when the deck is more than two or three slides, when speaker notes will be presented live, or when the user wants a presenter-view sidecar window during a Teams, Zoom, or Meet share. For a quick one-off single-file slide deck without presenter mode, use `workbench:crafting-html` and its `references/09-slide-deck.html` template. For theming a deck to a brand, layer `workbench:crafting-design-systems` on top of this skill.
 
-If you have not yet designed the deck's *content* (audience analysis, message structure, slide-by-slide storyboard, speaker notes), invoke `writing:presentations` first. It produces a `deck.md` you can pass to this skill as the source brief, then `crafting-presentations` handles the HTML rendering.
+If you have not yet designed the deck's _content_ (audience analysis, message structure, slide-by-slide storyboard, speaker notes), invoke `writing:presentations` first. It produces a `deck.md` you can pass to this skill as the source brief, then `crafting-presentations` handles the HTML rendering.
 
 ## The stage
 
@@ -26,18 +26,18 @@ Layout grammar:
 
 ## Slide-type catalog
 
-| Type | When to reach for it | Reference |
-|---|---|---|
-| Title | Cover / hero, opens the deck. Contains the deck title, subtitle, and a meta row (audience, date, version). | `references/deloitte-databricks-alliance/slides/TitleSlide.html` |
-| SectionDivider | Major chapter break inside a long deck. Dark variant by default for visual rhythm. | `references/deloitte-databricks-alliance/slides/SectionDivider.html` |
-| AgendaSlide | Multi-item list with an optional "current" highlight as the deck progresses. | `references/deloitte-databricks-alliance/slides/AgendaSlide.html` |
-| ContentSlide | Two-column layout, a lede on top and supporting points below. The workhorse content slide. | `references/deloitte-databricks-alliance/slides/ContentSlide.html` |
-| StatSlide | One or more hero numbers with captions. Use when the number IS the message. | `references/deloitte-databricks-alliance/slides/StatSlide.html` |
-| CapabilitiesSlide | Three or four feature cards with icon, headline, body. | `references/deloitte-databricks-alliance/slides/CapabilitiesSlide.html` |
-| ComparisonSlide | Side-by-side "before / after" or "us / them" two-column compare. | `references/deloitte-databricks-alliance/slides/ComparisonSlide.html` |
-| QuoteSlide | Pull quote with attribution; clean dark background. | `references/deloitte-databricks-alliance/slides/QuoteSlide.html` |
-| TimelineSlide | Linear sequence with phase labels and milestones. | `references/deloitte-databricks-alliance/slides/TimelineSlide.html` |
-| ClosingSlide | Call to action, contact, next steps; mirrors the title slide visually. | `references/deloitte-databricks-alliance/slides/ClosingSlide.html` |
+| Type              | When to reach for it                                                                                       | Reference                                                               |
+| ----------------- | ---------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
+| Title             | Cover / hero, opens the deck. Contains the deck title, subtitle, and a meta row (audience, date, version). | `references/deloitte-databricks-alliance/slides/TitleSlide.html`        |
+| SectionDivider    | Major chapter break inside a long deck. Dark variant by default for visual rhythm.                         | `references/deloitte-databricks-alliance/slides/SectionDivider.html`    |
+| AgendaSlide       | Multi-item list with an optional "current" highlight as the deck progresses.                               | `references/deloitte-databricks-alliance/slides/AgendaSlide.html`       |
+| ContentSlide      | Two-column layout, a lede on top and supporting points below. The workhorse content slide.                 | `references/deloitte-databricks-alliance/slides/ContentSlide.html`      |
+| StatSlide         | One or more hero numbers with captions. Use when the number IS the message.                                | `references/deloitte-databricks-alliance/slides/StatSlide.html`         |
+| CapabilitiesSlide | Three or four feature cards with icon, headline, body.                                                     | `references/deloitte-databricks-alliance/slides/CapabilitiesSlide.html` |
+| ComparisonSlide   | Side-by-side "before / after" or "us / them" two-column compare.                                           | `references/deloitte-databricks-alliance/slides/ComparisonSlide.html`   |
+| QuoteSlide        | Pull quote with attribution; clean dark background.                                                        | `references/deloitte-databricks-alliance/slides/QuoteSlide.html`        |
+| TimelineSlide     | Linear sequence with phase labels and milestones.                                                          | `references/deloitte-databricks-alliance/slides/TimelineSlide.html`     |
+| ClosingSlide      | Call to action, contact, next steps; mirrors the title slide visually.                                     | `references/deloitte-databricks-alliance/slides/ClosingSlide.html`      |
 
 ## Composing the deck
 

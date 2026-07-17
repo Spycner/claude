@@ -8,43 +8,43 @@
       "name": "atlassian",
       "source": "./plugins/atlassian",
       "description": "Use Jira and Confluence from agent workflows.",
-      "version": "2.0.0"
+      "version": "2.0.1"
     },
     {
       "name": "google-workspace",
       "source": "./plugins/google-workspace",
       "description": "Use Gmail and Calendar through gws.",
-      "version": "1.0.0"
+      "version": "1.0.1"
     },
     {
       "name": "research",
       "source": "./plugins/research",
       "description": "Research complex topics and produce sourced reports.",
-      "version": "2.1.1"
+      "version": "2.1.2"
     },
     {
       "name": "writing",
       "source": "./plugins/writing",
       "description": "Draft, structure, review, and finish prose and technical docs.",
-      "version": "1.7.0"
+      "version": "1.7.1"
     },
     {
       "name": "runtime-bridge",
       "source": "./plugins/runtime-bridge",
       "description": "Align Claude Code and Codex project configuration.",
-      "version": "0.1.0"
+      "version": "0.1.1"
     },
     {
       "name": "agent-system-management",
       "source": "./plugins/agent-system-management",
       "description": "Audit AGENTS.md / CLAUDE.md, capture session learnings, and create Claude Code / Codex skills.",
-      "version": "0.5.0"
+      "version": "0.5.1"
     },
     {
       "name": "workbench",
       "source": "./plugins/workbench",
       "description": "Personal Workbench skills for design and autonomous feature work.",
-      "version": "0.21.0"
+      "version": "0.21.1"
     },
     {
       "name": "terminal",
@@ -56,25 +56,25 @@
       "name": "frontend-design",
       "source": "./plugins/frontend-design",
       "description": "Create distinctive, production-grade frontend interfaces with deep UI craft and animation discipline.",
-      "version": "0.2.1"
+      "version": "0.2.2"
     },
     {
       "name": "playground",
       "source": "./plugins/playground",
       "description": "Generate interactive single-file HTML playgrounds with controls, live preview, and copy-out prompt for two-way feedback with the model.",
-      "version": "0.1.0"
+      "version": "0.1.1"
     },
     {
       "name": "databricks",
       "source": "./plugins/databricks",
       "description": "Databricks skills: databricks-core (CLI, auth, profiles, ported from databricks/databricks-agent-skills) and databricks-docs (live docs.databricks.com lookups via WebFetch).",
-      "version": "0.3.0"
+      "version": "0.3.1"
     },
     {
       "name": "learning",
       "source": "./plugins/learning",
       "description": "Socratic teach-and-quiz skills plus a pre-work blind-spot survey, so you deeply understand a session, a topic, or an unfamiliar area.",
-      "version": "0.2.0"
+      "version": "0.2.1"
     }
   ]
 }

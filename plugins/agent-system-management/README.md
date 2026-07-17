@@ -4,11 +4,11 @@ Manage the host agent's instruction layer and skill layer in any runtime: audit 
 
 Three skills:
 
-| | Purpose | Triggered by |
-|---|---|---|
-| `improving-instructions` | Periodic cold audit of agent-instruction files | "audit my CLAUDE.md", "check if AGENTS.md is up to date" |
-| `capturing-session-learnings` | End-of-session warm capture of learnings | "/revise-agents-md", "update AGENTS.md with what we learned this session" |
-| `creating-skills` | Full skill lifecycle (create, eval-driven iteration, benchmarking, bulletproofing, description optimization, packaging) | "create a skill", "improve this skill", "run evals on my skill", "optimize the description", "turn this conversation into a skill" |
+|                               | Purpose                                                                                                                 | Triggered by                                                                                                                       |
+| ----------------------------- | ----------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| `improving-instructions`      | Periodic cold audit of agent-instruction files                                                                          | "audit my CLAUDE.md", "check if AGENTS.md is up to date"                                                                           |
+| `capturing-session-learnings` | End-of-session warm capture of learnings                                                                                | "/revise-agents-md", "update AGENTS.md with what we learned this session"                                                          |
+| `creating-skills`             | Full skill lifecycle (create, eval-driven iteration, benchmarking, bulletproofing, description optimization, packaging) | "create a skill", "improve this skill", "run evals on my skill", "optimize the description", "turn this conversation into a skill" |
 
 Works in Claude Code and Codex CLI. Files are deduped via `realpath`, so `CLAUDE.md` symlinked to `AGENTS.md` counts as one logical file.
 

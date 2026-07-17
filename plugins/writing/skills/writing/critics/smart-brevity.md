@@ -4,7 +4,7 @@
 
 **Dispatch:** Opt-in panel critic. The orchestrator dispatches this only when the piece format is `memo`, `newsletter`, or `announcement`. Not part of the default seven-critic panel for essays, blogs, and talks. Reads `draft.md` and the active style guide. Writes `critique-smartbrevity.md`.
 
-```
+````
 Dispatched agent prompt:
   description: "Smart-brevity critique"
   prompt: |
@@ -140,4 +140,4 @@ Dispatched agent prompt:
 
     If reviewer feedback is provided above, read the existing critique and
     address the specific concerns raised.
-```
+````

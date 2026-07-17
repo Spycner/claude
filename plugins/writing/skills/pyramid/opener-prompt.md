@@ -4,7 +4,7 @@
 
 **Dispatch:** Phase 4 agent. Reads `construction.md` and `audit-summary.md`. Writes `opener.md`. References section 2 of the shipped reference (SCQA Opener, SCQA Opener Audit, three failure modes).
 
-```
+````
 Dispatched agent prompt:
   description: "Compose SCQA opener against stable apex (phase 4)"
   prompt: |
@@ -201,4 +201,4 @@ Dispatched agent prompt:
     to pick up any updated apex, then re-run the full SCQA Composition
     Procedure from Step 1. Do NOT preserve the previous MISMATCH output;
     generate a fresh opener.md against the updated apex.
-```
+````

@@ -21,13 +21,13 @@ This skill differs from `frontend-design`. `frontend-design` builds UI and compo
 
 ## Five categories of HTML artifacts
 
-| Category | Reference files |
-|---|---|
-| Specs, planning, exploration | `references/01-exploration-code-approaches.html`, `references/02-exploration-visual-designs.html`, `references/16-implementation-plan.html` |
-| Code review and understanding | `references/03-code-review-pr.html`, `references/04-code-understanding.html`, `references/17-pr-writeup.html` |
-| Design and prototypes | `references/05-design-system.html`, `references/06-component-variants.html`, `references/07-prototype-animation.html`, `references/08-prototype-interaction.html` |
-| Reports, research, learning | `references/09-slide-deck.html`, `references/10-svg-illustrations.html`, `references/11-status-report.html`, `references/12-incident-report.html`, `references/13-flowchart-diagram.html`, `references/14-research-feature-explainer.html`, `references/15-research-concept-explainer.html` |
-| Custom editing interfaces | `references/18-editor-triage-board.html`, `references/19-editor-feature-flags.html`, `references/20-editor-prompt-tuner.html` |
+| Category                      | Reference files                                                                                                                                                                                                                                                                             |
+| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Specs, planning, exploration  | `references/01-exploration-code-approaches.html`, `references/02-exploration-visual-designs.html`, `references/16-implementation-plan.html`                                                                                                                                                 |
+| Code review and understanding | `references/03-code-review-pr.html`, `references/04-code-understanding.html`, `references/17-pr-writeup.html`                                                                                                                                                                               |
+| Design and prototypes         | `references/05-design-system.html`, `references/06-component-variants.html`, `references/07-prototype-animation.html`, `references/08-prototype-interaction.html`                                                                                                                           |
+| Reports, research, learning   | `references/09-slide-deck.html`, `references/10-svg-illustrations.html`, `references/11-status-report.html`, `references/12-incident-report.html`, `references/13-flowchart-diagram.html`, `references/14-research-feature-explainer.html`, `references/15-research-concept-explainer.html` |
+| Custom editing interfaces     | `references/18-editor-triage-board.html`, `references/19-editor-feature-flags.html`, `references/20-editor-prompt-tuner.html`                                                                                                                                                               |
 
 `references/index.html` is the upstream's gallery index page, kept as the 21st file for reference; it is not assigned to a category.
 

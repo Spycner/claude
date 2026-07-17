@@ -99,7 +99,7 @@ fi
 for manifest in \
     "$PLUGIN_DIR/.claude-plugin/plugin.json" \
     "$PLUGIN_DIR/.codex-plugin/plugin.json"; do
-    if jq -e '.name == "playground" and .version == "0.1.0" and .license == "MIT"' "$manifest" >/dev/null; then
+    if jq -e '.name == "playground" and .version == "0.1.1" and .license == "MIT"' "$manifest" >/dev/null; then
         echo "[PASS] $manifest metadata is valid"
     else
         echo "[FAIL] $manifest metadata invalid"; exit 1

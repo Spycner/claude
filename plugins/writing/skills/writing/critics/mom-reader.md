@@ -4,7 +4,7 @@
 
 **Dispatch:** One of six critics in the panel. Reads `draft.md` and the active style guide. Writes `critique-mom.md`.
 
-```
+````
 Dispatched agent prompt:
   description: "Mom reader critique"
   prompt: |
@@ -80,4 +80,4 @@ Dispatched agent prompt:
     ## Reviewer Feedback
 
     {REVIEWER_FEEDBACK}
-```
+````

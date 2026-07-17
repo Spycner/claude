@@ -4,7 +4,7 @@
 
 **Dispatch:** Phase 1 dispatch when quadrant is `reference`. Reads no prior artifacts. Writes `{OUTPUT_PATH}/intake.md`.
 
-```
+````
 Dispatched agent prompt:
   description: "Reference intake interview"
   prompt: |
@@ -59,4 +59,4 @@ Dispatched agent prompt:
     ## Reviewer Feedback
 
     {REVIEWER_FEEDBACK}
-```
+````

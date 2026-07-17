@@ -4,7 +4,7 @@
 
 **Dispatch:** Second of four finishing passes. Reads `draft.md` and the active style guide. Updates `draft.md` in place. Appends to `finishing-notes.md`.
 
-```
+````
 Dispatched agent prompt:
   description: "Style enforcer pass"
   prompt: |
@@ -72,4 +72,4 @@ Dispatched agent prompt:
     ## Reviewer Feedback
 
     {REVIEWER_FEEDBACK}
-```
+````

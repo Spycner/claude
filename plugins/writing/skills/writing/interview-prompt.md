@@ -4,7 +4,7 @@
 
 **Dispatch:** First agent in the writing pipeline. Reads nothing. Writes `interview.md` (Q&A log) and `interview-synthesis.md` (extracted thinking).
 
-```
+````
 Dispatched agent prompt:
   description: "Interview the author"
   prompt: |
@@ -120,4 +120,4 @@ Dispatched agent prompt:
     If reviewer feedback is provided above, read the existing `interview-synthesis.md`,
     address the issues raised (most often: thesis is fuzzy, no lived anchors, counterargument
     not engaged), and update the file in place.
-```
+````

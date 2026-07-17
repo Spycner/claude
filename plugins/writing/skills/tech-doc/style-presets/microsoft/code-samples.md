@@ -8,8 +8,8 @@ Last refreshed: 2026-04-29
 Placeholders represent values the reader must supply.
 
 - Format: italic inside angle brackets when angle brackets are not part of the language syntax. Example: `/v: <version>`.
-- For UI text placeholders (values a reader types in a UI field): italic without angle brackets. Example: Enter *password*.
-- In running prose: use italic for placeholders. Example: "Replace *connection-string* with your database connection string."
+- For UI text placeholders (values a reader types in a UI field): italic without angle brackets. Example: Enter _password_.
+- In running prose: use italic for placeholders. Example: "Replace _connection-string_ with your database connection string."
 - Capitalization of placeholders follows the conventions of the language or API being documented. Microsoft does not mandate a single casing convention for all placeholders.
 - Document all placeholders near the code block. Explain what each one represents and any constraints (format, allowed values, required permissions).
 - Do not hard-code passwords, tokens, or secrets in code examples, even as placeholders. Use a named placeholder instead: `<your-api-key>`.
@@ -60,13 +60,13 @@ Placeholders represent values the reader must supply.
 - Use language-appropriate comment syntax to indicate omitted code. Do not use bare ellipsis characters (`...` or `…`) outside a comment.
 - Examples:
 
-  | Language | Omission indicator |
-  |---|---|
-  | C# / C++ / Java | `// ...` |
-  | PowerShell / Bash | `# ...` |
-  | SQL | `-- ...` |
-  | XML / HTML | `<!-- ... -->` |
-  | CSS | `/* ... */` |
+  | Language          | Omission indicator |
+  | ----------------- | ------------------ |
+  | C# / C++ / Java   | `// ...`           |
+  | PowerShell / Bash | `# ...`            |
+  | SQL               | `-- ...`           |
+  | XML / HTML        | `<!-- ... -->`     |
+  | CSS               | `/* ... */`        |
 
 - When an example is intentionally incomplete, note this in the introductory sentence so readers understand the block is not meant to be run as-is.
 
@@ -84,5 +84,5 @@ Placeholders represent values the reader must supply.
 
 - When a UI label and a code value appear together, apply the appropriate formatting to each part separately.
 - UI labels: bold. Example: click **Save**.
-- Code or verbatim values typed into a UI field: bold for the action, italic for the placeholder. Example: Enter *project-name*.
+- Code or verbatim values typed into a UI field: bold for the action, italic for the placeholder. Example: Enter _project-name_.
 - If a value the reader created appears verbatim in the UI, bold it as a UI element rather than adding code font, unless it appears in code syntax.

@@ -4,7 +4,7 @@
 
 **Dispatch:** One of eight critics in the tech-doc panel. Active when the declared quadrant is `reference`. Reads `intake.md` (which declares the schema file), the schema file, and `draft.md`. Writes `critique-completeness.md`.
 
-```
+````
 Dispatched agent prompt:
   description: "Completeness critique"
   prompt: |
@@ -108,4 +108,4 @@ Dispatched agent prompt:
 
     If reviewer feedback is provided above, read the existing critique and
     address the specific concerns raised.
-```
+````

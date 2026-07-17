@@ -22,14 +22,14 @@ Diátaxis-aware technical writing pipeline. Standalone, AND dispatched from the 
 
 Use the host platform's equivalent tools without changing the workflow:
 
-| Capability | Claude Code | Codex |
-|---|---|---|
-| Subagent dispatch | Agent tool | `spawn_agent` only when available and permitted. Otherwise run the phase inline. |
-| Progress list | TaskCreate, TaskUpdate | `update_plan` |
-| User questions | AskUserQuestion | Ask a concise direct question, or use the host structured question tool when available |
-| File reads | Read | shell reads such as `sed`, `rg`, or equivalent file read tools |
-| File writes and edits | Write, Edit | `apply_patch` or equivalent file edit tools |
-| Shell | Bash | shell command tool |
+| Capability            | Claude Code            | Codex                                                                                  |
+| --------------------- | ---------------------- | -------------------------------------------------------------------------------------- |
+| Subagent dispatch     | Agent tool             | `spawn_agent` only when available and permitted. Otherwise run the phase inline.       |
+| Progress list         | TaskCreate, TaskUpdate | `update_plan`                                                                          |
+| User questions        | AskUserQuestion        | Ask a concise direct question, or use the host structured question tool when available |
+| File reads            | Read                   | shell reads such as `sed`, `rg`, or equivalent file read tools                         |
+| File writes and edits | Write, Edit            | `apply_patch` or equivalent file edit tools                                            |
+| Shell                 | Bash                   | shell command tool                                                                     |
 
 Where this skill says "Agent tool", "TaskCreate", "TaskUpdate", "AskUserQuestion", "Read", "Write", "Edit", or "Bash", use the mapped host capability. When a platform cannot dispatch subagents for the current request, keep the same artifact boundaries and run each phase inline in the orchestrator.
 
@@ -118,7 +118,7 @@ Dispatch each phase agent via the host subagent tool when supported. The orchest
 
 - `{OUTPUT_PATH}` is always the working directory, never a file path. Each prompt file appends its own filename.
 - **Prompt file extraction.** Each prompt file documents the dispatched prompt inside a fenced block under the `**Dispatch:**` header. Read the entire prompt file as text, perform placeholder substitution (`{OUTPUT_PATH}`, `{STYLE_GUIDE_DIR}`, `{REVIEWER_FEEDBACK}`, `{YYYY-MM-DD}`, `{QUADRANT}`, `{LANGUAGE_OR_PLATFORM}`, `{AUDIENCE_SKILL_LEVEL}`), pass the full result to the host subagent tool.
-- **Reviewer feedback injection.** When `{REVIEWER_FEEDBACK}` is non-empty (re-dispatch on a failed gate), append: *"Reviewer feedback is provided above. Read the existing artifact in the output directory, address the specific concerns, and update the file in place rather than starting fresh."*
+- **Reviewer feedback injection.** When `{REVIEWER_FEEDBACK}` is non-empty (re-dispatch on a failed gate), append: _"Reviewer feedback is provided above. Read the existing artifact in the output directory, address the specific concerns, and update the file in place rather than starting fresh."_
 - **Date substitution.** `{YYYY-MM-DD}` resolves to today's date in ISO format.
 
 #### Phase 1: Intake
@@ -177,46 +177,54 @@ Fan out: dispatch all critics in the active panel in parallel (single message wi
 
 Each critic writes its own `critique-<critic>.md`. When all critics return, consolidate into `{OUTPUT_PATH}/critique.md`:
 
-````markdown
+```markdown
 # Panel Critique
 
 ## Verdicts
 
-| Critic | Verdict | Headline |
-|--------|---------|----------|
-| Style-adherence | <PASS / MINOR / CRITICAL> | <one-line summary> |
-| Accessibility | ... | ... |
-| Inclusive-language | ... | ... |
-| Code-fidelity | ... | ... |
-| Future-features | ... | ... |
-| Quadrant-fit | ... | ... |
-| Admonitions | ... | ... |
-| <Task-orientation / Completeness / Steel-man> | ... | ... |  (gated critic)
+| Critic                                        | Verdict                   | Headline           |
+| --------------------------------------------- | ------------------------- | ------------------ |
+| Style-adherence                               | <PASS / MINOR / CRITICAL> | <one-line summary> |
+| Accessibility                                 | ...                       | ...                |
+| Inclusive-language                            | ...                       | ...                |
+| Code-fidelity                                 | ...                       | ...                |
+| Future-features                               | ...                       | ...                |
+| Quadrant-fit                                  | ...                       | ...                |
+| Admonitions                                   | ...                       | ...                |
+| <Task-orientation / Completeness / Steel-man> | ...                       | ...                |
 
 ## Style-adherence
+
 <full content of critique-style-adherence.md>
 
 ## Accessibility
+
 <full content of critique-accessibility.md>
 
 ## Inclusive-language
+
 <full content of critique-inclusive-language.md>
 
 ## Code-fidelity
+
 <full content of critique-code-fidelity.md>
 
 ## Future-features
+
 <full content of critique-future-features.md>
 
 ## Quadrant-fit
+
 <full content of critique-quadrant-fit.md>
 
 ## Admonitions
+
 <full content of critique-admonitions.md>
 
 ## <Gated critic name>
+
 <full content of the gated critique file>
-````
+```
 
 Match on first whitespace-delimited token of each critic's `**Verdict:**` line. Tokens: PASS, MINOR, CRITICAL.
 
@@ -320,21 +328,21 @@ The orchestrator resolves the active preset directory once (per Step 2) and subs
 
 The orchestrator does not enforce this. Each critic prompt declares its own loads from `{STYLE_GUIDE_DIR}`. This table is the human-readable reference.
 
-| Critic / Pass | Quadrants | Sidecars (besides `core.md`) |
-|---|---|---|
-| `style-adherence` | all | wordlist, procedures, code-samples, links, numbers, admonitions |
-| `accessibility` | all | links, code-samples |
-| `inclusive-language` | all | wordlist (filtered: section in inclusive/ableist/gendered/bias-free/culturally-narrow) |
-| `code-fidelity` | all | code-samples |
-| `future-features` | all | (none extra) |
-| `quadrant-fit` | all | (none extra) |
-| `task-orientation` | tutorial, how-to | procedures |
-| `completeness` | reference | procedures, api-reference |
-| `steel-man` | explanation | (none extra) |
-| `admonitions` | all | admonitions |
-| `ai-pattern-detector` (finishing) | all | (no preset reads) |
-| `style-enforcer-tech` (finishing) | all | wordlist (filtered: mechanical=yes), procedures |
-| `terminology-consistency` (finishing) | all | (no preset reads) |
+| Critic / Pass                         | Quadrants        | Sidecars (besides `core.md`)                                                           |
+| ------------------------------------- | ---------------- | -------------------------------------------------------------------------------------- |
+| `style-adherence`                     | all              | wordlist, procedures, code-samples, links, numbers, admonitions                        |
+| `accessibility`                       | all              | links, code-samples                                                                    |
+| `inclusive-language`                  | all              | wordlist (filtered: section in inclusive/ableist/gendered/bias-free/culturally-narrow) |
+| `code-fidelity`                       | all              | code-samples                                                                           |
+| `future-features`                     | all              | (none extra)                                                                           |
+| `quadrant-fit`                        | all              | (none extra)                                                                           |
+| `task-orientation`                    | tutorial, how-to | procedures                                                                             |
+| `completeness`                        | reference        | procedures, api-reference                                                              |
+| `steel-man`                           | explanation      | (none extra)                                                                           |
+| `admonitions`                         | all              | admonitions                                                                            |
+| `ai-pattern-detector` (finishing)     | all              | (no preset reads)                                                                      |
+| `style-enforcer-tech` (finishing)     | all              | wordlist (filtered: mechanical=yes), procedures                                        |
+| `terminology-consistency` (finishing) | all              | (no preset reads)                                                                      |
 
 All sidecar paths in the matrix are relative to `{STYLE_GUIDE_DIR}`. For example, style-adherence reads `{STYLE_GUIDE_DIR}/wordlist.md`, `{STYLE_GUIDE_DIR}/procedures.md`, and so on.
 
@@ -354,6 +362,7 @@ The fourteen canonical categories: `clarity`, `hedge-words`, `action-verbs`, `mo
 ### Refresh process
 
 Quarterly cadence:
+
 1. Update `<preset>/SOURCES.md` last-refreshed date.
 2. Update the relevant sidecar files for that preset directly (paraphrase Microsoft, transcribe Google).
 3. Re-merge house: walk topic-by-topic, dedupe wordlists, apply merge policy, document deviations inline.
@@ -391,11 +400,14 @@ The Phase 2 outline for these three quadrants is a brief orchestrator-driven ste
 **Quadrant:** <quadrant>
 
 ## Section skeleton
+
 1. <section heading>
 2. <section heading>
+
 ...
 
 ## Notes
+
 <one-paragraph rationale, optional>
 ```
 

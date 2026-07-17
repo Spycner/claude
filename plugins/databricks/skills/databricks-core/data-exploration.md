@@ -21,10 +21,12 @@ databricks experimental aitools tools discover-schema catalog.schema.table1 cata
 ## Overview
 
 The `databricks experimental aitools tools` command group provides tools for data discovery and exploration:
+
 - **discover-schema**: Batch discover table metadata, columns, types, sample data, and statistics
 - **query**: Execute SQL queries against Databricks SQL warehouses
 
 **When to use this**: Use these commands whenever you need to:
+
 - Discover table schemas and metadata
 - Execute SQL queries against warehouse data
 - Explore data structure and content
@@ -51,6 +53,7 @@ Tables must be specified in **CATALOG.SCHEMA.TABLE** format.
 ### What It Returns
 
 For each table, returns:
+
 - Column names and types
 - Sample data (5 rows)
 - Null counts per column
@@ -106,10 +109,12 @@ databricks experimental aitools tools query "SQL" [flags]
 ### Warehouse Selection
 
 The command **auto-detects** an available warehouse unless:
+
 - `DATABRICKS_WAREHOUSE_ID` environment variable is set
 - You specify a warehouse using other configuration methods
 
 To check which warehouse will be used:
+
 ```bash
 # Get the default warehouse that would be auto-detected
 databricks experimental aitools tools get-default-warehouse --profile my-workspace
@@ -118,6 +123,7 @@ databricks experimental aitools tools get-default-warehouse --profile my-workspa
 ### Output
 
 Returns:
+
 - Query results as JSON
 - Row count
 - Execution metadata
@@ -236,12 +242,12 @@ databricks experimental aitools tools query "SELECT * FROM samples.nyctaxi.trips
 
 Both commands support:
 
-| Flag | Description | Default |
-|------|-------------|---------|
-| `--profile` | Profile name from ~/.databrickscfg | Default profile |
-| `--output` | Output format: `text` or `json` | `text` |
-| `--debug` | Enable debug logging | `false` |
-| `--target` | Bundle target to use (if applicable) | - |
+| Flag        | Description                          | Default         |
+| ----------- | ------------------------------------ | --------------- |
+| `--profile` | Profile name from ~/.databrickscfg   | Default profile |
+| `--output`  | Output format: `text` or `json`      | `text`          |
+| `--debug`   | Enable debug logging                 | `false`         |
+| `--target`  | Bundle target to use (if applicable) | -               |
 
 ## Troubleshooting
 
@@ -250,6 +256,7 @@ Both commands support:
 **Symptom**: `Error: TABLE_OR_VIEW_NOT_FOUND`
 
 **Solution**:
+
 1. Verify table name format: `CATALOG.SCHEMA.TABLE`
 2. Check if you have read permissions on the table
 3. List available tables:
@@ -262,6 +269,7 @@ Both commands support:
 **Symptom**: `Error: No available SQL warehouse found`
 
 **Solution**:
+
 1. Check for default warehouse:
    ```bash
    databricks experimental aitools tools get-default-warehouse --profile my-workspace
@@ -284,6 +292,7 @@ Both commands support:
 **Symptom**: `Error: PERMISSION_DENIED`
 
 **Solution**:
+
 1. Check Unity Catalog grants on the table:
    ```bash
    databricks grants get --full-name catalog.schema.table --principal <user-email> --profile my-workspace
@@ -296,6 +305,7 @@ Both commands support:
 **Symptom**: `Error: PARSE_SYNTAX_ERROR`
 
 **Solution**:
+
 1. Check SQL syntax - use standard SQL
 2. Verify column names match schema (use discover-schema first)
 3. Ensure proper quoting for string literals
@@ -324,4 +334,3 @@ Both commands support:
    ```
 
 5. **Profile usage** - Always specify `--profile` in Claude Code to avoid authentication issues
-

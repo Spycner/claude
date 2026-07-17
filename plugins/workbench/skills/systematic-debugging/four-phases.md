@@ -181,6 +181,7 @@ If systematic investigation reveals issue is truly environmental, timing-depende
 ## Real-World Impact
 
 From debugging sessions:
+
 - Systematic approach: 15 to 30 minutes to fix
 - Random fixes approach: 2 to 3 hours of thrashing
 - First-time fix rate: 95% vs 40%

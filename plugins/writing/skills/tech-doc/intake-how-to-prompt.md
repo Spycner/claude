@@ -4,7 +4,7 @@
 
 **Dispatch:** Phase 1 dispatch when quadrant is `how-to`. Reads no prior artifacts. Writes `{OUTPUT_PATH}/intake.md`.
 
-```
+````
 Dispatched agent prompt:
   description: "How-to intake interview"
   prompt: |
@@ -57,4 +57,4 @@ Dispatched agent prompt:
     ## Reviewer Feedback
 
     {REVIEWER_FEEDBACK}
-```
+````

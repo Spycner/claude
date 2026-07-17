@@ -38,15 +38,15 @@ If the purpose is just "it looks cool" and the user will see it often, don't ani
 ### 3. What easing should it use?
 
 Is the element entering or exiting?
-  Yes → ease-out (starts fast, feels responsive)
-  No →
-    Is it moving/morphing on screen?
-      Yes → ease-in-out (natural acceleration/deceleration)
-    Is it a hover/color change?
-      Yes → ease
-    Is it constant motion (marquee, progress bar)?
-      Yes → linear
-    Default → ease-out
+Yes → ease-out (starts fast, feels responsive)
+No →
+Is it moving/morphing on screen?
+Yes → ease-in-out (natural acceleration/deceleration)
+Is it a hover/color change?
+Yes → ease
+Is it constant motion (marquee, progress bar)?
+Yes → linear
+Default → ease-out
 
 **Critical: use custom easing curves.** The built-in CSS easings are too weak. They lack the punch that makes animations feel intentional.
 
@@ -137,7 +137,6 @@ Keep bounce subtle (0.1-0.3) when used. Avoid bounce in most UI contexts. Use it
 
 Springs maintain velocity when interrupted, CSS animations and keyframes restart from zero. This makes springs ideal for gestures users might change mid-motion. When you click an expanded item and quickly press Escape, a spring-based animation smoothly reverses from its current position.
 
-
 ## Stagger Animations
 
 When multiple elements enter together, stagger their appearance. Each element animates in with a small delay after the previous one. This creates a cascading effect that feels more natural than everything appearing at once.
@@ -171,4 +170,3 @@ When multiple elements enter together, stagger their appearance. Each element an
 ```
 
 Keep stagger delays short (30-80ms between items). Long delays make the interface feel slow. Stagger is decorative, never block interaction while stagger animations are playing.
-

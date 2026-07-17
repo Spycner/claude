@@ -4,7 +4,7 @@
 
 **Dispatch:** Phase 1 dispatch when quadrant is `tutorial`. Reads no prior artifacts. Writes `{OUTPUT_PATH}/intake.md`.
 
-```
+````
 Dispatched agent prompt:
   description: "Tutorial intake interview"
   prompt: |
@@ -66,4 +66,4 @@ Dispatched agent prompt:
     ## Reviewer Feedback
 
     {REVIEWER_FEEDBACK}
-```
+````

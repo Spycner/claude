@@ -34,21 +34,21 @@ Schema for documenting a single REST API endpoint.
 
 ## Path parameters
 
-| Name | Type | Description |
-|------|------|-------------|
+| Name     | Type     | Description   |
+| -------- | -------- | ------------- |
 | `<name>` | `<type>` | <description> |
 
 ## Query parameters
 
-| Name | Type | Required | Default | Description |
-|------|------|----------|---------|-------------|
-| `<name>` | `<type>` | Yes/No | `<default>` | <description> |
+| Name     | Type     | Required | Default     | Description   |
+| -------- | -------- | -------- | ----------- | ------------- |
+| `<name>` | `<type>` | Yes/No   | `<default>` | <description> |
 
 ## Request body
 
 \`\`\`json
 {
-  "<field>": "<value>"
+"<field>": "<value>"
 }
 \`\`\`
 
@@ -56,22 +56,22 @@ Schema for documenting a single REST API endpoint.
 
 \`\`\`json
 {
-  "<field>": "<value>"
+"<field>": "<value>"
 }
 \`\`\`
 
 ## Status codes
 
-| Code | Meaning |
-|------|---------|
-| 200 | Success |
-| 4xx | <meaning> |
+| Code | Meaning   |
+| ---- | --------- |
+| 200  | Success   |
+| 4xx  | <meaning> |
 
 ## Example
 
 \`\`\`bash
-curl -X <METHOD> '<base-url><path>' \
-  -H 'Authorization: Bearer <TOKEN>' \
-  -d '<body>'
+curl -X <METHOD> '<base-url><path>'\
+-H 'Authorization: Bearer <TOKEN>'\
+-d '<body>'
 \`\`\`
 ```

@@ -1,10 +1,22 @@
 {
   "name": "runtime-bridge",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Align Claude Code and Codex project configuration.",
-  "author": { "name": "Pascal Göllner" },
+  "author": {
+    "name": "Pascal Göllner"
+  },
   "license": "MIT",
-  "keywords": ["claude-code", "codex", "agents-md", "claude-md", "runtime", "interop", "porting", "agents", "skills"],
+  "keywords": [
+    "claude-code",
+    "codex",
+    "agents-md",
+    "claude-md",
+    "runtime",
+    "interop",
+    "porting",
+    "agents",
+    "skills"
+  ],
   "skills": "./skills/",
   "interface": {
     "displayName": "Runtime Bridge",
@@ -12,7 +24,11 @@
     "longDescription": "Detect runtime files, mirror missing configuration, surface drift, and report plugin or skill availability across Claude Code and Codex.",
     "developerName": "Pascal Göllner",
     "category": "Productivity",
-    "capabilities": ["Interactive", "Read", "Write"],
+    "capabilities": [
+      "Interactive",
+      "Read",
+      "Write"
+    ],
     "defaultPrompt": [
       "Make this project also work with Codex",
       "My CLAUDE.md and AGENTS.md are out of sync, fix it",

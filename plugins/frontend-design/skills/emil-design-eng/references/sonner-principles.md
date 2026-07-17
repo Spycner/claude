@@ -47,4 +47,3 @@ Pressing should be slow when it needs to be deliberate (hold-to-delete: 2s linea
   transition: clip-path 2s linear;
 }
 ```
-

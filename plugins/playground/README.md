@@ -30,12 +30,12 @@ If the user's topic does not fit a template cleanly, the skill picks the closest
 
 ## Files
 
-| File | Purpose |
-|---|---|
-| `skills/playground/SKILL.md` | The playground skill body (verbatim from Anthropic upstream) |
-| `skills/playground/templates/*.md` | Six template files referenced by SKILL.md |
-| `LICENSE` | MIT license for original additions |
-| `NOTICE` | Per-upstream attribution and license posture |
+| File                               | Purpose                                                      |
+| ---------------------------------- | ------------------------------------------------------------ |
+| `skills/playground/SKILL.md`       | The playground skill body (verbatim from Anthropic upstream) |
+| `skills/playground/templates/*.md` | Six template files referenced by SKILL.md                    |
+| `LICENSE`                          | MIT license for original additions                           |
+| `NOTICE`                           | Per-upstream attribution and license posture                 |
 
 ## Credits
 

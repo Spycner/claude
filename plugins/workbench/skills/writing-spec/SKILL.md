@@ -28,6 +28,7 @@ You MUST create a task for each of these items and complete them in order:
 ## Path Resolution
 
 `<paths.specs>` resolves in order:
+
 1. `.workbench/autopilot.md` `Specs:` heading.
 2. Project `CLAUDE.md` or `AGENTS.md` spec-path convention.
 3. `.workbench/specs/` (default).

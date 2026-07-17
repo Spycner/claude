@@ -104,18 +104,18 @@ databricks bundle run <RESOURCE> -t <TARGET> --profile <PROFILE>
 
 ## Troubleshooting
 
-| Error | Solution |
-|-------|----------|
+| Error                                  | Solution                                   |
+| -------------------------------------- | ------------------------------------------ |
 | `cannot configure default credentials` | Use `--profile` flag or authenticate first |
-| `PERMISSION_DENIED` | Check workspace/UC permissions |
-| `RESOURCE_DOES_NOT_EXIST` | Verify resource name/id and profile |
+| `PERMISSION_DENIED`                    | Check workspace/UC permissions             |
+| `RESOURCE_DOES_NOT_EXIST`              | Verify resource name/id and profile        |
 
 ## Required Reading by Task
 
-| Task | READ BEFORE proceeding |
-|------|------------------------|
+| Task                        | READ BEFORE proceeding                       |
+| --------------------------- | -------------------------------------------- |
 | Auth issues / new workspace | [CLI Authentication](databricks-cli-auth.md) |
-| Exploring tables/schemas | [Data Exploration](data-exploration.md) |
+| Exploring tables/schemas    | [Data Exploration](data-exploration.md)      |
 
 ## Reference Guides
 

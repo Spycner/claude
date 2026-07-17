@@ -7,18 +7,22 @@ This audit runs inline in the main session before the critic personas dispatch i
 What: every slide's `headline` value must read as a complete sentence stating the slide's takeaway. A headline that is a noun phrase ("Q1 Results") or a topic label ("Onboarding cycle time") fails this check. The headline should answer "so what?" not "what topic?". This rule is sometimes called the assertion-evidence model in presentation-design literature; the headline asserts, the body provides evidence.
 
 How to check: this is a heuristic, not a pure regex. The host agent reads each headline and flags it when any of the following is true.
+
 - The headline contains no verb (no main verb, no copula, no auxiliary).
 - The headline contains no clear subject.
 - The headline ends in a bare noun phrase with no predicate.
 - The headline reads as a section title or topic header (common patterns: `<Noun> Results`, `<Noun> Overview`, `<Metric> by <Dimension>`, `<Year> Update`).
 
 Helpful starting grep to surface candidates for review:
+
 ```
 grep -nE '^\s*headline:\s*"[A-Z][a-zA-Z ]+"\s*$' deck.md
 ```
+
 That regex catches short, capitalised, punctuation-free headlines, the population most likely to be topic nouns. The host agent still reads each candidate in context before deciding.
 
 Examples of fail and pass for the same slide topic:
+
 - Fail: `headline: "Onboarding cycle time"` (topic noun).
 - Fail: `headline: "Q1 onboarding"` (topic noun).
 - Pass: `headline: "Onboarding cycle time has doubled since Q3 2024"` (subject, verb, predicate, takeaway).
@@ -31,11 +35,13 @@ Exempt slide types: `SectionDivider` (its headline is a section label by design)
 What: every slide with `slide_type: Evidence` must have a `sources` field that is non-empty and that records, at minimum, the source name, the date or year, and the scope or sample size of the evidence. A bare URL with no date or scope fails this check.
 
 How to check: parse `deck.md` as YAML-with-markdown-bodies. For every slide block where `slide_type == "Evidence"`:
+
 1. Assert `sources` exists and is non-empty.
 2. Assert the `sources` text contains a four-digit year between 2000 and the current year, OR an explicit date in `YYYY-MM` or `YYYY-MM-DD` form.
 3. Assert the `sources` text mentions at least one scope marker: `n=`, `sample`, `respondents`, `customers`, `users`, `accounts`, `tickets`, `incidents`, `period`, `Q[1-4]`, or a date range.
 
 Quick grep to surface candidates missing a year:
+
 ```
 awk '/^slide_type:\s*Evidence/,/^---$/' deck.md | grep -A1 '^sources:' | grep -vE '\b(19|20)[0-9]{2}\b'
 ```
@@ -47,6 +53,7 @@ Exempt: none. Evidence slides without sourced evidence fail by definition.
 What: every slide with `slide_type: Decision` must have a `speaker_notes.ask` field containing four elements: actor (who decides), action (what they decide), timing (by when), and consequence-if-delayed (what happens if they do not). A vague "we should consider..." or "leadership alignment needed" fails this check.
 
 How to check: parse `deck.md` as YAML. For every slide block where `slide_type == "Decision"`, read `speaker_notes.ask` and scan for the four elements.
+
 - Actor: look for a named role, team, or person (`CFO`, `Steering committee`, `Pascal`, `Platform team`). Pronouns ("we", "they") fail unless preceded by a clarifying noun in the same field.
 - Action: look for a decision verb (`approve`, `fund`, `sign off`, `green-light`, `commit`, `prioritise`, `de-prioritise`, `reassign`).
 - Timing: look for a temporal anchor (`by end of Q3`, `before 2026-06-30`, `at the next steering meeting`, `within two weeks`).
@@ -55,6 +62,7 @@ How to check: parse `deck.md` as YAML. For every slide block where `slide_type =
 Flag the slide if any of the four elements is missing or ambiguous.
 
 Examples of fail and pass for a Decision slide ask:
+
 - Fail: `ask: "We should align on the onboarding investment."` (no actor named beyond "we", no specific action, no timing, no consequence).
 - Fail: `ask: "CFO to approve the onboarding budget."` (actor + action, but no timing, no consequence).
 - Pass: `ask: "CFO to approve the EUR 180k onboarding budget at the 2026-06-12 steering meeting; further delay slips the Q3 hiring plan by one quarter and forces us to defer the EMEA expansion."` (actor, action, timing, consequence-if-delayed).
@@ -66,6 +74,7 @@ Exempt: none. Decision slides without a specific ask fail by definition.
 What: when a slide's `visual` brief mentions a chart, plot, graph, bar, line, scatter, or similar visualisation, the brief text must state exactly one comparison the chart makes. Multi-comparison briefs ("show revenue, cost, and headcount over time, split by region") fail this check; the chart should be split into separate slides or simplified.
 
 How to check: two passes.
+
 1. Keyword pass: grep the visual briefs for chart-related terms.
    ```
    grep -nE 'visual:.*(chart|plot|graph|bar|line|scatter|histogram|pie|funnel|waterfall|sparkline)' deck.md
@@ -73,6 +82,7 @@ How to check: two passes.
 2. Comparison pass: for each match, scan the visual brief for comparison markers: `vs`, `versus`, `before/after`, `trend`, `over time`, `between`, `compared to`, `relative to`, `year-over-year`, `month-over-month`. Count the distinct comparisons asserted. If the count is not exactly one, flag the slide.
 
 Examples:
+
 - Fail: `visual: "Stacked bar chart of revenue, cost, and headcount by quarter, split by region, with target overlay."` (three measures, two dimensions, plus a target; at least four comparisons).
 - Pass: `visual: "Bar chart of onboarding cycle time by quarter, 2024-Q3 through 2026-Q1, single series."` (one comparison: trend over time).
 - Pass: `visual: "Before/after bar chart of cycle time, two bars only."` (one comparison: before vs after).
@@ -84,6 +94,7 @@ Exempt: `Appendix` (appendix charts may be reference material with multiple comp
 What: the total slide count in `deck.md` must fall within the band recommended by `time-budget.md` for the genre and duration captured in `audience-brief.md`. A 10-minute conference talk with 35 slides fails; so does a 60-minute training session with 8 slides.
 
 How to check:
+
 1. Count `Slide` blocks in `deck.md` (one block per slide).
    ```
    grep -cE '^---\s*$' deck.md
@@ -102,6 +113,7 @@ User override: if the user explicitly requested an out-of-band slide count (reco
 What: every slide whose `visual` brief mentions an image, photo, diagram, chart, plot, illustration, screenshot, or any meaningful graphic must have `accessibility.alt_text` populated with non-empty descriptive text. Empty alt_text on an image-bearing slide fails the check (see `accessibility-preflight.md` for alt-text content rules).
 
 How to check:
+
 1. For each slide, grep the `visual` brief for image keywords: `image`, `photo`, `diagram`, `chart`, `plot`, `illustration`, `screenshot`, `graphic`, `figure`, `map`, `icon` (when icon carries meaning, not decoration).
 2. For each image-bearing slide, parse `accessibility.alt_text` and assert it is present and non-empty.
 3. Empty string, the literal `null`, or a missing key all fail.

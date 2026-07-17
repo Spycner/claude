@@ -60,19 +60,23 @@ Implement this plan task:
 [paste one checkbox task]
 
 Ownership:
+
 - You may edit: [files or directories]
 - Do not edit: [files or directories]
 
 Context:
+
 - Relevant spec or plan excerpt.
 - Relevant prior commits or decisions.
 
 Rules:
+
 - Use workbench:test-driven-development.
 - You are not alone in the codebase. Do not revert edits made by others.
 - Keep the change minimal.
 
 Return:
+
 - Status: DONE, DONE_WITH_CONCERNS, NEEDS_CONTEXT, or BLOCKED.
 - Files changed.
 - Verification commands and results.

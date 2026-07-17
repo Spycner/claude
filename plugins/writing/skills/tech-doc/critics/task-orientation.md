@@ -4,7 +4,7 @@
 
 **Dispatch:** One of eight critics in the tech-doc panel. Active when the declared quadrant is `tutorial` or `how-to`. Reads `intake.md`, `draft.md`. Writes `critique-task-orientation.md`.
 
-```
+````
 Dispatched agent prompt:
   description: "Task-orientation critique"
   prompt: |
@@ -96,4 +96,4 @@ Dispatched agent prompt:
 
     If reviewer feedback is provided above, read the existing critique and
     address the specific concerns raised.
-```
+````

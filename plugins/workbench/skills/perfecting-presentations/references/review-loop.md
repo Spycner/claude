@@ -94,7 +94,16 @@ Verdict schema:
 `.workbench/reviews/<deck-slug>/ledger.json`, owned by the main session:
 
 ```json
-{ "entries": [ { "key": "S5:3:cost analysis", "status": "rejected", "round": 2, "reason": "..." } ] }
+{
+  "entries": [
+    {
+      "key": "S5:3:cost analysis",
+      "status": "rejected",
+      "round": 2,
+      "reason": "..."
+    }
+  ]
+}
 ```
 
 - Key: `<rule>:<slide>:<first six significant words of the evidence, lowercased>`.

@@ -50,7 +50,6 @@ element.animate([{ clipPath: 'inset(0 0 100% 0)' }, { clipPath: 'inset(0 0 0 0)'
 });
 ```
 
-
 ## Debugging Animations
 
 ### Slow motion testing
@@ -71,4 +70,3 @@ Step through animations frame by frame in Chrome DevTools (Animations panel). Th
 ### Test on real devices
 
 For touch interactions (drawers, swipe gestures), test on physical devices. Connect your phone via USB, visit your local dev server by IP address, and use Safari's remote devtools. The Xcode Simulator is an alternative but real hardware is better for gesture testing.
-

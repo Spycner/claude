@@ -31,6 +31,7 @@ YAML support is deferred until a concrete parser-consuming use case exists.
 # Workbench Autopilot Profile
 
 ## PR behavior
+
 Mode: stop_at_green
 ```
 
@@ -46,30 +47,36 @@ An empty `.workbench/autopilot.md` is valid. Presence of the file is the opt-in 
 # Workbench Autopilot Profile
 
 ## Project name
+
 <short slug; defaults to repo dir basename>
 
 ## Branching
+
 Default branch: <name>
 Branch prefixes: <feat, fix, docs, chore, refactor, test, perf, style, ci, build, revert>
 
 ## Commands
+
 Task runner: <mise run | make | pnpm run | npm run>
 Lint: <command suffix>
 Test: <command suffix>
 Format: <command suffix>
 
 ## Documentation paths
+
 Specs: <path | don't commit>
 Plans: <path | don't commit>
 Open things: <file>
 ADRs: <dir>
 
 ## PR behavior
+
 Mode: <stop_at_green | automerge | request_review>
 Base branch: <name; defaults to default branch>
 Squash: <yes | no; defaults to yes>
 
 Hooks:
+
 - post_spec: <command>
 - post_plan: <command>
 - post_implementation: <command>
@@ -77,26 +84,28 @@ Hooks:
 - post_ci_green: <command>
 
 ## Required skills
-| Step | Skill | Action |
-|---|---|---|
-| <n> | <skill-id> | replaces <existing-skill-id> |
-| <n> | <skill-id> | additional |
+
+| Step | Skill      | Action                       |
+| ---- | ---------- | ---------------------------- |
+| <n>  | <skill-id> | replaces <existing-skill-id> |
+| <n>  | <skill-id> | additional                   |
 
 ## Project-specific rules
+
 <free prose; rules autopilot must respect during the run>
 ```
 
 ## Defaults when a section is absent
 
-| Section | Default |
-|---|---|
-| `## PR behavior` | `Mode: stop_at_green`, `Base branch:` = default branch, `Squash: yes`, no hooks |
-| `## Required skills` | universal table only, no overrides, no additions |
-| `## Project name` | repo dir basename |
-| `## Branching` | default branch detected via `git symbolic-ref refs/remotes/origin/HEAD`, fallback `master`; standard Conventional Commits prefixes |
-| `## Commands` | task runner detected from `mise.toml` / `Makefile` / `package.json`; lint and test commands inferred from runner conventions |
-| `## Documentation paths` | `docs/superpowers/specs`, `docs/superpowers/plans`, `docs/superpowers/OPEN_THINGS.md`, `docs/adr`; each used only if it exists. Use `don't commit` to keep generated specs or plans out of the repo. |
-| `## Project-specific rules` | none beyond what `CLAUDE.md` or `AGENTS.md` provides |
+| Section                     | Default                                                                                                                                                                                              |
+| --------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `## PR behavior`            | `Mode: stop_at_green`, `Base branch:` = default branch, `Squash: yes`, no hooks                                                                                                                      |
+| `## Required skills`        | universal table only, no overrides, no additions                                                                                                                                                     |
+| `## Project name`           | repo dir basename                                                                                                                                                                                    |
+| `## Branching`              | default branch detected via `git symbolic-ref refs/remotes/origin/HEAD`, fallback `master`; standard Conventional Commits prefixes                                                                   |
+| `## Commands`               | task runner detected from `mise.toml` / `Makefile` / `package.json`; lint and test commands inferred from runner conventions                                                                         |
+| `## Documentation paths`    | `docs/superpowers/specs`, `docs/superpowers/plans`, `docs/superpowers/OPEN_THINGS.md`, `docs/adr`; each used only if it exists. Use `don't commit` to keep generated specs or plans out of the repo. |
+| `## Project-specific rules` | none beyond what `CLAUDE.md` or `AGENTS.md` provides                                                                                                                                                 |
 
 ## Bootstrap precedence
 
@@ -111,23 +120,23 @@ A field that no source provides and the active step needs (for example, a test c
 
 ## PR behavior modes
 
-| Mode | Behavior |
-|---|---|
-| `stop_at_green` | Default. Autopilot stops once CI is green and reports the PR URL. The user merges manually. |
-| `automerge` | Autopilot runs `gh pr merge <pr> --auto --squash` (or `--merge` if `Squash: no`), polls until the PR state is `MERGED`, refreshes local default branch, deletes the feature branch, reports the merged commit hash. |
-| `request_review` | Autopilot runs `gh pr ready <pr>` and posts a reviewer note; merge stays manual. |
+| Mode             | Behavior                                                                                                                                                                                                            |
+| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `stop_at_green`  | Default. Autopilot stops once CI is green and reports the PR URL. The user merges manually.                                                                                                                         |
+| `automerge`      | Autopilot runs `gh pr merge <pr> --auto --squash` (or `--merge` if `Squash: no`), polls until the PR state is `MERGED`, refreshes local default branch, deletes the feature branch, reports the merged commit hash. |
+| `request_review` | Autopilot runs `gh pr ready <pr>` and posts a reviewer note; merge stays manual.                                                                                                                                    |
 
 ## Hooks
 
 Each hook value is a shell command. The autopilot skill substitutes `{{pr}}`, `{{branch}}`, `{{spec_path}}`, `{{plan_path}}` into the command before invocation. Hook failures are reported but do not block the workflow unless the project's `## Project-specific rules` section says otherwise.
 
-| Hook | Fires when |
-|---|---|
-| `post_spec` | After the spec commit in step 3 |
-| `post_plan` | After the plan commit in step 4 |
+| Hook                  | Fires when                                     |
+| --------------------- | ---------------------------------------------- |
+| `post_spec`           | After the spec commit in step 3                |
+| `post_plan`           | After the plan commit in step 4                |
 | `post_implementation` | After the last implementation commit in step 5 |
-| `post_pr` | After `gh pr create` succeeds in step 7 |
-| `post_ci_green` | After step 8 turns green |
+| `post_pr`             | After `gh pr create` succeeds in step 7        |
+| `post_ci_green`       | After step 8 turns green                       |
 
 ## Required-skills overrides
 

@@ -4,7 +4,7 @@
 
 **Dispatch:** One of eight critics in the tech-doc panel (always-on, all quadrants). Reads `draft.md`, the active preset's `core.md` and `admonitions.md`. Writes `critique-admonitions.md`.
 
-```
+````
 Dispatched agent prompt:
   description: "Admonitions critique"
   prompt: |
@@ -72,4 +72,4 @@ Dispatched agent prompt:
     {REVIEWER_FEEDBACK}
 
     If reviewer feedback is provided above, read the existing critique and address the specific concerns raised.
-```
+````

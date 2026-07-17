@@ -50,13 +50,13 @@ Last refreshed: 2026-04-29
 
 Example format:
 
-| HTTP code | Description |
-|---|---|
-| `200 OK` | The request succeeded. The response body contains the requested resource. |
-| `400 Bad Request` | The request body is malformed or missing required properties. Correct the request and retry. |
-| `401 Unauthorized` | The access token is missing or invalid. Acquire a new token and retry. |
-| `404 Not Found` | The specified resource doesn't exist. Verify the identifier and retry. |
-| `500 Internal Server Error` | An unexpected error occurred on the server. Retry after a short delay. |
+| HTTP code                   | Description                                                                                  |
+| --------------------------- | -------------------------------------------------------------------------------------------- |
+| `200 OK`                    | The request succeeded. The response body contains the requested resource.                    |
+| `400 Bad Request`           | The request body is malformed or missing required properties. Correct the request and retry. |
+| `401 Unauthorized`          | The access token is missing or invalid. Acquire a new token and retry.                       |
+| `404 Not Found`             | The specified resource doesn't exist. Verify the identifier and retry.                       |
+| `500 Internal Server Error` | An unexpected error occurred on the server. Retry after a short delay.                       |
 
 ## Error documentation
 

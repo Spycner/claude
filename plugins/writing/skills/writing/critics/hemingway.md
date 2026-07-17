@@ -4,7 +4,7 @@
 
 **Dispatch:** One of six critics in the panel phase. Runs in parallel with the others. Reads `draft.md` and the active style guide. Writes `critique-hemingway.md`.
 
-```
+````
 Dispatched agent prompt:
   description: "Hemingway critique"
   prompt: |
@@ -82,4 +82,4 @@ Dispatched agent prompt:
 
     If reviewer feedback is provided above, read the existing critique and address
     the specific concerns raised.
-```
+````

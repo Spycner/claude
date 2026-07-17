@@ -4,7 +4,7 @@
 
 **Dispatch:** Spawned by the orchestrator after synthesis. Reads brief + plan + synthesis + all researcher outputs. Writes `research/synthesis-review-{N}.md`. Also re-dispatched for cross-loop validation when writer-reviewer flags `content-gap-suspected`.
 
-```
+````
 Dispatched agent prompt:
   description: "Review synthesis substance"
   prompt: |
@@ -150,4 +150,4 @@ Dispatched agent prompt:
 
     Write the review file and return the verdict line + issue id list as your
     response (so the orchestrator can parse it without re-reading the file).
-```
+````

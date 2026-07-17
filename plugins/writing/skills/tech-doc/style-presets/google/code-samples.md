@@ -9,7 +9,7 @@ Placeholders represent values the reader must supply.
 
 - Format: `UPPERCASE_WITH_UNDERSCORES`. No `MY_` or `YOUR_` prefixes.
 - Never use single letters or repeated `x` characters except where a standard form exists (e.g., HTTP `2xx` ranges).
-- In Markdown inline code: italicize inside backticks. `*`PLACEHOLDER`*` renders as *`PLACEHOLDER`*.
+- In Markdown inline code: italicize inside backticks. `*`PLACEHOLDER`*` renders as _`PLACEHOLDER`_.
 - In fenced code blocks: no special markup is available; rely on the surrounding explanation.
 - Document every placeholder immediately after the code block:
   - Single placeholder: "Replace `PLACEHOLDER` with [description]."
@@ -65,15 +65,15 @@ Placeholders represent values the reader must supply.
 - Use a language-appropriate comment to show omitted code. Never use three dots, the ellipsis character (`…`), or `[...]`.
 - Examples by language:
 
-  | Language | Omission indicator |
-  |---|---|
-  | Python | `# ...` |
-  | JavaScript / TypeScript | `// ...` |
-  | Java, Go, C, C++ | `// ...` |
-  | Shell / Bash | `# ...` |
-  | SQL | `-- ...` |
-  | HTML | `<!-- ... -->` |
-  | CSS | `/* ... */` |
+  | Language                | Omission indicator |
+  | ----------------------- | ------------------ |
+  | Python                  | `# ...`            |
+  | JavaScript / TypeScript | `// ...`           |
+  | Java, Go, C, C++        | `// ...`           |
+  | Shell / Bash            | `# ...`            |
+  | SQL                     | `-- ...`           |
+  | HTML                    | `<!-- ... -->`     |
+  | CSS                     | `/* ... */`        |
 
 - A block that contains omissions must not be marked as click-to-copy.
 

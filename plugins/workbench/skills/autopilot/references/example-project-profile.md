@@ -10,6 +10,7 @@ The smallest profile that does anything explicit. Use this as the starting point
 # Workbench Autopilot Profile
 
 ## PR behavior
+
 Mode: stop_at_green
 ```
 
@@ -23,38 +24,45 @@ Every optional heading populated. This is what a fully-tuned project profile loo
 # Workbench Autopilot Profile
 
 ## Project name
+
 widgetshop
 
 ## Branching
+
 Default branch: master
 Branch prefixes: feat, fix, docs, chore, refactor, test, perf, style, ci, build, revert
 
 ## Commands
+
 Task runner: mise run
 Lint: lint
 Test: test
 Format: fmt
 
 ## Documentation paths
+
 Specs: don't commit
 Plans: don't commit
 Open things: docs/superpowers/OPEN_THINGS.md
 ADRs: docs/adr
 
 ## PR behavior
+
 Mode: automerge
 Base branch: master
 Squash: yes
 
 Hooks:
+
 - post_pr: uv run .claude/commands/post_brainstorm_comments.py {{pr}}
 - post_ci_green: ./scripts/notify-slack.sh "{{pr}} merged"
 
 ## Required skills
-| Step | Skill | Action |
-|---|---|---|
-| 4 | my-project:writing-plans | replaces workbench:writing-plans |
-| 6 | widgetshop:regenerate-changelog | additional |
+
+| Step | Skill                           | Action                           |
+| ---- | ------------------------------- | -------------------------------- |
+| 4    | my-project:writing-plans        | replaces workbench:writing-plans |
+| 6    | widgetshop:regenerate-changelog | additional                       |
 
 ## Project-specific rules
 

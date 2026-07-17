@@ -4,7 +4,7 @@
 
 **Dispatch:** One of six critics in the panel. Reads `draft.md` and the active style guide. Writes `critique-usage.md`.
 
-```
+````
 Dispatched agent prompt:
   description: "Usage critique"
   prompt: |
@@ -110,4 +110,4 @@ Dispatched agent prompt:
     ## Reviewer Feedback
 
     {REVIEWER_FEEDBACK}
-```
+````

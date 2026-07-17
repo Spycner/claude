@@ -94,4 +94,3 @@ Start with `clip-path: inset(0 0 100% 0)` (hidden from bottom). Animate to `inse
 ### Comparison sliders
 
 Overlay two images. Clip the top one with `clip-path: inset(0 50% 0 0)`. Adjust the right inset value based on drag position. No extra DOM elements needed, fully hardware-accelerated.
-

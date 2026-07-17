@@ -1,0 +1,80 @@
+#!/usr/bin/env bash
+#MISE description="Validate plugin.json files (Claude + Codex) have the required structure"
+set -euo pipefail
+
+SEMVER_RE='^[0-9]+\.[0-9]+\.[0-9]+$'
+status=0
+
+# Validates common required fields (name, description, author.name, license)
+# on one manifest. $1 = plugin name, $2 = manifest path, $3 = whether a
+# "version" field is required ("required" or "optional").
+validate_manifest() {
+  local plugin="$1" manifest="$2" version_mode="$3"
+
+  if ! json="$(cat "$manifest" 2>/dev/null)"; then
+    echo "✗ $plugin: cannot read $manifest" >&2
+    status=1
+    return
+  fi
+
+  if ! printf '%s' "$json" | jq empty 2>/dev/null; then
+    echo "✗ $plugin: invalid JSON in $manifest" >&2
+    status=1
+    return
+  fi
+
+  errors=""
+
+  name="$(printf '%s' "$json" | jq -r '.name // empty')"
+  [ -z "$name" ] && errors="${errors}  - missing or empty \"name\"\n"
+
+  description="$(printf '%s' "$json" | jq -r '.description // empty')"
+  [ -z "$description" ] && errors="${errors}  - missing or empty \"description\"\n"
+
+  license="$(printf '%s' "$json" | jq -r '.license // empty')"
+  [ -z "$license" ] && errors="${errors}  - missing or empty \"license\"\n"
+
+  author_type="$(printf '%s' "$json" | jq -r '.author | type')"
+  if [ "$author_type" != "object" ]; then
+    errors="${errors}  - \"author\" must be an object (got $author_type)\n"
+  else
+    author_name="$(printf '%s' "$json" | jq -r '.author.name // empty')"
+    [ -z "$author_name" ] && errors="${errors}  - missing or empty \"author.name\"\n"
+  fi
+
+  version="$(printf '%s' "$json" | jq -r '.version // empty')"
+  if [ -z "$version" ]; then
+    if [ "$version_mode" = "required" ]; then
+      errors="${errors}  - missing or empty \"version\"\n"
+    fi
+  elif ! [[ $version =~ $SEMVER_RE ]]; then
+    errors="${errors}  - \"version\" is not valid semver (got \"$version\")\n"
+  fi
+
+  if [ -n "$errors" ]; then
+    echo "✗ $plugin: $manifest" >&2
+    printf "%b" "$errors" >&2
+    status=1
+  else
+    echo "✓ $plugin: $manifest valid"
+  fi
+}
+
+for codex_manifest in plugins/*/.codex-plugin/plugin.json; do
+  plugin="$(echo "$codex_manifest" | awk -F/ '{print $2}')"
+  validate_manifest "$plugin" "$codex_manifest" "required"
+
+  claude_manifest="plugins/$plugin/.claude-plugin/plugin.json"
+  if [ -f "$claude_manifest" ]; then
+    validate_manifest "$plugin" "$claude_manifest" "optional"
+  else
+    echo "✗ $plugin: missing $claude_manifest" >&2
+    status=1
+  fi
+done
+
+if [ "$status" -eq 0 ]; then
+  echo "All plugin manifests are valid."
+fi
+
+exit "$status"

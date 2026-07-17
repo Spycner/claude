@@ -21,10 +21,10 @@ Do NOT check authentication upfront. Just run the command. If it fails with an a
 
 Two API versions are in use. Use the correct one for each operation:
 
-| API | Base URL | Used for |
-|-----|----------|----------|
+| API    | Base URL                                                    | Used for        |
+| ------ | ----------------------------------------------------------- | --------------- |
 | **v1** | `https://$ATLASSIAN_DOMAIN.atlassian.net/wiki/rest/api/...` | CQL search only |
-| **v2** | `https://$ATLASSIAN_DOMAIN.atlassian.net/wiki/api/v2/...` | Everything else |
+| **v2** | `https://$ATLASSIAN_DOMAIN.atlassian.net/wiki/api/v2/...`   | Everything else |
 
 ### Curl auth pattern
 

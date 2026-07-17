@@ -385,17 +385,17 @@ Forces a newline within a paragraph (equivalent to `<br>`).
 
 Marks are applied to text nodes to add formatting. Multiple marks can be combined on a single text node.
 
-| Mark | JSON |
-|------|------|
-| Bold | `{"type": "strong"}` |
-| Italic | `{"type": "em"}` |
-| Strikethrough | `{"type": "strike"}` |
-| Underline | `{"type": "underline"}` |
-| Inline code | `{"type": "code"}` |
-| Link | `{"type": "link", "attrs": {"href": "https://..."}}` |
-| Text color | `{"type": "textColor", "attrs": {"color": "#ff0000"}}` |
-| Subscript | `{"type": "subsup", "attrs": {"type": "sub"}}` |
-| Superscript | `{"type": "subsup", "attrs": {"type": "sup"}}` |
+| Mark          | JSON                                                   |
+| ------------- | ------------------------------------------------------ |
+| Bold          | `{"type": "strong"}`                                   |
+| Italic        | `{"type": "em"}`                                       |
+| Strikethrough | `{"type": "strike"}`                                   |
+| Underline     | `{"type": "underline"}`                                |
+| Inline code   | `{"type": "code"}`                                     |
+| Link          | `{"type": "link", "attrs": {"href": "https://..."}}`   |
+| Text color    | `{"type": "textColor", "attrs": {"color": "#ff0000"}}` |
+| Subscript     | `{"type": "subsup", "attrs": {"type": "sub"}}`         |
+| Superscript   | `{"type": "subsup", "attrs": {"type": "sup"}}`         |
 
 Example — bold and italic combined:
 
@@ -404,8 +404,8 @@ Example — bold and italic combined:
   "type": "text",
   "text": "important note",
   "marks": [
-    {"type": "strong"},
-    {"type": "em"}
+    { "type": "strong" },
+    { "type": "em" }
   ]
 }
 ```
@@ -416,24 +416,24 @@ Example — bold and italic combined:
 
 Use this table to convert markdown intent into ADF node types.
 
-| Markdown | ADF Node / Mark |
-|----------|----------------|
-| Plain text | `paragraph` > `text` |
-| `# Heading` | `heading` with `attrs.level: 1` |
-| `## Heading` | `heading` with `attrs.level: 2` |
-| `### Heading` | `heading` with `attrs.level: 3` |
-| `**bold**` | `text` with mark `strong` |
-| `*italic*` | `text` with mark `em` |
-| `~~strikethrough~~` | `text` with mark `strike` |
-| `` `inline code` `` | `text` with mark `code` |
-| `[text](url)` | `text` with mark `link` |
-| `- item` / `* item` | `bulletList` > `listItem` > `paragraph` > `text` |
-| `1. item` | `orderedList` > `listItem` > `paragraph` > `text` |
-| ` ```lang ` | `codeBlock` with `attrs.language` |
-| `> quote` | `blockquote` > `paragraph` > `text` |
-| `---` | `rule` |
-| `\| table \|` | `table` > `tableRow` > `tableHeader`/`tableCell` |
-| `@user` | `mention` with `attrs.id` (account ID required) |
+| Markdown            | ADF Node / Mark                                   |
+| ------------------- | ------------------------------------------------- |
+| Plain text          | `paragraph` > `text`                              |
+| `# Heading`         | `heading` with `attrs.level: 1`                   |
+| `## Heading`        | `heading` with `attrs.level: 2`                   |
+| `### Heading`       | `heading` with `attrs.level: 3`                   |
+| `**bold**`          | `text` with mark `strong`                         |
+| `*italic*`          | `text` with mark `em`                             |
+| `~~strikethrough~~` | `text` with mark `strike`                         |
+| `` `inline code` `` | `text` with mark `code`                           |
+| `[text](url)`       | `text` with mark `link`                           |
+| `- item` / `* item` | `bulletList` > `listItem` > `paragraph` > `text`  |
+| `1. item`           | `orderedList` > `listItem` > `paragraph` > `text` |
+| `` ```lang ``       | `codeBlock` with `attrs.language`                 |
+| `> quote`           | `blockquote` > `paragraph` > `text`               |
+| `---`               | `rule`                                            |
+| `\| table \|`       | `table` > `tableRow` > `tableHeader`/`tableCell`  |
+| `@user`             | `mention` with `attrs.id` (account ID required)   |
 
 ---
 

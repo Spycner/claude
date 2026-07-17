@@ -4,7 +4,7 @@
 
 **Dispatch:** Spawned by the orchestrator. One agent per cluster on initial fan-out (in parallel), and additional agents per `evidence-gap` / `coverage` / `source-quality` issue from synthesis-review.
 
-```
+````
 Dispatched agent prompt:
   description: "Deep-research one topic cluster"
   prompt: |
@@ -129,4 +129,4 @@ Dispatched agent prompt:
 
     Write {OUTPUT_FILE} and report only the file path back. Do not summarize
     findings in your response.
-```
+````

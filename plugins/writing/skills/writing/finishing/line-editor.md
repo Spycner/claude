@@ -4,7 +4,7 @@
 
 **Dispatch:** Third of four finishing passes. Reads `draft.md` and the active style guide. Updates `draft.md` in place. Appends to `finishing-notes.md`.
 
-```
+````
 Dispatched agent prompt:
   description: "Line editor pass"
   prompt: |
@@ -75,4 +75,4 @@ Dispatched agent prompt:
     ## Reviewer Feedback
 
     {REVIEWER_FEEDBACK}
-```
+````

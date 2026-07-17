@@ -4,7 +4,7 @@
 
 **Dispatch:** One of seven critics in the panel. Reads `draft.md` and the active style guide. Writes `critique-steelman.md`.
 
-```
+````
 Dispatched agent prompt:
   description: "Steel-man critique"
   prompt: |
@@ -118,4 +118,4 @@ Dispatched agent prompt:
 
     If reviewer feedback is provided above, read the existing critique and address
     the specific concerns raised.
-```
+````

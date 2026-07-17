@@ -25,13 +25,13 @@ No authentication required. Uses the host agent's web search and fetch or browse
 
 Use the host platform's equivalent tools without changing the workflow:
 
-| Capability | Claude Code | Codex |
-|---|---|---|
-| Subagent dispatch | Agent tool | `spawn_agent` only when available and permitted. Otherwise run the phase inline. |
-| Progress list | TaskCreate, TaskUpdate, TaskList | `update_plan` |
-| Web research | WebSearch, WebFetch | `web.run` search and open calls, or the host browser/search tools |
-| File reads | Read | shell reads such as `sed`, `rg`, or equivalent file read tools |
-| Shell | Bash | shell command tool |
+| Capability        | Claude Code                      | Codex                                                                            |
+| ----------------- | -------------------------------- | -------------------------------------------------------------------------------- |
+| Subagent dispatch | Agent tool                       | `spawn_agent` only when available and permitted. Otherwise run the phase inline. |
+| Progress list     | TaskCreate, TaskUpdate, TaskList | `update_plan`                                                                    |
+| Web research      | WebSearch, WebFetch              | `web.run` search and open calls, or the host browser/search tools                |
+| File reads        | Read                             | shell reads such as `sed`, `rg`, or equivalent file read tools                   |
+| Shell             | Bash                             | shell command tool                                                               |
 
 When a platform cannot dispatch subagents for the current request, keep the same artifact boundaries and run each phase inline in the orchestrator. Tell the user when this changes runtime or context cost.
 
@@ -63,6 +63,7 @@ Write `{OUTPUT_PATH}/plan.md`:
 # Research Plan
 
 ## Brief
+
 Topic: <topic>
 Scope: <scope>
 Audience: <audience>
@@ -71,14 +72,17 @@ Purpose: <purpose>
 ## Clusters
 
 ### Cluster: <cluster-slug-1>
+
 Title: <human-readable title>
 Sub-questions:
-  - SQ1: <sub-question>
-    - Search angles: <angle1>, <angle2>, <angle3>
-    - Source types: <academic, industry, etc.>
-  - SQ2: ...
+
+- SQ1: <sub-question>
+  - Search angles: <angle1>, <angle2>, <angle3>
+  - Source types: <academic, industry, etc.>
+- SQ2: ...
 
 ### Cluster: <cluster-slug-2>
+
 ...
 ```
 
@@ -136,6 +140,7 @@ After all gap-fills and re-syntheses complete, return to Step 6 with iteration N
 **Stall detection.** After writing `synthesis-review-{N}.md`, compare its issue id set to `synthesis-review-{N-1}.md`. If identical, surface to user immediately.
 
 **Check-in.** After synthesis-review iterations 3, 6, 9, ..., pause and surface:
+
 - Open issue ids and one-line descriptions
 - What was attempted (which gap-fills ran)
 - What's been narrowed (issues closed since iteration 1)

@@ -22,13 +22,13 @@ No authentication required. Operates on the local filesystem only. Never makes n
 
 ## Platform Adaptation
 
-| Capability | Claude Code | Codex |
-|---|---|---|
-| Subagent dispatch | Agent tool, prompt = `read(<phase>-prompt.md)` + scope vars | `spawn_agent` with the same prompt |
-| User confirmation | AskUserQuestion | `ask_user` / built-in approval |
-| File ops (apply phase) | Write, Edit, Bash (`ln -s`) | shell tool |
-| File reads | Read | shell reads (`cat`, `sed`, etc.) |
-| Shell | Bash | shell command tool |
+| Capability             | Claude Code                                                 | Codex                              |
+| ---------------------- | ----------------------------------------------------------- | ---------------------------------- |
+| Subagent dispatch      | Agent tool, prompt = `read(<phase>-prompt.md)` + scope vars | `spawn_agent` with the same prompt |
+| User confirmation      | AskUserQuestion                                             | `ask_user` / built-in approval     |
+| File ops (apply phase) | Write, Edit, Bash (`ln -s`)                                 | shell tool                         |
+| File reads             | Read                                                        | shell reads (`cat`, `sed`, etc.)   |
+| Shell                  | Bash                                                        | shell command tool                 |
 
 When subagent dispatch is unavailable for the current request, run each phase inline in the orchestrator. Tell the user runtime/context cost has changed.
 
@@ -37,9 +37,11 @@ When subagent dispatch is unavailable for the current request, run each phase in
 **Prompt file location — MUST check before every phase dispatch:**
 
 Before reading any phase prompt file, run:
+
 ```bash
 echo "${RUNTIME_BRIDGE_SKILL_OVERRIDE:-}"
 ```
+
 If the output is a non-empty path, read ALL prompt files (`scout-prompt.md`, `apply-prompt.md`, `reviewer-prompt.md`) from that directory instead of the bundled skill directory. This is the fault-injection override used by integration tests.
 
 ### Step 1: Confirm scope and mode
@@ -49,6 +51,7 @@ If the user hasn't specified, ask one consolidated question: target directory (d
 ### Step 2: Dispatch SCOUT
 
 Read `scout-prompt.md`. Dispatch as a subagent with arguments:
+
 - `repo_root`: absolute path to the project root.
 - `recipes_path`: absolute path to `port-recipes.md`.
 - `schema_path`: absolute path to `manifest-schema.md`.
@@ -58,6 +61,7 @@ Scout returns a JSON manifest matching `manifest-schema.md`. Validate it parses 
 ### Step 3: Present manifest, get approval
 
 Render the manifest for the user:
+
 - Direction (claude_to_codex / codex_to_claude / bidirectional_drift).
 - Op count by kind.
 - Each op with the source path, target path, and (for translates and drifts) the diff preview.
@@ -75,6 +79,7 @@ Otherwise: ask the user to approve the full op set. If approved, continue. If de
 ### Step 4: Dispatch APPLY
 
 Read `apply-prompt.md`. Dispatch as a subagent with arguments:
+
 - `manifest`: the approved manifest (with any user drift selections applied).
 - `recipes_path`: absolute path to `port-recipes.md`.
 - `repo_root`: absolute path.
@@ -84,6 +89,7 @@ Apply returns a JSON apply-log matching `manifest-schema.md`. Validate it parses
 ### Step 5: Dispatch REVIEWER
 
 Read `reviewer-prompt.md`. Dispatch as a subagent with arguments:
+
 - `manifest`: the same manifest apply consumed.
 - `apply_log`: what apply returned.
 - `recipes_path`: absolute path to `port-recipes.md`.
@@ -108,6 +114,7 @@ No fixed iteration cap. Loop until pass or break condition.
 ### Step 7: Final report
 
 Print to user:
+
 - Direction.
 - Ops applied (success count, error count).
 - Skips with reasons and suggested followups.

@@ -4,7 +4,7 @@
 
 **Dispatch:** One of eight critics in the tech-doc panel. Active when the declared quadrant is `explanation`. Reads `draft.md` and the active style preset. Writes `critique-steel-man.md`.
 
-```
+````
 Dispatched agent prompt:
   description: "Steel-man critique"
   prompt: |
@@ -118,4 +118,4 @@ Dispatched agent prompt:
 
     If reviewer feedback is provided above, read the existing critique and address
     the specific concerns raised.
-```
+````

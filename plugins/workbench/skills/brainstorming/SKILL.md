@@ -30,7 +30,7 @@ You MUST create a task for each of these items and complete them in order:
 
 ## Grilling toward a shared design concept
 
-Two minds building together share an invisible theory of the system: the design concept (Brooks, *The Design of Design*). The conversation surfaces it, questions strip away ambiguity, and the artifact at the end is a record of the conversation, not its purpose.
+Two minds building together share an invisible theory of the system: the design concept (Brooks, _The Design of Design_). The conversation surfaces it, questions strip away ambiguity, and the artifact at the end is a record of the conversation, not its purpose.
 
 **Walk the design tree depth-first.**
 

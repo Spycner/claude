@@ -4,23 +4,23 @@ Slides-per-minute heuristics by genre, plus recommended slide-count bands for co
 
 ## Slides per minute by genre
 
-| Genre | Typical minutes per slide | Notes |
-|---|---|---|
-| Keynote | 1.5 to 2 | Sparse, story-driven; long pauses between slides |
-| Executive briefing | 2 to 3 | Per-slide depth; few slides, dense argument |
-| Training | 1 to 2 | Progressive reveals; staged complexity |
-| Pitch | 1 | Tight rhythm; one message per slide; brisk pace |
-| Technical talk | 2 to 3 | Code, diagrams, walkthroughs need think time |
+| Genre              | Typical minutes per slide | Notes                                            |
+| ------------------ | ------------------------- | ------------------------------------------------ |
+| Keynote            | 1.5 to 2                  | Sparse, story-driven; long pauses between slides |
+| Executive briefing | 2 to 3                    | Per-slide depth; few slides, dense argument      |
+| Training           | 1 to 2                    | Progressive reveals; staged complexity           |
+| Pitch              | 1                         | Tight rhythm; one message per slide; brisk pace  |
+| Technical talk     | 2 to 3                    | Code, diagrams, walkthroughs need think time     |
 
 ## Recommended slide-count bands by genre and duration
 
-| Genre | 5 min | 10 min | 15 min | 20 min | 30 min | 45 min | 60 min |
-|---|---|---|---|---|---|---|---|
-| Keynote | 3 to 4 | 6 to 8 | 9 to 12 | 12 to 16 | 18 to 24 | 25 to 35 | 30 to 45 |
-| Executive briefing | 2 to 3 | 4 to 6 | 6 to 9 | 8 to 12 | 12 to 18 | 18 to 25 | 24 to 32 |
-| Training | 4 to 6 | 8 to 12 | 12 to 18 | 16 to 24 | 24 to 36 | 36 to 50 | 50 to 70 |
-| Pitch | 4 to 6 | 8 to 12 | 12 to 18 | 16 to 24 | n/a | n/a | n/a |
-| Technical talk | 2 to 3 | 4 to 6 | 6 to 9 | 8 to 12 | 12 to 18 | 18 to 25 | 24 to 32 |
+| Genre              | 5 min  | 10 min  | 15 min   | 20 min   | 30 min   | 45 min   | 60 min   |
+| ------------------ | ------ | ------- | -------- | -------- | -------- | -------- | -------- |
+| Keynote            | 3 to 4 | 6 to 8  | 9 to 12  | 12 to 16 | 18 to 24 | 25 to 35 | 30 to 45 |
+| Executive briefing | 2 to 3 | 4 to 6  | 6 to 9   | 8 to 12  | 12 to 18 | 18 to 25 | 24 to 32 |
+| Training           | 4 to 6 | 8 to 12 | 12 to 18 | 16 to 24 | 24 to 36 | 36 to 50 | 50 to 70 |
+| Pitch              | 4 to 6 | 8 to 12 | 12 to 18 | 16 to 24 | n/a      | n/a      | n/a      |
+| Technical talk     | 2 to 3 | 4 to 6  | 6 to 9   | 8 to 12  | 12 to 18 | 18 to 25 | 24 to 32 |
 
 Pitch durations beyond 20 minutes are uncommon; if requested, treat as a hybrid pitch and briefing and use the executive-briefing band for the longer end.
 

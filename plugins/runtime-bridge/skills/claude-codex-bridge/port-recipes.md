@@ -17,14 +17,14 @@ Skip when walking the project for hierarchical memory files:
 
 For every directory under repo root (after exclusions):
 
-| State | Op |
-|---|---|
-| Only `CLAUDE.md` | `symlink` from `<dir>/AGENTS.md` to `<dir>/CLAUDE.md` |
-| Only `AGENTS.md` | `symlink` from `<dir>/CLAUDE.md` to `<dir>/AGENTS.md` |
-| Both, byte-identical | `already-aligned` |
-| One is a symlink to the other | `already-aligned` |
-| Both, content differs | `drift`; `newer` = path with newer mtime |
-| Neither | no op |
+| State                         | Op                                                    |
+| ----------------------------- | ----------------------------------------------------- |
+| Only `CLAUDE.md`              | `symlink` from `<dir>/AGENTS.md` to `<dir>/CLAUDE.md` |
+| Only `AGENTS.md`              | `symlink` from `<dir>/CLAUDE.md` to `<dir>/AGENTS.md` |
+| Both, byte-identical          | `already-aligned`                                     |
+| One is a symlink to the other | `already-aligned`                                     |
+| Both, content differs         | `drift`; `newer` = path with newer mtime              |
+| Neither                       | no op                                                 |
 
 Symlinks are relative (e.g. `AGENTS.md -> CLAUDE.md` not `AGENTS.md -> /abs/path/CLAUDE.md`).
 
@@ -60,16 +60,16 @@ System prompt body in markdown.
 
 Field map:
 
-| Claude | Codex | Notes |
-|---|---|---|
-| frontmatter `name` | `name` | direct |
-| frontmatter `description` | `description` | direct |
-| markdown body | `developer_instructions` (multi-line `"""..."""`) | preserve content verbatim including leading/trailing newlines stripped |
-| frontmatter `model` | `model` | direct |
-| frontmatter `model` | `model_reasoning_effort` | lookup: opus-* → "high", sonnet-* → "medium", haiku-* → "low"; if unknown, omit |
-| frontmatter `tools` (MCP-style entry like `mcp__server__tool`) | `mcp_servers` array entry `"server"` | dedup |
-| frontmatter `tools` (non-MCP names like `Read`, `Bash`) | TOML comment `# claude tools (no codex equivalent): Read, Bash` | preserve in comment |
-| frontmatter `color` | dropped | Claude-only UI hint |
+| Claude                                                         | Codex                                                           | Notes                                                                           |
+| -------------------------------------------------------------- | --------------------------------------------------------------- | ------------------------------------------------------------------------------- |
+| frontmatter `name`                                             | `name`                                                          | direct                                                                          |
+| frontmatter `description`                                      | `description`                                                   | direct                                                                          |
+| markdown body                                                  | `developer_instructions` (multi-line `"""..."""`)               | preserve content verbatim including leading/trailing newlines stripped          |
+| frontmatter `model`                                            | `model`                                                         | direct                                                                          |
+| frontmatter `model`                                            | `model_reasoning_effort`                                        | lookup: opus-* → "high", sonnet-* → "medium", haiku-* → "low"; if unknown, omit |
+| frontmatter `tools` (MCP-style entry like `mcp__server__tool`) | `mcp_servers` array entry `"server"`                            | dedup                                                                           |
+| frontmatter `tools` (non-MCP names like `Read`, `Bash`)        | TOML comment `# claude tools (no codex equivalent): Read, Bash` | preserve in comment                                                             |
+| frontmatter `color`                                            | dropped                                                         | Claude-only UI hint                                                             |
 
 ### `.codex/agents/<name>.toml` → `.claude/agents/<name>.md`
 
@@ -99,24 +99,27 @@ Both formats use the same outer shape:
 ```jsonc
 {
   "PreToolUse": [
-    { "matcher": "Bash", "hooks": [{ "type": "command", "command": "...", "timeout": 30 }] }
+    {
+      "matcher": "Bash",
+      "hooks": [{ "type": "command", "command": "...", "timeout": 30 }]
+    }
   ]
 }
 ```
 
 Event name mapping:
 
-| Event | Claude | Codex | Action when porting |
-|---|---|---|---|
-| `PreToolUse` | yes | yes | copy |
-| `PostToolUse` | yes | yes | copy |
-| `SessionStart` | yes | yes | copy |
-| `UserPromptSubmit` | yes | yes | copy |
-| `Stop` | yes | yes | copy |
-| `SubagentStop` | yes | no | drop on Codex side; record in apply-log notes |
-| `PreCompact` | yes | no | drop with note |
-| `Notification` | yes | no | drop with note |
-| `PermissionRequest` | no | yes | drop on Claude side; record in apply-log notes |
+| Event               | Claude | Codex | Action when porting                            |
+| ------------------- | ------ | ----- | ---------------------------------------------- |
+| `PreToolUse`        | yes    | yes   | copy                                           |
+| `PostToolUse`       | yes    | yes   | copy                                           |
+| `SessionStart`      | yes    | yes   | copy                                           |
+| `UserPromptSubmit`  | yes    | yes   | copy                                           |
+| `Stop`              | yes    | yes   | copy                                           |
+| `SubagentStop`      | yes    | no    | drop on Codex side; record in apply-log notes  |
+| `PreCompact`        | yes    | no    | drop with note                                 |
+| `Notification`      | yes    | no    | drop with note                                 |
+| `PermissionRequest` | no     | yes   | drop on Claude side; record in apply-log notes |
 
 Inner hook entries (`{type: "command", command, timeout}`) match shape on both sides; copy verbatim.
 
@@ -124,15 +127,15 @@ Inner hook entries (`{type: "command", command, timeout}`) match shape on both s
 
 `.claude/settings.json` ↔ `.codex/config.toml`.
 
-| Claude key | Codex location | Action |
-|---|---|---|
-| `model` | top-level `model = "..."` | translate |
-| `env` | `[shell_environment_policy] set = {...}` | translate; preserve key order |
-| `mcpServers.<name>` | `[mcp_servers.<name>]` table per server | translate per-server |
-| `hooks` | (see section 3) | translate via hooks recipe |
-| `permissions.allow` / `permissions.deny` | NOT TRANSLATED | emit `skip` entry: `path = ".claude/settings.json#permissions"`, reason = "no defensible auto-translation; translate manually if needed", suggested_followup = "Map to approval_policy and sandbox_mode in .codex/config.toml manually." |
-| `permissions.*` (other) | NOT TRANSLATED | same as above |
-| anything else | NOT TRANSLATED | emit `skip` entry preserving original key path and value verbatim |
+| Claude key                               | Codex location                           | Action                                                                                                                                                                                                                                   |
+| ---------------------------------------- | ---------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `model`                                  | top-level `model = "..."`                | translate                                                                                                                                                                                                                                |
+| `env`                                    | `[shell_environment_policy] set = {...}` | translate; preserve key order                                                                                                                                                                                                            |
+| `mcpServers.<name>`                      | `[mcp_servers.<name>]` table per server  | translate per-server                                                                                                                                                                                                                     |
+| `hooks`                                  | (see section 3)                          | translate via hooks recipe                                                                                                                                                                                                               |
+| `permissions.allow` / `permissions.deny` | NOT TRANSLATED                           | emit `skip` entry: `path = ".claude/settings.json#permissions"`, reason = "no defensible auto-translation; translate manually if needed", suggested_followup = "Map to approval_policy and sandbox_mode in .codex/config.toml manually." |
+| `permissions.*` (other)                  | NOT TRANSLATED                           | same as above                                                                                                                                                                                                                            |
+| anything else                            | NOT TRANSLATED                           | emit `skip` entry preserving original key path and value verbatim                                                                                                                                                                        |
 
 Reverse direction: top-level Codex keys without Claude analogue (`[features]`, `project_doc_max_bytes`, `[agents]`, `[plugins."name@..."]`) emit `skip` entries.
 
@@ -162,9 +165,9 @@ For each Codex plugin under `~/.codex/plugins/<...>` and `~/.agents/plugins/<...
 
 Always emit as `skip` entries:
 
-| Path | Reason | Suggested followup |
-|---|---|---|
-| `.claude/commands/*.md` | Codex has no user-defined slash commands | Convert to a skill at `.agents/skills/<name>/SKILL.md` invoked as `$<name>` |
-| `.claude/rules/*` | Cursor-style guidance, no Codex equivalent | Fold relevant content into AGENTS.md |
-| `.codex/rules/*.rules` | Starlark execpolicy, no Claude analogue | Leave in place; only Codex enforces it |
-| Codex `[profiles.<not local>]` | No Claude analogue | Leave in place |
+| Path                           | Reason                                     | Suggested followup                                                          |
+| ------------------------------ | ------------------------------------------ | --------------------------------------------------------------------------- |
+| `.claude/commands/*.md`        | Codex has no user-defined slash commands   | Convert to a skill at `.agents/skills/<name>/SKILL.md` invoked as `$<name>` |
+| `.claude/rules/*`              | Cursor-style guidance, no Codex equivalent | Fold relevant content into AGENTS.md                                        |
+| `.codex/rules/*.rules`         | Starlark execpolicy, no Claude analogue    | Leave in place; only Codex enforces it                                      |
+| Codex `[profiles.<not local>]` | No Claude analogue                         | Leave in place                                                              |

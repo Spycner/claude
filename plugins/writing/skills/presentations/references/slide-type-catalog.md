@@ -243,14 +243,14 @@ Speaker-note pattern: only spoken if jumped to from Q and A. Pattern: name the q
 The content-side type names above describe the role each slide plays in the argument. `workbench:crafting-presentations` works in a different vocabulary: it names rendering templates (visual layouts with slots for headline, body, image, chart, etc.). The recommended mapping below lets a host agent pass a content-side deck plan to `workbench:crafting-presentations` without re-deriving the layout from scratch each time.
 
 | Content-side type (this skill) | Recommended rendering template (`workbench:crafting-presentations`) |
-|---|---|
-| Title | Title |
-| Agenda | AgendaSlide |
-| SectionDivider | SectionDivider |
-| Decision | ContentSlide (with decision callout) |
-| Evidence | StatSlide or ContentSlide with chart |
-| Transformation | ComparisonSlide |
-| Closing | ClosingSlide |
-| Appendix | ContentSlide |
+| ------------------------------ | ------------------------------------------------------------------- |
+| Title                          | Title                                                               |
+| Agenda                         | AgendaSlide                                                         |
+| SectionDivider                 | SectionDivider                                                      |
+| Decision                       | ContentSlide (with decision callout)                                |
+| Evidence                       | StatSlide or ContentSlide with chart                                |
+| Transformation                 | ComparisonSlide                                                     |
+| Closing                        | ClosingSlide                                                        |
+| Appendix                       | ContentSlide                                                        |
 
 The mapping is a recommendation, not a constraint. `workbench:crafting-presentations` remains free to pick a different rendering when the slide's visual brief calls for it (a Decision slide whose proof is a photograph rather than a chart may render better as an ImageSlide with a decision callout, for example). The two taxonomies sit at different levels of abstraction: this skill names the slide's role in the argument (content-role), while `workbench:crafting-presentations` names the layout that paints it (render-template). A one-to-one mapping is convenient but not load-bearing.

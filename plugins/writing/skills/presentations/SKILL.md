@@ -11,7 +11,7 @@ End-to-end content design for slide decks. Five sequential phases produce: an au
 
 ## When to Use
 
-Use this skill when the user wants to plan or refine the *content* of a slide deck: who the audience is, what message moves them, how to order the slides, what each slide should say and show, what speaker notes back it up, and whether the result will land.
+Use this skill when the user wants to plan or refine the _content_ of a slide deck: who the audience is, what message moves them, how to order the slides, what each slide should say and show, what speaker notes back it up, and whether the result will land.
 
 Disambiguate against three nearby skills:
 
@@ -32,14 +32,14 @@ Filesystem operations only. The skill reads templates from its own `references/`
 
 Use the host platform's equivalent tools without changing the workflow:
 
-| Capability | Claude Code | Codex |
-|---|---|---|
-| Subagent dispatch (Phase 5 critics) | Agent tool | `spawn_agent` when available; otherwise run critics sequentially in the orchestrator |
-| Progress list | TaskCreate, TaskUpdate | `update_plan` |
-| User questions (Phase 1 intake) | AskUserQuestion | Ask a concise direct question, or use the host structured question tool when available |
-| File reads | Read | shell reads such as `sed`, `rg`, or equivalent file read tools |
-| File writes and edits | Write, Edit | `apply_patch` or equivalent file edit tools |
-| Shell | Bash | shell command tool |
+| Capability                          | Claude Code            | Codex                                                                                  |
+| ----------------------------------- | ---------------------- | -------------------------------------------------------------------------------------- |
+| Subagent dispatch (Phase 5 critics) | Agent tool             | `spawn_agent` when available; otherwise run critics sequentially in the orchestrator   |
+| Progress list                       | TaskCreate, TaskUpdate | `update_plan`                                                                          |
+| User questions (Phase 1 intake)     | AskUserQuestion        | Ask a concise direct question, or use the host structured question tool when available |
+| File reads                          | Read                   | shell reads such as `sed`, `rg`, or equivalent file read tools                         |
+| File writes and edits               | Write, Edit            | `apply_patch` or equivalent file edit tools                                            |
+| Shell                               | Bash                   | shell command tool                                                                     |
 
 When a platform cannot dispatch subagents, run the three Phase 5 critic personas inline in the orchestrator: load each persona prompt from `references/critic-prompts.md`, run its analysis, append its findings to `audit-report.md`, and continue.
 
@@ -172,7 +172,7 @@ The `deck.md` artifact's per-slide YAML front-matter is the hand-off contract to
 ## Edge Cases
 
 - **Missing prerequisite artifact on phase jump.** If the user invokes `--phase 4` and `storyboard.md` is missing, ask via the host question primitive whether to (a) run Phase 3 first, (b) accept a degraded run where Phase 4 reads the message architecture directly without a storyboard, or (c) cancel.
-- **Audit mode against a deck without YAML front-matter.** Real-world `deck.md` inputs are usually prose-outline markdown (one `## Slide N: <title>` per slide with bullet body) rather than the skill's per-slide YAML schema. When the input lacks the YAML schema, audit mode runs in **advisory mode**: the heuristic audit walks each check against the visible content as best it can (treating slide headings as `headline` values, bullets as implied body, and flagging the absence of every other required key as a structural finding), and the critic personas are **not** dispatched because they need the structural fields to operate reliably. The audit-report's "Recommended next steps" then prominently recommends reformatting the deck into the schema before a full Phase 5 dispatch. If the input *is* in YAML schema but has missing required keys per slide, that is a true malformation: the heuristic audit reports the missing keys and stops before dispatching critics. The user fixes the structure and re-runs.
+- **Audit mode against a deck without YAML front-matter.** Real-world `deck.md` inputs are usually prose-outline markdown (one `## Slide N: <title>` per slide with bullet body) rather than the skill's per-slide YAML schema. When the input lacks the YAML schema, audit mode runs in **advisory mode**: the heuristic audit walks each check against the visible content as best it can (treating slide headings as `headline` values, bullets as implied body, and flagging the absence of every other required key as a structural finding), and the critic personas are **not** dispatched because they need the structural fields to operate reliably. The audit-report's "Recommended next steps" then prominently recommends reformatting the deck into the schema before a full Phase 5 dispatch. If the input _is_ in YAML schema but has missing required keys per slide, that is a true malformation: the heuristic audit reports the missing keys and stops before dispatching critics. The user fixes the structure and re-runs.
 - **Critic gate fails twice.** Present remaining CRITICAL findings to the user; ask whether to mark ready with known issues, pause, or cancel. Standard convention matching the writing-plugin's panel-gate handling.
 - **Slide count band breached deliberately.** The audit checklist flags the breach; if the user accepts (for example a deliberately dense training deck), record the override in `audit-report.md` under a "User overrides" heading so reviewers can see the deviation is intentional.
 - **Governing-idea sentence too long.** If the Phase 1 governing idea is longer than 20 words, ask the user to shorten before proceeding; long governing ideas almost always indicate the audience or scope is muddled.

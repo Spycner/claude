@@ -52,6 +52,7 @@ databricks jobs list  # Will NOT use staging profile!
 ## Handling Authentication Failures
 
 When a Databricks CLI command fails with authentication error:
+
 ```
 Error: default auth: cannot configure default credentials
 ```
@@ -74,6 +75,7 @@ Error: default auth: cannot configure default credentials
    - Proceed to the OAuth Authentication Setup workflow below
 
 **Example:**
+
 ```
 User: databricks apps list
 Error: default auth: cannot configure default credentials
@@ -104,6 +106,7 @@ databricks auth login --host <workspace-url> --profile <profile-name>
 ```
 
 **CRITICAL**:
+
 1. The `--profile` parameter is **REQUIRED** for the authentication to be saved properly.
 2. **ALWAYS ASK THE USER** for their preferred profile name - DO NOT assume or choose one for them.
 3. **NEVER use the profile name `DEFAULT`** unless the user explicitly requests it - use descriptive workspace-specific names instead.
@@ -144,6 +147,7 @@ databricks auth login --host https://your-workspace.cloud.databricks.com --profi
 ### What Are Profiles?
 
 Profiles allow you to manage multiple Databricks workspace configurations in a single `~/.databrickscfg` file. Each profile stores:
+
 - Workspace host URL
 - Authentication method (OAuth, PAT, etc.)
 - Token/credential paths
@@ -153,11 +157,13 @@ Profiles allow you to manage multiple Databricks workspace configurations in a s
 **IMPORTANT**: Always use descriptive profile names. Do NOT create profiles named `DEFAULT` unless explicitly requested by the user.
 
 **Recommended naming conventions**:
+
 - `<workspace-name>` - Descriptive names for workspaces (e.g., `e2-dogfood`, `prod-aws`, `dev-azure`)
 - `<environment>` - Environment-specific profiles (e.g., `dev`, `staging`, `prod`)
 - `<team>-<environment>` - Team and environment (e.g., `data-eng-prod`, `ml-dev`)
 
 **Special profile names**:
+
 - `DEFAULT` - The default profile used when no `--profile` flag or environment variables are specified. Only create this profile if the user explicitly requests it.
 
 ### Listing Configured Profiles
@@ -169,6 +175,7 @@ databricks auth profiles
 ```
 
 Example output:
+
 ```
 Name        Host                                                 Valid
 DEFAULT     https://adb-1111111111111111.10.azuredatabricks.net  YES
@@ -198,12 +205,14 @@ databricks workspace list / --profile dev-aws
 Set environment variables to override the default profile:
 
 **DATABRICKS_CONFIG_PROFILE** - Specifies which profile to use from `~/.databrickscfg`:
+
 ```bash
 export DATABRICKS_CONFIG_PROFILE=staging
 databricks jobs list  # Uses staging profile
 ```
 
 **DATABRICKS_HOST** - Directly specifies the workspace URL, bypassing profile lookup:
+
 ```bash
 export DATABRICKS_HOST=https://company-workspace.cloud.databricks.com
 databricks jobs list  # Uses this host directly
@@ -222,6 +231,7 @@ databricks jobs list  # ERROR: Will not use staging profile!
 Instead, you **MUST** use one of these approaches:
 
 **Option 1: Use --profile flag (RECOMMENDED)**
+
 ```bash
 # ✅ WORKS in Claude Code
 databricks jobs list --profile staging
@@ -229,6 +239,7 @@ databricks clusters list --profile staging
 ```
 
 **Option 2: Chain commands with &&**
+
 ```bash
 # ✅ WORKS in Claude Code - export and command run in same shell
 export DATABRICKS_CONFIG_PROFILE=staging && databricks jobs list
@@ -236,6 +247,7 @@ export DATABRICKS_CONFIG_PROFILE=staging && databricks clusters list
 ```
 
 **Traditional Terminal Session (for reference only)**:
+
 ```bash
 # This example shows how it works in a regular terminal session
 # DO NOT use this pattern in Claude Code
@@ -266,6 +278,7 @@ cat ~/.databrickscfg
 ```
 
 Example configuration structure:
+
 ```ini
 # Note: This shows an example with a DEFAULT profile
 # When creating new profiles, use descriptive names instead
@@ -281,11 +294,13 @@ auth_type = databricks-cli
 #### Editing Profiles
 
 You can manually edit `~/.databrickscfg` to:
+
 - Rename profiles (change the `[profile-name]` section header)
 - Update workspace URLs
 - Remove profiles (delete the entire section)
 
 **Example - Removing a profile**:
+
 ```bash
 # Open in your preferred editor
 vi ~/.databrickscfg
@@ -303,6 +318,7 @@ databricks auth login --host <workspace-url> --profile <profile-name>
 ```
 
 **Remember**:
+
 - Always ask the user for their preferred profile name
 - Use descriptive names like `staging`, `prod-azure`, `dev-aws`
 - Do NOT use `DEFAULT` unless explicitly requested by the user
@@ -319,6 +335,7 @@ databricks auth login --host https://company-workspace.cloud.databricks.com --pr
 ```
 
 **In Claude Code, use --profile flag with each command (RECOMMENDED):**
+
 ```bash
 # Use profiles explicitly in commands
 databricks jobs list --profile prod-azure
@@ -327,6 +344,7 @@ databricks clusters list --profile staging
 ```
 
 **Alternatively in Claude Code, chain commands with &&:**
+
 ```bash
 # Set profile and run command in same shell
 export DATABRICKS_CONFIG_PROFILE=prod-azure && databricks jobs list
@@ -337,6 +355,7 @@ export DATABRICKS_CONFIG_PROFILE=dev-aws && databricks jobs list
 ```
 
 **Traditional Terminal Session (for reference only - NOT for Claude Code):**
+
 ```bash
 # This pattern works in regular terminals but NOT in Claude Code
 export DATABRICKS_CONFIG_PROFILE=prod-azure
@@ -358,6 +377,7 @@ When running a command, the Databricks CLI determines which workspace to use in 
 4. **`DEFAULT` profile** in `~/.databrickscfg` → Fallback
 
 **Example for traditional terminal session** (demonstrating precedence):
+
 ```bash
 # Setup
 export DATABRICKS_CONFIG_PROFILE=staging
@@ -374,6 +394,7 @@ databricks jobs list  # Uses custom-workspace.cloud.databricks.com
 ```
 
 **Claude Code version** (with chained commands):
+
 ```bash
 # Using environment variable with && chaining
 export DATABRICKS_CONFIG_PROFILE=staging && databricks jobs list
@@ -404,11 +425,13 @@ If authentication is successful, these commands should return data without error
 ### Authentication Not Saved (Config File Missing)
 
 **Symptom**: Running `databricks` commands shows:
+
 ```
 Error: default auth: cannot configure default credentials
 ```
 
 **Solution**: Make sure you included the `--profile` parameter with a descriptive name:
+
 ```bash
 databricks auth login --host <workspace-url> --profile <profile-name>
 # Example: databricks auth login --host https://company-workspace.cloud.databricks.com --profile staging
@@ -417,6 +440,7 @@ databricks auth login --host <workspace-url> --profile <profile-name>
 ### Browser Doesn't Open Automatically
 
 **Solution**:
+
 1. Check the terminal output for a URL
 2. Manually copy and paste the URL into your browser
 3. Complete the authentication
@@ -425,11 +449,13 @@ databricks auth login --host <workspace-url> --profile <profile-name>
 ### "OAuth callback server listening" But Nothing Happens
 
 **Possible causes**:
+
 1. Firewall blocking localhost connections
 2. Port 8020 already in use
 3. Browser not set as default application
 
 **Solution**:
+
 1. Check if port 8020 is available: `lsof -i :8020`
 2. Close any applications using that port
 3. Retry the authentication
@@ -470,6 +496,7 @@ databricks auth login --host <workspace-url> --profile <profile-name> --debug
 ```
 
 This shows detailed information about the OAuth flow, including:
+
 - OAuth server endpoints
 - Callback server status
 - Token exchange process
@@ -487,6 +514,7 @@ This shows detailed information about the OAuth flow, including:
 ### CI/CD Pipelines
 
 For CI/CD environments, OAuth interactive login is not suitable. Instead:
+
 - Use Service Principal authentication
 - Use Azure Managed Identity (for Azure Databricks)
 - Use AWS IAM roles (for AWS Databricks)
@@ -496,6 +524,7 @@ For CI/CD environments, OAuth interactive login is not suitable. Instead:
 ### Containerized Environments
 
 OAuth authentication works in containers if:
+
 1. A browser is available on the host machine
 2. Port forwarding is configured for the callback server
 3. The workspace URL is accessible from the container

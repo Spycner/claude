@@ -4,13 +4,13 @@ This doc maps the autopilot skill's tool references to Codex equivalents. The au
 
 ## Tool name mapping
 
-| `SKILL.md` reference | Codex equivalent |
-|---|---|
-| `Skill` | `skill` |
-| `Agent` (subagent) | Codex's task or subagent equivalent if installed; otherwise sequential execution in the main session (see below) |
-| `Monitor` | `run_in_background` plus a polling loop, or Codex's monitoring primitive if present |
-| `Bash`, `Read`, `Write`, `Edit` | Equivalent Codex tools (see `../using-workbench/references/codex-tools.md` for the broader table) |
-| `gh` | Same; invoked via the shell tool |
+| `SKILL.md` reference            | Codex equivalent                                                                                                 |
+| ------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| `Skill`                         | `skill`                                                                                                          |
+| `Agent` (subagent)              | Codex's task or subagent equivalent if installed; otherwise sequential execution in the main session (see below) |
+| `Monitor`                       | `run_in_background` plus a polling loop, or Codex's monitoring primitive if present                              |
+| `Bash`, `Read`, `Write`, `Edit` | Equivalent Codex tools (see `../using-workbench/references/codex-tools.md` for the broader table)                |
+| `gh`                            | Same; invoked via the shell tool                                                                                 |
 
 ## Subagent strategy on Codex
 

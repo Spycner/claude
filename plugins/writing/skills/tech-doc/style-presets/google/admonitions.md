@@ -7,11 +7,11 @@ Last refreshed: 2026-04-28
 
 Google uses three tiers. Tip and Important are not part of this style.
 
-| Tier | When to use | Visual marker |
-|------|-------------|---------------|
-| Note | Supplementary information that is useful but not required reading. Clarifications, reminders, cross-references. | `> **Note:**` block |
-| Caution | An action that could produce unexpected or undesirable results. Recoverable but potentially disruptive. | `> **Caution:**` block |
-| Warning | An action that could cause irreversible damage, data loss, security exposure, or hardware harm. | `> **Warning:**` block |
+| Tier    | When to use                                                                                                     | Visual marker          |
+| ------- | --------------------------------------------------------------------------------------------------------------- | ---------------------- |
+| Note    | Supplementary information that is useful but not required reading. Clarifications, reminders, cross-references. | `> **Note:**` block    |
+| Caution | An action that could produce unexpected or undesirable results. Recoverable but potentially disruptive.         | `> **Caution:**` block |
+| Warning | An action that could cause irreversible damage, data loss, security exposure, or hardware harm.                 | `> **Warning:**` block |
 
 ## Usage rules
 

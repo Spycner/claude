@@ -4,7 +4,7 @@
 
 **Dispatch:** One of six critics in the panel. Reads `draft.md` and the active style guide. Writes `critique-clarity.md`.
 
-```
+````
 Dispatched agent prompt:
   description: "Clarity critique"
   prompt: |
@@ -105,4 +105,4 @@ Dispatched agent prompt:
     ## Reviewer Feedback
 
     {REVIEWER_FEEDBACK}
-```
+````

@@ -1,0 +1,19 @@
+{
+  "name": "presentations",
+  "version": "0.1.0",
+  "description": "Design, build, review, export, and theme multi-slide HTML presentations with brand presets",
+  "author": { "name": "Pascal Göllner" },
+  "license": "MIT",
+  "keywords": ["presentations", "slides", "deck", "pptx", "presets", "presenter"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Presentations",
+    "shortDescription": "Build and perfect HTML slide decks with brand presets",
+    "longDescription": "Four skills covering the full presentation lifecycle: designing-presentations plans the content into a deck.md storyboard, creating-presentations renders and perfects multi-slide HTML decks styled from brand presets with a two-window presenter view, exporting-presentations-to-pptx converts a finished deck into native editable PowerPoint, and extracting-presets turns brand material into reusable presets.",
+    "developerName": "Pascal Göllner",
+    "category": "Productivity",
+    "capabilities": ["Interactive", "Write"],
+    "defaultPrompt": ["Build a presentation from this document"],
+    "screenshots": []
+  }
+}

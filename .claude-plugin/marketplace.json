@@ -26,7 +26,7 @@
       "name": "writing",
       "source": "./plugins/writing",
       "description": "Draft, structure, review, and finish prose and technical docs.",
-      "version": "1.7.1"
+      "version": "2.0.0"
     },
     {
       "name": "runtime-bridge",
@@ -38,13 +38,13 @@
       "name": "agent-system-management",
       "source": "./plugins/agent-system-management",
       "description": "Audit AGENTS.md / CLAUDE.md, capture session learnings, and create Claude Code / Codex skills.",
-      "version": "0.5.1"
+      "version": "0.5.2"
     },
     {
       "name": "workbench",
       "source": "./plugins/workbench",
       "description": "Personal Workbench skills for design and autonomous feature work.",
-      "version": "0.21.1"
+      "version": "0.22.0"
     },
     {
       "name": "terminal",
@@ -75,6 +75,18 @@
       "source": "./plugins/learning",
       "description": "Socratic teach-and-quiz skills plus a pre-work blind-spot survey, so you deeply understand a session, a topic, or an unfamiliar area.",
       "version": "0.2.1"
+    },
+    {
+      "name": "presentations",
+      "source": "./plugins/presentations",
+      "description": "Presentation lifecycle skills: content design, HTML deck building with brand presets and a perfecting loop, native PPTX export, and preset extraction.",
+      "version": "0.1.0"
+    },
+    {
+      "name": "deprecated",
+      "source": "./plugins/deprecated",
+      "description": "Archive of superseded skills kept installable for old workflows; every skill points at its replacement.",
+      "version": "0.1.0"
     }
   ]
 }

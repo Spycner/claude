@@ -2,7 +2,7 @@
 # Test: agent-system-management:creating-skills skill structure
 # Verifies SKILL.md exists with valid frontmatter, the five reference files and
 # three agent docs exist and are mentioned, the eval pipeline (scripts,
-# eval-viewer, assets) is present, plugin manifests are at 0.5.1, and the whole
+# eval-viewer, assets) is present, plugin manifests are at 0.5.2, and the whole
 # skill subtree is free of em-dashes and en-dashes.
 set -euo pipefail
 
@@ -17,8 +17,8 @@ SKILL_MD="$SKILL_DIR/SKILL.md"
 echo "=== Test: agent-system-management:creating-skills skill structure ==="
 echo ""
 
-# Test 1: Plugin manifests exist, parse, and are at 0.5.1
-echo "Test 1: Plugin manifests at 0.5.1..."
+# Test 1: Plugin manifests exist, parse, and are at 0.5.2
+echo "Test 1: Plugin manifests at 0.5.2..."
 for manifest in .claude-plugin/plugin.json .codex-plugin/plugin.json; do
     f="$PLUGIN_ROOT/$manifest"
     if [ ! -f "$f" ]; then
@@ -30,11 +30,11 @@ for manifest in .claude-plugin/plugin.json .codex-plugin/plugin.json; do
         exit 1
     fi
     version=$(jq -r .version "$f")
-    if [ "$version" != "0.5.1" ]; then
-        echo "  [FAIL] $manifest version is $version, expected 0.5.1"
+    if [ "$version" != "0.5.2" ]; then
+        echo "  [FAIL] $manifest version is $version, expected 0.5.2"
         exit 1
     fi
-    echo "  [PASS] $manifest exists, parses, version 0.5.1"
+    echo "  [PASS] $manifest exists, parses, version 0.5.2"
 done
 echo ""
 
@@ -194,10 +194,10 @@ else
     echo "  [FAIL] AGENTS.md missing plugin version bump rule"
     exit 1
 fi
-if jq -e '.plugins[] | select(.name == "agent-system-management") | .version == "0.5.1"' "$REPO_ROOT/.claude-plugin/marketplace.json" >/dev/null; then
-    echo "  [PASS] Claude marketplace agent-system-management at 0.5.1"
+if jq -e '.plugins[] | select(.name == "agent-system-management") | .version == "0.5.2"' "$REPO_ROOT/.claude-plugin/marketplace.json" >/dev/null; then
+    echo "  [PASS] Claude marketplace agent-system-management at 0.5.2"
 else
-    echo "  [FAIL] Claude marketplace agent-system-management not at 0.5.1"
+    echo "  [FAIL] Claude marketplace agent-system-management not at 0.5.2"
     exit 1
 fi
 echo ""

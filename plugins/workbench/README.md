@@ -19,8 +19,8 @@ Workbench skills for design dialogue, skill routing, and profile driven feature 
 - `systematic-debugging`: Root-cause investigation before proposing bug fixes.
 - `crafting-html`: Reference gallery of 21 HTML artifact patterns for standalone HTML artifacts.
 - `crafting-design-systems`: Design systems (CSS variables, components, images) that theme HTML producers.
-- `crafting-presentations`: Multi-slide HTML decks with a deck-stage engine, slide-type catalog, and presenter view with live-editable speaker notes.
-- `exporting-decks-to-pptx`: Export a deck-stage HTML deck to a native, editable PowerPoint (.pptx) via python-pptx.
+
+Multi-slide presentation skills (building, perfecting, PPTX export) moved to the `presentations` plugin.
 
 ## Project profiles
 

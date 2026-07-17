@@ -15,14 +15,14 @@ licensed under the Apache License, Version 2.0:
 
 Apache License 2.0: http://www.apache.org/licenses/LICENSE-2.0
 
-The skills/creating-skills skill is ported from the AIDE-claude-plugins
-marketplace (deloitte-de-innersource/AIDE-claude-plugins, claude-setup plugin,
+The skills/creating-skills skill is ported from a private plugin
+marketplace maintained by the same author (claude-setup plugin,
 commit b092d56), which is itself derived from:
 
   - Anthropic's skill-creator skill (https://github.com/anthropics/skills),
     Apache License 2.0. The bundled skills/creating-skills/LICENSE.txt is
     that upstream license. The upstream commit was not recorded at the
-    original port; provenance is reproducible via the AIDE commit above.
+    original port; provenance is reproducible via the commit above.
       - SKILL.md, agents/, scripts/, eval-viewer/, assets/,
         references/schemas.md (adapted)
   - Matt Pocock's writing-great-skills skill

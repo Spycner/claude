@@ -195,6 +195,38 @@
         "displayName": "Learning",
         "shortDescription": "Get taught and quizzed to mastery, or survey your blind spots"
       }
+    },
+    {
+      "name": "presentations",
+      "source": {
+        "source": "local",
+        "path": "./plugins/presentations"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity",
+      "interface": {
+        "displayName": "Presentations",
+        "shortDescription": "Build and perfect HTML slide decks with brand presets"
+      }
+    },
+    {
+      "name": "deprecated",
+      "source": {
+        "source": "local",
+        "path": "./plugins/deprecated"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity",
+      "interface": {
+        "displayName": "Deprecated",
+        "shortDescription": "Archive of superseded skills; prefer the replacements"
+      }
     }
   ]
 }

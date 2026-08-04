@@ -25,13 +25,10 @@ Bundles 14 plugins across Atlassian, Google Workspace, Databricks, agent-system 
 | `writing-plans`                   | `workbench`               | Turn approved specs into concrete implementation plans                                                                      |
 | `visualizing-options`             | `workbench`               | Browser-based visual companion for layout choices                                                                           |
 | `using-workbench`                 | `workbench`               | Load Workbench skill rules and routing                                                                                      |
-| `terse-mode`                      | `workbench`               | Compact token-saving replies until disabled                                                                                 |
-| `autopilot`                       | `workbench`               | Ship a feature from brainstorm to PR using a project profile                                                                |
-| `copilot`                         | `workbench`               | Human-in-the-loop autopilot: you drive brainstorm and spec, the agent ships the rest                                        |
+| `pilot`                           | `workbench`               | Ship a feature end to end with configurable human gates; replaces autopilot and copilot                                     |
 | `verification-before-completion`  | `workbench`               | Require fresh verification evidence before completion claims                                                                |
 | `test-driven-development`         | `workbench`               | Enforce test-first RED-GREEN-REFACTOR implementation discipline                                                             |
-| `dispatching-parallel-agents`     | `workbench`               | Split independent tasks across concurrent agents                                                                            |
-| `subagent-driven-development`     | `workbench`               | Execute implementation plans with fresh agents and review gates                                                             |
+| `subagent-driven-development`     | `workbench`               | Execute implementation plans with fresh agents and review gates, including parallel dispatch                                |
 | `systematic-debugging`            | `workbench`               | Root-cause investigation before proposing bug fixes                                                                         |
 | `crafting-html`                   | `workbench`               | Reference gallery of 21 HTML artifact patterns                                                                              |
 | `crafting-design-systems`         | `workbench`               | Design systems (CSS variables, components, images) that theme HTML producers                                                |
@@ -49,9 +46,9 @@ Bundles 14 plugins across Atlassian, Google Workspace, Databricks, agent-system 
 | `exporting-presentations-to-pptx` | `presentations`           | Convert a finished HTML deck into a native, editable PowerPoint (.pptx) via python-pptx                                     |
 | `extracting-presets`              | `presentations`           | Turn brand material (PPTX templates, PDF guidelines, decks) into reusable presentation presets                              |
 
-The `deprecated` plugin additionally archives four superseded skills (`crafting-presentations`, `perfecting-presentations`, `exporting-decks-to-pptx`, `presentations`); each points at its replacement in the `presentations` plugin.
+The `deprecated` plugin additionally archives eight superseded skills: `crafting-presentations`, `perfecting-presentations`, `exporting-decks-to-pptx`, `presentations` point at their replacement in the `presentations` plugin; `autopilot`, `copilot`, `dispatching-parallel-agents`, `terse-mode` point at their replacement in the `workbench` plugin (`terse-mode` retires without replacement).
 
-Skills are invoked from the host agent (Claude Code or Codex) using the fully qualified form `/<plugin>:<skill>`, for example `/atlassian:jira` or `/workbench:autopilot`.
+Skills are invoked from the host agent (Claude Code or Codex) using the fully qualified form `/<plugin>:<skill>`, for example `/atlassian:jira` or `/workbench:pilot`.
 
 ## Installation
 
@@ -186,25 +183,24 @@ Workbench skills for design dialogue, skill routing, and profile-driven feature 
 
 **Skills:**
 
-- `/workbench:brainstorming`: Sequential question-and-answer loop to clarify design intent. Hands off to `writing-spec` when the design is ready to be written down.
+- `/workbench:brainstorming`: Sequential question-and-answer loop to clarify design intent, scaled to the medium and large triage lanes. Hands off to `writing-spec` in the large lane, or to `writing-plans`' Design preamble mode in the medium lane.
 - `/workbench:writing-spec`: Synthesize a design discussion into a spec doc, run a fresh-eyes self-review subagent, gate on user approval, then hand off to `workbench:writing-plans`.
-- `/workbench:writing-plans`: Turn approved specs into concrete implementation plans.
+- `/workbench:writing-plans`: Turn approved specs into concrete, slice-ordered implementation plans at program-design altitude.
 - `/workbench:visualizing-options`: Browser-based visual companion for mockups, layout comparisons, wireframes, and architecture diagrams.
-- `/workbench:using-workbench`: Load Workbench skill rules and routing.
-- `/workbench:terse-mode`: Compact token-saving replies until disabled.
-- `/workbench:autopilot`: Ship a feature from brainstorm to PR using a project profile. Profile schema documented in `plugins/workbench/skills/autopilot/references/profile-schema.md`.
-- `/workbench:copilot`: Human-in-the-loop sibling of `autopilot`. You drive the brainstorm and spec by hand; the agent automates plan, implementation, docs, audit, and PR. Reads the same `.workbench/autopilot.md` profile as `autopilot`.
+- `/workbench:using-workbench`: Load Workbench skill rules and routing; triages every task into the quick, medium, or large lane.
+- `/workbench:pilot`: Ship a feature end to end with configurable human gates, from design through PR. Replaces `autopilot` and `copilot`: `Gates: none` runs fully autonomous (the old autopilot behavior), `Gates: design` pauses for a human-driven brainstorm and spec approval (the old copilot behavior), and the default `Gates: design, slices` also pauses to review each slice's diff before the next one starts. Profile schema documented in `plugins/workbench/skills/pilot/references/profile-schema.md`.
 - `/workbench:verification-before-completion`: Require fresh verification evidence before completion claims.
 - `/workbench:test-driven-development`: Enforce test-first RED-GREEN-REFACTOR implementation discipline.
-- `/workbench:dispatching-parallel-agents`: Split independent tasks across concurrent agents.
-- `/workbench:subagent-driven-development`: Execute implementation plans with fresh agents and review gates.
+- `/workbench:subagent-driven-development`: Execute implementation plans with fresh agents and review gates, including parallel dispatch across independent tasks.
 - `/workbench:systematic-debugging`: Enforce root-cause investigation before proposing bug fixes; bundles techniques for backward stack tracing, defense in depth, and condition-based waiting.
 - `/workbench:crafting-html`: Reference gallery of 21 HTML artifact patterns vendored from `ThariqS/html-effectiveness`. Activates for standalone HTML artifacts not covered by specs, plans, brainstorm summaries, debug reports, or research reports.
 - `/workbench:crafting-design-systems`: Create reusable design systems (CSS variables, components, images) at project (`.workbench/design-systems/<name>/`) or user (`~/.claude/workbench/design-systems/<name>/`) scope. HTML producers inline the active design system over their template defaults.
 
 Multi-slide presentation skills (deck building, review loop, PPTX export) moved to the `presentations` plugin.
 
-`writing-spec`, `writing-plans`, `brainstorming`, and `systematic-debugging` can emit either markdown or HTML; defaults are markdown for specs and plans, HTML for brainstorm summaries and debug reports. Override per invocation or via `.workbench/config.md` (schema in `plugins/workbench/skills/autopilot/references/config-schema.md`).
+`writing-spec`, `writing-plans`, `brainstorming`, and `systematic-debugging` can emit either markdown or HTML; defaults are markdown for specs and plans, HTML for brainstorm summaries and debug reports. Override per invocation or via `.workbench/config.md` (schema in `plugins/workbench/skills/pilot/references/config-schema.md`).
+
+**Migration note:** 1.0.0 merged autopilot and copilot into pilot; rename `.workbench/autopilot.md` to `.workbench/pilot.md`, then add `Gates: none` to keep autopilot's fully autonomous behavior or `Gates: design` to keep copilot's behavior. Omitting the row gets the new default, `Gates: design, slices`, which adds a per-slice review pause.
 
 ### terminal
 
@@ -273,7 +269,7 @@ Styling flows through presets (contract in `plugins/presentations/presets/README
 
 ### deprecated
 
-Archive of superseded skills, kept installable so old workflows keep resolving. Each skill is frozen, carries a deprecation banner, and names its replacement: `crafting-presentations`, `perfecting-presentations`, and `exporting-decks-to-pptx` (formerly `workbench`) plus `presentations` (formerly `writing`) all point at the `presentations` plugin. Do not install alongside `presentations` unless you need the old skill names.
+Archive of superseded skills, kept installable so old workflows keep resolving. Each skill is frozen, carries a deprecation banner, and names its replacement: `crafting-presentations`, `perfecting-presentations`, and `exporting-decks-to-pptx` (formerly `workbench`) plus `presentations` (formerly `writing`) point at the `presentations` plugin; `autopilot`, `copilot`, and `dispatching-parallel-agents` (formerly `workbench`) point at their replacements in the `workbench` plugin (`pilot` and `subagent-driven-development`), and `terse-mode` (formerly `workbench`) retires without replacement. Do not install alongside `presentations` or `workbench` unless you need the old skill names.
 
 ---
 

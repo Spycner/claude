@@ -9,24 +9,21 @@ Workbench skills for design dialogue, skill routing, and profile driven feature 
 - `writing-plans`: Turn approved specs into concrete implementation plans.
 - `visualizing-options`: Browser-based visual companion for mockups, layout comparisons, wireframes, and architecture diagrams.
 - `using-workbench`: Load Workbench skill rules and routing.
-- `terse-mode`: Explicit session switch for compact token-saving replies.
-- `autopilot`: Ship a feature from brainstorm to PR using a project profile.
-- `copilot`: Human-in-the-loop autopilot; you drive brainstorm and spec, the agent ships the rest.
+- `pilot`: Ship a feature end to end with configurable human gates; replaces autopilot and copilot.
 - `verification-before-completion`: Require fresh verification evidence before completion claims.
 - `test-driven-development`: Enforce test-first RED-GREEN-REFACTOR implementation discipline.
-- `dispatching-parallel-agents`: Split independent tasks across concurrent agents.
-- `subagent-driven-development`: Execute implementation plans with fresh agents and review gates.
+- `subagent-driven-development`: Execute implementation plans with fresh agents and review gates; absorbs dispatching-parallel-agents' parallel dispatch rules.
 - `systematic-debugging`: Root-cause investigation before proposing bug fixes.
 - `crafting-html`: Reference gallery of 21 HTML artifact patterns for standalone HTML artifacts.
 - `crafting-design-systems`: Design systems (CSS variables, components, images) that theme HTML producers.
 
-Multi-slide presentation skills (building, perfecting, PPTX export) moved to the `presentations` plugin.
+Multi-slide presentation skills (building, perfecting, PPTX export) moved to the `presentations` plugin. `terse-mode` retires without replacement.
 
 ## Project profiles
 
-Workbench owns reusable workflow kernels. Projects own local policy through small profile files at `.workbench/<skill>.md`. See [`skills/autopilot/references/profile-schema.md`](skills/autopilot/references/profile-schema.md) for the autopilot schema and [`skills/autopilot/references/example-project-profile.md`](skills/autopilot/references/example-project-profile.md) for examples.
+Workbench owns reusable workflow kernels. Projects own local policy through small profile files at `.workbench/<skill>.md`. See [`skills/pilot/references/profile-schema.md`](skills/pilot/references/profile-schema.md) for the pilot schema and [`skills/pilot/references/example-project-profile.md`](skills/pilot/references/example-project-profile.md) for examples.
 
-Workbench ships the steps, audit, and invariants. The project profile carries PR behavior, hooks, and audit overrides. Project information that already lives in `CLAUDE.md` or `AGENTS.md` stays there.
+Workbench ships the steps and invariants. The project profile carries PR behavior and hooks. Project information that already lives in `CLAUDE.md` or `AGENTS.md` stays there.
 
 ## Coexistence
 

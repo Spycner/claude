@@ -7,15 +7,20 @@ description: "Use before creative work to grill the user toward a shared design 
 
 Help turn ideas into well-formed designs through natural collaborative dialogue.
 
-Start by understanding the current project context, then ask questions one at a time to refine the idea. Once the design is clear and the user approves, hand off to `workbench:writing-spec`.
+Start by understanding the current project context, then ask questions one at a time to refine the idea. Once the design is clear and the user approves, hand off by lane: `workbench:writing-spec` in the large lane, or `workbench:writing-plans` in its Design-preamble mode in the medium lane.
 
 <HARD-GATE>
 Do NOT invoke any implementation skill, write any code, scaffold any project, or take any implementation action until you have presented a design and the user has approved it. This applies to EVERY project regardless of perceived simplicity.
 </HARD-GATE>
 
-## Anti-Pattern: "This Is Too Simple To Need A Design"
+## Lane scaling
 
-Every project goes through this process. A todo list, a single-function utility, a config change: all of them. Simple projects are where unexamined assumptions cause the most wasted work. The design can be short (a few sentences for truly simple projects), but you MUST present it and get approval.
+Lane routing happens before this skill is invoked (see `workbench:using-workbench`). The quick lane never enters this skill. This skill serves two lanes:
+
+- **Medium lane:** a few targeted questions, converging quickly on the decisions that feed the combined doc's `## Design` preamble.
+- **Large lane:** full depth-first grilling toward a spec, as described below.
+
+The HARD-GATE above applies within both the medium and large lanes: no implementation until the design, however short in the medium lane, is presented and approved.
 
 ## Checklist
 
@@ -26,7 +31,7 @@ You MUST create a task for each of these items and complete them in order:
 3. **Grill exhaustively until a shared design concept emerges**: walk the design tree depth-first, resolving each branch's dependencies before moving to the next.
 4. **Propose 2-3 approaches**: with trade-offs and your recommendation.
 5. **Present design**: in sections scaled to their complexity, get user approval after each section.
-6. **Recommend `workbench:writing-spec`** as the terminal step. That skill writes the spec doc, runs self-review, and gates on user approval.
+6. **Recommend the lane's next skill** as the terminal step: `workbench:writing-spec` in the large lane (spec doc, self-review, approval gate), or `workbench:writing-plans` in its Design-preamble mode in the medium lane (combined doc).
 
 ## Grilling toward a shared design concept
 
@@ -44,7 +49,7 @@ When choosing which branch to walk next, pick the one whose answers could invali
 
 Within the first few questions, ask once whether the user can point at reference artifacts: existing code in this or another repo (even another language), an HTML mockup, a similar feature in another system, an API to mirror. If they name one, read it completely before the next question, then play back what you took from it: what to imitate, what to diverge from, what to omit. Treat the artifact as the answer to every design-tree branch it settles and spend the remaining questions only on the deltas. Record each artifact's path or URL in the Q and A record so the brainstorm summary and the downstream spec can cite it.
 
-In autonomous runs where the user is not present (for example inside `workbench:autopilot`), substitute a search for the ask: extend the checklist-item-1 exploration subagent's prompt with "also report the closest existing implementation of anything similar in this repo, with paths", and read what it finds before self-answering.
+In autonomous runs where the user is not present (for example in a gateless `workbench:pilot` run), substitute a search for the ask: extend the checklist-item-1 exploration subagent's prompt with "also report the closest existing implementation of anything similar in this repo, with paths", and read what it finds before self-answering.
 
 **Take an adversarial posture.**
 
@@ -55,11 +60,11 @@ Probe for unstated assumptions, latent constraints, and edge cases the user has 
 1. You cannot think of a question whose answer would change the design.
 2. The user can re-state the design concept back to you in their own words.
 
-Do not stop at "I have enough to write a spec." A numeric question minimum is not the rule; depth and convergence are.
+Do not stop at "I have enough to write the downstream doc" (the spec in the large lane, the combined doc's `## Design` preamble in the medium lane). A numeric question minimum is not the rule; depth and convergence are.
 
 **Scale to scope.**
 
-The Anti-Pattern carve-out still applies. A one-line config change might converge in three questions. A new subsystem will not. Trust the design tree to tell you when there is more to ask. In autonomous runs where the user is not present (for example inside `workbench:autopilot`), substitute the second stop-rule clause with "the self-answered Q&A converges on a `## Decision` block whose design concept covers every branch you walked."
+The lane-scaling carve-out still applies. A medium-lane question set might converge in three questions. A new subsystem will not. Trust the design tree to tell you when there is more to ask. In autonomous runs where the user is not present (for example in a gateless `workbench:pilot` run), substitute the second stop-rule clause with "the self-answered Q&A converges on a `## Decision` block whose design concept covers every branch you walked."
 
 ## Process Flow
 
@@ -72,7 +77,7 @@ digraph brainstorming {
     "Propose 2-3 approaches" [shape=box];
     "Present design sections" [shape=box];
     "User approves design?" [shape=diamond];
-    "Recommend workbench:writing-spec" [shape=doublecircle];
+    "Recommend next skill by lane\n(spec: large / plan preamble: medium)" [shape=doublecircle];
 
     "Explore project context" -> "Visual questions ahead?";
     "Visual questions ahead?" -> "Mention workbench:visualizing-options\n(own message)" [label="yes"];
@@ -82,7 +87,7 @@ digraph brainstorming {
     "Propose 2-3 approaches" -> "Present design sections";
     "Present design sections" -> "User approves design?";
     "User approves design?" -> "Present design sections" [label="no, revise"];
-    "User approves design?" -> "Recommend workbench:writing-spec" [label="yes"];
+    "User approves design?" -> "Recommend next skill by lane\n(spec: large / plan preamble: medium)" [label="yes"];
 }
 ```
 
@@ -136,7 +141,7 @@ If the user stalls on a visual question ("I don't know", "whatever looks good"),
 
 ## Handoff
 
-Once the user has approved the design, your terminal action is to recommend `workbench:writing-spec`. Do NOT invoke any implementation skill, do NOT write the spec yourself, and do NOT proceed to planning. The spec writing skill takes over from there, runs its self-review, and gates on user approval before handing off to `workbench:writing-plans`.
+Once the user has approved the design, your terminal action is to recommend the lane's next skill: `workbench:writing-spec` in the large lane, or `workbench:writing-plans` in its Design-preamble mode in the medium lane. Do NOT invoke any implementation skill and do NOT write the downstream artifact yourself. In the large lane the spec skill runs its self-review and gates on user approval before handing off to `workbench:writing-plans`.
 
 The conversation itself is the handoff payload; the summary file is a record, not the interface between skills.
 
@@ -158,7 +163,7 @@ Default for this artifact: **html**.
 Override resolution order, highest precedence first:
 
 1. Per-invocation override in the user prompt. Recognize phrases like `"a markdown brainstorm summary"`, `"in HTML"`, `"as a markdown summary"`, and equivalents.
-2. `.workbench/config.md` `## Output formats` entry for `Brainstorm summaries:`. Schema documented in `plugins/workbench/skills/autopilot/references/config-schema.md`.
+2. `.workbench/config.md` `## Output formats` entry for `Brainstorm summaries:`. Schema documented in `plugins/workbench/skills/pilot/references/config-schema.md`.
 3. Per-skill hard-coded default (html).
 
 Path: `.workbench/brainstorms/YYYY-MM-DD-<topic>-brainstorm.<ext>` by default, where `<ext>` resolves from format. Override path via `.workbench/config.md` `## Output paths` `Brainstorm summaries:`.
@@ -172,9 +177,9 @@ Once the user has approved the design, record the conversation by writing a brai
 - Q and A timeline of clarifying questions and user answers.
 - Agreed design (sections approved during the conversation).
 - Parking-lot items (deferred topics).
-- Handoff link to the next step (writing-spec).
+- Handoff link to the next step (writing-spec in the large lane, writing-plans in the medium lane).
 
-Announce the file path in the conversation when emitting (for example: "Brainstorm summary written to `.workbench/brainstorms/2026-05-08-html-artifacts-brainstorm.html`") so the user is not surprised. The recommendation of `workbench:writing-spec` then follows in the same final message.
+Announce the file path in the conversation when emitting (for example: "Brainstorm summary written to `.workbench/brainstorms/2026-05-08-html-artifacts-brainstorm.html`") so the user is not surprised. The lane-appropriate handoff recommendation then follows in the same final message.
 
 For other HTML artifact types not covered by a workbench or research skill, see `workbench:crafting-html`.
 

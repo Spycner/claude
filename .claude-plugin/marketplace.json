@@ -44,7 +44,7 @@
       "name": "workbench",
       "source": "./plugins/workbench",
       "description": "Personal Workbench skills for design and autonomous feature work.",
-      "version": "0.22.0"
+      "version": "1.0.0"
     },
     {
       "name": "terminal",
@@ -86,7 +86,7 @@
       "name": "deprecated",
       "source": "./plugins/deprecated",
       "description": "Archive of superseded skills kept installable for old workflows; every skill points at its replacement.",
-      "version": "0.1.0"
+      "version": "0.2.0"
     }
   ]
 }

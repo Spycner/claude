@@ -1,6 +1,6 @@
 {
   "name": "workbench",
-  "version": "0.22.0",
+  "version": "1.0.0",
   "description": "Personal Workbench skills for design and autonomous feature work.",
   "author": {
     "name": "Pascal Göllner"
@@ -12,13 +12,13 @@
     "design",
     "specs",
     "workflow",
-    "autopilot"
+    "pilot"
   ],
   "skills": "./skills/",
   "interface": {
     "displayName": "Workbench",
     "shortDescription": "Design and ship with Workbench skills",
-    "longDescription": "Use Workbench for design dialogue, skill routing, and profile driven feature shipping through autopilot.",
+    "longDescription": "Use Workbench for design dialogue, skill routing, and profile driven feature shipping through pilot.",
     "developerName": "Pascal Göllner",
     "category": "Productivity",
     "capabilities": [
@@ -29,7 +29,7 @@
       "Help me brainstorm a new feature",
       "Turn my idea into a spec",
       "Run the design dialogue for this project",
-      "Use autopilot to autonomously ship this feature"
+      "Use pilot to autonomously ship this feature"
     ],
     "screenshots": []
   }

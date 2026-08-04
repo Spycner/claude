@@ -1,9 +1,11 @@
 ---
 name: autopilot
-description: Autopilot for autonomous feature shipping from brainstorm to PR using .workbench/autopilot.md.
+description: Deprecated, superseded by workbench:pilot. Formerly autopilot for autonomous feature shipping from brainstorm to PR using .workbench/autopilot.md.
 ---
 
 # Autopilot: autonomous feature flow
+
+> **Deprecated.** Superseded by `workbench:pilot`, which replaces both autopilot and copilot with one orchestrator and composable human gates. This copy is archived and no longer maintained. The project profile is now `.workbench/pilot.md` (rename your `.workbench/autopilot.md`).
 
 You are running the workbench autopilot workflow. The user has opted into autonomous mode: make your own recommendations, do not pause for confirmation on routine choices, only stop if the topic is too large for a single spec (then decompose and ask which sub-topic to tackle first).
 
@@ -69,7 +71,7 @@ Read `references/required-skills.md` for the full table and `replaces` / `additi
 | 2      | `workbench:brainstorming`                                                                                                 |
 | 3      | `workbench:writing-spec`                                                                                                  |
 | 4      | `workbench:writing-plans`                                                                                                 |
-| 5      | `workbench:test-driven-development`, `workbench:dispatching-parallel-agents`, and `workbench:subagent-driven-development` |
+| 5      | `workbench:test-driven-development`, `deprecated:dispatching-parallel-agents`, and `workbench:subagent-driven-development` |
 | 6      | `agent-system-management:capturing-session-learnings` and `agent-system-management:improving-instructions`                |
 | pre-PR | `workbench:verification-before-completion`                                                                                |
 
@@ -158,7 +160,7 @@ If `Hooks.post_plan` is defined, run it now with `{{plan_path}}` substituted.
 
 ### Step 5: Execute the plan
 
-**First actions, in order:** invoke `workbench:test-driven-development`, then `workbench:dispatching-parallel-agents`, then `workbench:subagent-driven-development`. All three via the `Skill` tool. (Replace any of them if the profile says so.) TDD governs every implementation chunk, dispatching-parallel-agents governs safe fanout, and subagent-driven-development governs how chunks run.
+**First actions, in order:** invoke `workbench:test-driven-development`, then `deprecated:dispatching-parallel-agents`, then `workbench:subagent-driven-development`. All three via the `Skill` tool. (Replace any of them if the profile says so.) TDD governs every implementation chunk, dispatching-parallel-agents governs safe fanout, and subagent-driven-development governs how chunks run.
 
 **Subagent dispatch (Claude Code):** see `references/claude-code-adapter.md` for the full pattern. Summary:
 

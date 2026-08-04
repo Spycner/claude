@@ -1,9 +1,11 @@
 ---
 name: terse-mode
-description: Use only when the user explicitly asks to switch the session into terse mode, terse-mode, less tokens mode, token saving mode, or /terse-mode.
+description: Deprecated and retired without replacement. Formerly used only when the user explicitly asked to switch the session into terse mode, terse-mode, less tokens mode, token saving mode, or /terse-mode.
 ---
 
 # Terse Mode
+
+> **Deprecated.** Retired without replacement. This copy is archived and no longer maintained.
 
 Switch future responses into a compact token-saving style until the user explicitly disables it.
 

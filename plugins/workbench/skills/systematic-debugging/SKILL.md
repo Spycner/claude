@@ -149,7 +149,7 @@ Default for this artifact: **html**.
 Override resolution order, highest precedence first:
 
 1. Per-invocation override in the user prompt. Recognize phrases like `"a markdown debug report"`, `"in HTML"`, `"as a markdown report"`, and equivalents.
-2. `.workbench/config.md` `## Output formats` entry for `Debug reports:`. Schema documented in `plugins/workbench/skills/autopilot/references/config-schema.md`.
+2. `.workbench/config.md` `## Output formats` entry for `Debug reports:`. Schema documented in `plugins/workbench/skills/pilot/references/config-schema.md`.
 3. Per-skill hard-coded default (html).
 
 Path: `.workbench/debug-reports/YYYY-MM-DD-<topic>-debug.<ext>` by default. Override path via `.workbench/config.md` `## Output paths` `Debug reports:`.

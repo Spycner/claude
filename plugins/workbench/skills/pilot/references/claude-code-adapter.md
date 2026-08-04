@@ -5,13 +5,13 @@ This doc maps the pilot skill's tool references to Claude Code tool names and do
 ## Tool name mapping
 
 | `SKILL.md` reference            | Claude Code tool                                                            |
-| -------------------------------- | ----------------------------------------------------------------------------- |
-| Skill invocation                | `Skill`                                                                       |
-| Subagent dispatch               | `Agent` with `subagent_type=general-purpose` for slice tasks                  |
-| Background process / CI polling | `Monitor` for stream-style polling; `run_in_background` for fire-and-forget   |
-| Shell                            | `Bash`                                                                        |
-| File ops                         | `Read`, `Write`, `Edit`                                                      |
-| GitHub                           | `gh` (via `Bash`)                                                             |
+| ------------------------------- | --------------------------------------------------------------------------- |
+| Skill invocation                | `Skill`                                                                     |
+| Subagent dispatch               | `Agent` with `subagent_type=general-purpose` for slice tasks                |
+| Background process / CI polling | `Monitor` for stream-style polling; `run_in_background` for fire-and-forget |
+| Shell                           | `Bash`                                                                      |
+| File ops                        | `Read`, `Write`, `Edit`                                                     |
+| GitHub                          | `gh` (via `Bash`)                                                           |
 
 ## Subagent dispatch pattern (step 5)
 

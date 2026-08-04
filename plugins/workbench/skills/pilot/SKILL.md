@@ -31,11 +31,11 @@ A field that no source provides and the active step needs stops the workflow wit
 
 Lane comes from the `workbench:using-workbench` triage (step 0). Pilot proposes the lane with one line of reasoning. With any human gate active (`design` or `slices`), the user confirms the lane before step 1 begins. In a gateless run (`Gates: none`), pilot decides and records the chosen lane in the deviation log.
 
-| Lane   | Steps run                 | Notes                                                                                                                                     |
-| ------ | -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| Quick  | 0, 1, 5, 6, 7, 8, 9         | Steps 2 to 4 are skipped. Step 5 runs as one TDD-governed chunk without a plan document. The slice gate does not fire (there are no slices). The reading guide degenerates to one line. |
-| Medium | 0, 1, 2, 4, 5, 6, 7, 8, 9   | Step 3 is skipped. Step 4 writes the combined design and plan doc with a `## Design` preamble; the `design` gate applies to that doc.        |
-| Large  | 0 through 9                 | All steps run. Step 3 writes the separate spec with its own approval gate.                                                                  |
+| Lane   | Steps run                 | Notes                                                                                                                                                                                   |
+| ------ | ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Quick  | 0, 1, 5, 6, 7, 8, 9       | Steps 2 to 4 are skipped. Step 5 runs as one TDD-governed chunk without a plan document. The slice gate does not fire (there are no slices). The reading guide degenerates to one line. |
+| Medium | 0, 1, 2, 4, 5, 6, 7, 8, 9 | Step 3 is skipped. Step 4 writes the combined design and plan doc with a `## Design` preamble; the `design` gate applies to that doc.                                                   |
+| Large  | 0 through 9               | All steps run. Step 3 writes the separate spec with its own approval gate.                                                                                                              |
 
 When unsure which lane applies, `workbench:using-workbench` picks the heavier one; pilot follows that call.
 
@@ -80,16 +80,16 @@ See `references/invariants.md` for the full list. Summary:
 
 Read `references/required-skills.md` for the full table and `replaces` / `additional` semantics.
 
-| Step   | Universal skill                                                                                           | Lane                    |
-| ------ | ------------------------------------------------------------------------------------------------------------ | ------------------------ |
-| 0      | `workbench:using-workbench`                                                                                 | all                       |
-| 2      | `workbench:brainstorming`                                                                                    | medium, large             |
-| 3      | `workbench:writing-spec`                                                                                      | large                     |
-| 4      | `workbench:writing-plans`                                                                                     | medium, large             |
-| 5      | `workbench:test-driven-development`                                                                           | all                       |
-| 5      | `workbench:subagent-driven-development`                                                                       | medium, large             |
-| 6      | `agent-system-management:capturing-session-learnings` and `agent-system-management:improving-instructions`    | per `Improvement pass:`   |
-| pre-PR | `workbench:verification-before-completion`                                                                    | all                       |
+| Step   | Universal skill                                                                                            | Lane                    |
+| ------ | ---------------------------------------------------------------------------------------------------------- | ----------------------- |
+| 0      | `workbench:using-workbench`                                                                                | all                     |
+| 2      | `workbench:brainstorming`                                                                                  | medium, large           |
+| 3      | `workbench:writing-spec`                                                                                   | large                   |
+| 4      | `workbench:writing-plans`                                                                                  | medium, large           |
+| 5      | `workbench:test-driven-development`                                                                        | all                     |
+| 5      | `workbench:subagent-driven-development`                                                                    | medium, large           |
+| 6      | `agent-system-management:capturing-session-learnings` and `agent-system-management:improving-instructions` | per `Improvement pass:` |
+| pre-PR | `workbench:verification-before-completion`                                                                 | all                     |
 
 If a listed skill is unavailable in the current runtime, say so explicitly in the end-of-turn summary and skip only that entry. Never silently drop a row.
 

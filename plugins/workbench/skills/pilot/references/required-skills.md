@@ -4,17 +4,17 @@ The universal table of skills the pilot skill invokes at each step. Profiles can
 
 ## Universal table (defaults)
 
-| Step   | Skill                                                 | Notes                                                                              |
-| ------ | ------------------------------------------------------ | ------------------------------------------------------------------------------------ |
-| 0      | `workbench:using-workbench`                            | session-start meta, workbench-native fork                                          |
-| 2      | `workbench:brainstorming`                              | medium and large lanes                                                             |
-| 3      | `workbench:writing-spec`                                | large lane                                                                          |
-| 4      | `workbench:writing-plans`                               | medium and large lanes                                                             |
-| 5      | `workbench:test-driven-development`                     | governs every implementation chunk                                                 |
-| 5      | `workbench:subagent-driven-development`                 | governs plan execution with subagents, including parallel dispatch (medium and large lanes; the quick lane has no plan to execute) |
-| 6      | `agent-system-management:capturing-session-learnings`  | runs on `always`, or on `on_learnings` when the run surfaced non-obvious learnings   |
-| 6      | `agent-system-management:improving-instructions`       | runs on `always` or explicit user request only                                      |
-| pre-PR | `workbench:verification-before-completion`              | verify before push and PR readiness claims                                         |
+| Step   | Skill                                                 | Notes                                                                                                                              |
+| ------ | ----------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| 0      | `workbench:using-workbench`                           | session-start meta, workbench-native fork                                                                                          |
+| 2      | `workbench:brainstorming`                             | medium and large lanes                                                                                                             |
+| 3      | `workbench:writing-spec`                              | large lane                                                                                                                         |
+| 4      | `workbench:writing-plans`                             | medium and large lanes                                                                                                             |
+| 5      | `workbench:test-driven-development`                   | governs every implementation chunk                                                                                                 |
+| 5      | `workbench:subagent-driven-development`               | governs plan execution with subagents, including parallel dispatch (medium and large lanes; the quick lane has no plan to execute) |
+| 6      | `agent-system-management:capturing-session-learnings` | runs on `always`, or on `on_learnings` when the run surfaced non-obvious learnings                                                 |
+| 6      | `agent-system-management:improving-instructions`      | runs on `always` or explicit user request only                                                                                     |
+| pre-PR | `workbench:verification-before-completion`            | verify before push and PR readiness claims                                                                                         |
 
 These are the rows shipped with Workbench. As more skills are ported into workbench, this table flips them to `workbench:*`.
 
@@ -28,7 +28,7 @@ Profiles override the table through a `## Required skills` heading shaped like t
 ## Required skills
 
 | Step | Skill      | Action                       |
-| ---- | ---------- | ----------------------------- |
+| ---- | ---------- | ---------------------------- |
 | <n>  | <skill-id> | replaces <existing-skill-id> |
 | <n>  | <skill-id> | additional                   |
 ```

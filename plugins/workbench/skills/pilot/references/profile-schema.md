@@ -94,7 +94,7 @@ Improvement pass: <always | on_learnings | off>
 ## Required skills
 
 | Step | Skill      | Action                       |
-| ---- | ---------- | ----------------------------- |
+| ---- | ---------- | ---------------------------- |
 | <n>  | <skill-id> | replaces <existing-skill-id> |
 | <n>  | <skill-id> | additional                   |
 
@@ -108,8 +108,8 @@ Improvement pass: <always | on_learnings | off>
 | Section                     | Default                                                                                                                                                                                              |
 | --------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `## PR behavior`            | `Mode: stop_at_green`, `Base branch:` = default branch, `Squash: yes`, no hooks                                                                                                                      |
-| `## Gates`                  | `design, slices`                                                                                                                                                                                      |
-| `## Improvement pass`       | `on_learnings`                                                                                                                                                                                        |
+| `## Gates`                  | `design, slices`                                                                                                                                                                                     |
+| `## Improvement pass`       | `on_learnings`                                                                                                                                                                                       |
 | `## Required skills`        | universal table only, no overrides, no additions                                                                                                                                                     |
 | `## Project name`           | repo dir basename                                                                                                                                                                                    |
 | `## Branching`              | default branch detected via `git symbolic-ref refs/remotes/origin/HEAD`, fallback `master`; standard Conventional Commits prefixes                                                                   |
@@ -130,11 +130,11 @@ A field that no source provides and the active step needs (for example, a test c
 
 ## PR behavior modes
 
-| Mode             | Behavior                                                                                                                                                                                                       |
-| ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `stop_at_green`  | Default. Pilot stops once CI is green and reports the PR URL. The user merges manually.                                                                                                                        |
+| Mode             | Behavior                                                                                                                                                                                                        |
+| ---------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `stop_at_green`  | Default. Pilot stops once CI is green and reports the PR URL. The user merges manually.                                                                                                                         |
 | `automerge`      | Pilot runs `gh pr merge <pr> --auto --squash` (or `--merge` if `Squash: no`), polls until the PR state is `MERGED`, refreshes local default branch, deletes the feature branch, reports the merged commit hash. |
-| `request_review` | Pilot runs `gh pr ready` and posts a reviewer note; merge stays manual.                                                                                                                                        |
+| `request_review` | Pilot runs `gh pr ready` and posts a reviewer note; merge stays manual.                                                                                                                                         |
 
 ## Hooks
 

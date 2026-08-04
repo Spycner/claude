@@ -41,11 +41,11 @@ All sections optional. All fields within a section optional.
 ## Defaults when a section or field is absent
 
 | Field                | Default format | Default path               |
-| -------------------- | --------------- | ---------------------------- |
-| Specs                | md              | `.workbench/specs`           |
-| Plans                | md              | `.workbench/plans`           |
-| Brainstorm summaries | html            | `.workbench/brainstorms`     |
-| Debug reports        | html            | `.workbench/debug-reports`   |
+| -------------------- | -------------- | -------------------------- |
+| Specs                | md             | `.workbench/specs`         |
+| Plans                | md             | `.workbench/plans`         |
+| Brainstorm summaries | html           | `.workbench/brainstorms`   |
+| Debug reports        | html           | `.workbench/debug-reports` |
 
 Filenames within the directory follow `YYYY-MM-DD-<topic>-<artifact>.<ext>`, where `<ext>` is `md` or `html` per resolved format.
 

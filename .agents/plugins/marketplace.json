@@ -213,6 +213,22 @@
       }
     },
     {
+      "name": "ponytail",
+      "source": {
+        "source": "url",
+        "url": "https://github.com/DietrichGebert/ponytail.git"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity",
+      "interface": {
+        "displayName": "Ponytail",
+        "shortDescription": "Lazy senior dev mode; the simplest solution that works"
+      }
+    },
+    {
       "name": "deprecated",
       "source": {
         "source": "local",

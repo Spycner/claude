@@ -2,7 +2,7 @@
 
 Plugin marketplace for Claude Code and Codex.
 
-Bundles 14 plugins across Atlassian, Google Workspace, Databricks, agent-system management, design workflows, research, writing, presentations, terminal control, learning, and more.
+Bundles 15 plugins across Atlassian, Google Workspace, Databricks, agent-system management, design workflows, research, writing, presentations, terminal control, learning, code minimalism, and more.
 
 ## Skills at a glance
 
@@ -45,6 +45,12 @@ Bundles 14 plugins across Atlassian, Google Workspace, Databricks, agent-system 
 | `creating-presentations`          | `presentations`           | Build multi-slide HTML decks from brand presets, with a presenter view and an opt-in review-to-done loop                    |
 | `exporting-presentations-to-pptx` | `presentations`           | Convert a finished HTML deck into a native, editable PowerPoint (.pptx) via python-pptx                                     |
 | `extracting-presets`              | `presentations`           | Turn brand material (PPTX templates, PDF guidelines, decks) into reusable presentation presets                              |
+| `ponytail`                        | `ponytail`                | Force the laziest solution that works: YAGNI, stdlib first, one line over fifty                                             |
+| `ponytail-review`                 | `ponytail`                | Review a diff for over-engineering only: what to delete and what replaces it                                                |
+| `ponytail-audit`                  | `ponytail`                | Whole-repo over-engineering audit, ranked by what to delete, simplify, or replace                                           |
+| `ponytail-debt`                   | `ponytail`                | Harvest `ponytail:` shortcut comments into a tracked debt ledger                                                            |
+| `ponytail-gain`                   | `ponytail`                | Scoreboard of ponytail's measured benchmark impact                                                                          |
+| `ponytail-help`                   | `ponytail`                | Quick-reference card for ponytail modes, skills, and commands                                                               |
 
 The `deprecated` plugin additionally archives eight superseded skills: `crafting-presentations`, `perfecting-presentations`, `exporting-decks-to-pptx`, `presentations` point at their replacement in the `presentations` plugin; `autopilot`, `copilot`, `dispatching-parallel-agents`, `terse-mode` point at their replacement in the `workbench` plugin (`terse-mode` retires without replacement).
 
@@ -69,6 +75,7 @@ Skills are invoked from the host agent (Claude Code or Codex) using the fully qu
 /plugin install databricks@pgoell-claude-tools
 /plugin install learning@pgoell-claude-tools
 /plugin install presentations@pgoell-claude-tools
+/plugin install ponytail@pgoell-claude-tools
 ```
 
 The `deprecated` plugin (`/plugin install deprecated@pgoell-claude-tools`) is an archive of superseded skills; only install it if an old workflow still calls the old skill names.
@@ -83,7 +90,7 @@ codex
 /plugins
 ```
 
-In the `/plugins` picker, install any combination of `atlassian`, `google-workspace`, `research`, `writing`, `runtime-bridge`, `agent-system-management`, `workbench`, `terminal`, `frontend-design`, `playground`, `databricks`, `learning`, and `presentations` (plus `deprecated` if an old workflow needs the archived skill names).
+In the `/plugins` picker, install any combination of `atlassian`, `google-workspace`, `research`, `writing`, `runtime-bridge`, `agent-system-management`, `workbench`, `terminal`, `frontend-design`, `playground`, `databricks`, `learning`, `presentations`, and `ponytail` (plus `deprecated` if an old workflow needs the archived skill names).
 
 To pick up updates: `codex plugin marketplace upgrade pgoell-claude-tools` and re-install the affected plugins.
 
@@ -266,6 +273,23 @@ The full presentation lifecycle in one plugin: content design, HTML deck buildin
 - `/presentations:extracting-presets`: Turn brand material (PPTX templates and slide masters, PDF guidelines, icon libraries, example decks) into reusable presets: layered CSS variables, guidance files, assets, and self-contained example slides.
 
 Styling flows through presets (contract in `plugins/presentations/presets/README.md`). The plugin bundles a neutral `default` preset; project-local presets and a preset choice live under `.pgoell/presentations/` (`config.md` plus `presets/<name>/`) at the repo root of the project you are working in. Runtime dependencies (checked lazily, per branch): a Chromium-based browser, `uv`, and a container engine for preset extraction render checks.
+
+### ponytail
+
+Lazy senior dev mode: a reflex ladder that questions whether code needs to exist at all, reaches for the standard library and native platform features before dependencies, and prefers one line over fifty. Three intensity levels (`lite`, `full`, `ultra`).
+
+This is the only plugin in the marketplace that is **not vendored here**. Its entry points at [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail) (MIT) and tracks upstream `main`, so refreshing the marketplace picks up upstream changes directly. Versions and release cadence are the upstream author's, not this repo's.
+
+**Skills:**
+
+- `/ponytail:ponytail`: The core mode. Applies the reflex ladder to any coding task and marks deliberate shortcuts with `ponytail:` comments naming their ceiling and upgrade path.
+- `/ponytail:ponytail-review`: Review a diff for over-engineering only. One line per finding: location, what to cut, what replaces it. Complements correctness-focused review rather than replacing it.
+- `/ponytail:ponytail-audit`: The same lens over a whole repo instead of a diff, as a ranked list of what to delete, simplify, or replace with stdlib equivalents. Reports, does not apply fixes.
+- `/ponytail:ponytail-debt`: Harvest every `ponytail:` comment into a debt ledger so deferrals get tracked instead of rotting.
+- `/ponytail:ponytail-gain`: Scoreboard of ponytail's measured impact from its benchmark medians.
+- `/ponytail:ponytail-help`: Quick-reference card for the modes, skills, and commands.
+
+**Setup:** none beyond install, but note that ponytail ships hooks that run on `SessionStart`, `SubagentStart`, and `UserPromptSubmit`. They require `node` on `PATH`, write a mode flag to `$CLAUDE_CONFIG_DIR/.ponytail-active`, and inject the ruleset into every session automatically. Ponytail is therefore always-on once installed, not invoke-on-demand. Set the mode to `off` if you want it dormant.
 
 ### deprecated
 

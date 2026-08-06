@@ -37,7 +37,9 @@ Lane comes from the `workbench:using-workbench` triage (step 0). Pilot proposes 
 | Medium | 0, 1, 2, 4, 5, 6, 7, 8, 9 | Step 3 is skipped. Step 4 writes the combined design and plan doc with a `## Design` preamble; the `design` gate applies to that doc.                                                   |
 | Large  | 0 through 9               | All steps run. Step 3 writes the separate spec with its own approval gate.                                                                                                              |
 
-When unsure which lane applies, `workbench:using-workbench` picks the heavier one; pilot follows that call.
+Before proposing a lane, pilot runs the reflex ladder from `workbench:using-workbench` step 0. If a rung holds, the task does not get a lane: report which rung held and what to do instead, and stop rather than shipping a PR for work that should not exist. In a gateless run, log that call in the deviation log.
+
+When unsure which lane applies, `workbench:using-workbench` picks the lighter one; pilot follows that call. Pilot escalates past it only for a named user request (spec, plan, or brainstorm) or for destructive and hard-to-reverse work, the two exceptions that skill lists. An escalation on any other grounds is a deviation and gets logged with the concrete reason the lighter lane failed.
 
 ## Task List Discipline
 
@@ -88,10 +90,13 @@ Read `references/required-skills.md` for the full table and `replaces` / `additi
 | 4      | `workbench:writing-plans`                                                                                  | medium, large           |
 | 5      | `workbench:test-driven-development`                                                                        | all                     |
 | 5      | `workbench:subagent-driven-development`                                                                    | medium, large           |
+| 5      | `ponytail:ponytail` (optional, see below)                                                                  | all                     |
 | 6      | `agent-system-management:capturing-session-learnings` and `agent-system-management:improving-instructions` | per `Improvement pass:` |
 | pre-PR | `workbench:verification-before-completion`                                                                 | all                     |
 
 If a listed skill is unavailable in the current runtime, say so explicitly in the end-of-turn summary and skip only that entry. Never silently drop a row.
+
+`ponytail:ponytail` is the one optional row: it lives in a separate plugin that a project may not have installed, so its absence is expected and is not reported as a skipped requirement. It also ships hooks that inject its ruleset at session start, so when the plugin is installed the ruleset is usually already active and no explicit invocation is needed. Invoke it only if step 5 begins without it in context. Where it conflicts with `workbench:test-driven-development`, TDD wins: ponytail governs how much code gets written, never whether the test comes first.
 
 ## Runtime adapters
 

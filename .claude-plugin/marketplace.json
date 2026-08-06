@@ -44,7 +44,7 @@
       "name": "workbench",
       "source": "./plugins/workbench",
       "description": "Personal Workbench skills for design and autonomous feature work.",
-      "version": "1.0.0"
+      "version": "1.1.0"
     },
     {
       "name": "terminal",
@@ -81,6 +81,14 @@
       "source": "./plugins/presentations",
       "description": "Presentation lifecycle skills: content design, HTML deck building with brand presets and a perfecting loop, native PPTX export, and preset extraction.",
       "version": "0.1.0"
+    },
+    {
+      "name": "ponytail",
+      "source": {
+        "source": "url",
+        "url": "https://github.com/DietrichGebert/ponytail.git"
+      },
+      "description": "Lazy senior dev mode. Forces the simplest, shortest solution that actually works: YAGNI, stdlib first, no unrequested abstractions. Tracked upstream, not vendored."
     },
     {
       "name": "deprecated",

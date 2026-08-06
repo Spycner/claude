@@ -19,7 +19,26 @@ If CLAUDE.md or AGENTS.md says "don't use TDD" and a skill says "always use TDD,
 
 ## Triage: three lanes
 
-Every task routes through one of three lanes before any skill work starts. Route by cost of misunderstanding, blast radius, and reversibility, not by line count.
+### Step 0: is there anything to build?
+
+Before routing to a lane, run the reflex ladder. Stop at the first rung that holds:
+
+1. Does this need to be built at all? (YAGNI)
+2. Does it already exist in this codebase? Reuse the helper, util, or pattern that is already here.
+3. Does the standard library already do this?
+4. Does a native platform feature cover it?
+5. Does an already-installed dependency solve it?
+6. Can this be one line?
+
+If a rung holds, the answer is "do not build it", which is not a lane. Say which rung held and what to do instead. Only when all six fail does the task get a lane.
+
+The ladder runs after you understand the problem, not instead of it: read the task and the code it touches, trace the real flow end to end, then climb. A ladder answer that skips comprehension is a guess.
+
+If the `ponytail` plugin is installed its ruleset already covers this ground and takes precedence on the how; this step exists so the ladder still runs when it is absent.
+
+### Lane routing
+
+Route by cost of misunderstanding, blast radius, and reversibility, not by line count.
 
 **Quick:** unambiguous intent, small blast radius, easy reversal (copy tweaks, obvious-repro bugs, config changes, one-off scripts). No design artifacts, no approval gate. The always-on disciplines below still apply.
 
@@ -27,7 +46,14 @@ Every task routes through one of three lanes before any skill work starts. Route
 
 **Large:** a new subsystem, a cross-cutting change, or a case where misunderstanding is expensive. Full pipeline: brainstorm grilling, spec, plan.
 
-Propose the lane with one line of reasoning. The user confirms the lane when present. In a gateless `workbench:pilot` run, pilot decides the lane and records it in its deviation log. When unsure between two lanes, pick the heavier one.
+Propose the lane with one line of reasoning. The user confirms the lane when present. In a gateless `workbench:pilot` run, pilot decides the lane and records it in its deviation log.
+
+**When unsure between two lanes, pick the lighter one.** Escalate to the heavier lane only when you can name a concrete reason the lighter one fails: a decision that is expensive to reverse, a blast radius beyond the files in front of you, a genuine disagreement about intent, or a requirement you cannot state in one sentence without guessing. "It feels big" is not a reason. An artifact nobody reads costs more than it saves.
+
+Two exceptions outrank the lighter-lane default, because they protect against unrecoverable outcomes rather than wasted effort:
+
+- The user asked for a spec, a plan, or a brainstorm. A named request is never downgraded.
+- The work is destructive or hard to reverse (data migrations, deletions, auth or permission changes, public API breaks, anything touching money or credentials). Route heavy regardless of how small the diff looks.
 
 ## Always-on disciplines
 

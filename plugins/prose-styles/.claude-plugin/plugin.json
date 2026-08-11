@@ -1,0 +1,21 @@
+{
+  "name": "prose-styles",
+  "version": "0.1.0",
+  "description": "Output styles that govern prose: Orwell's rules, extreme concision, Simplified Technical English, and a combined house style.",
+  "author": {
+    "name": "Pascal Göllner"
+  },
+  "license": "MIT",
+  "keywords": [
+    "output-styles",
+    "writing",
+    "style",
+    "orwell",
+    "plain-english",
+    "concision",
+    "ste",
+    "asd-ste100",
+    "simplified-technical-english",
+    "house-style"
+  ]
+}

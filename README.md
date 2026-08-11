@@ -2,7 +2,7 @@
 
 Plugin marketplace for Claude Code and Codex.
 
-Bundles 15 plugins across Atlassian, Google Workspace, Databricks, agent-system management, design workflows, research, writing, presentations, terminal control, learning, code minimalism, and more.
+Bundles 16 plugins across Atlassian, Google Workspace, Databricks, agent-system management, design workflows, research, writing, presentations, terminal control, learning, prose output styles, code minimalism, and more.
 
 ## Skills at a glance
 
@@ -54,6 +54,8 @@ Bundles 15 plugins across Atlassian, Google Workspace, Databricks, agent-system 
 
 The `deprecated` plugin additionally archives eight superseded skills: `crafting-presentations`, `perfecting-presentations`, `exporting-decks-to-pptx`, `presentations` point at their replacement in the `presentations` plugin; `autopilot`, `copilot`, `dispatching-parallel-agents`, `terse-mode` point at their replacement in the `workbench` plugin (`terse-mode` retires without replacement).
 
+The `prose-styles` plugin ships no skills. It provides four Claude Code output styles instead, which govern how the agent writes prose for a whole session rather than for one task. See its section below.
+
 Skills are invoked from the host agent (Claude Code or Codex) using the fully qualified form `/<plugin>:<skill>`, for example `/atlassian:jira` or `/workbench:pilot`.
 
 ## Installation
@@ -75,6 +77,7 @@ Skills are invoked from the host agent (Claude Code or Codex) using the fully qu
 /plugin install databricks@pgoell-claude-tools
 /plugin install learning@pgoell-claude-tools
 /plugin install presentations@pgoell-claude-tools
+/plugin install prose-styles@pgoell-claude-tools
 /plugin install ponytail@pgoell-claude-tools
 ```
 
@@ -90,7 +93,7 @@ codex
 /plugins
 ```
 
-In the `/plugins` picker, install any combination of `atlassian`, `google-workspace`, `research`, `writing`, `runtime-bridge`, `agent-system-management`, `workbench`, `terminal`, `frontend-design`, `playground`, `databricks`, `learning`, `presentations`, and `ponytail` (plus `deprecated` if an old workflow needs the archived skill names).
+In the `/plugins` picker, install any combination of `atlassian`, `google-workspace`, `research`, `writing`, `runtime-bridge`, `agent-system-management`, `workbench`, `terminal`, `frontend-design`, `playground`, `databricks`, `learning`, `presentations`, and `ponytail` (plus `deprecated` if an old workflow needs the archived skill names). `prose-styles` is absent from the Codex picker on purpose, because Codex has no output-style mechanism.
 
 To pick up updates: `codex plugin marketplace upgrade pgoell-claude-tools` and re-install the affected plugins.
 
@@ -273,6 +276,23 @@ The full presentation lifecycle in one plugin: content design, HTML deck buildin
 - `/presentations:extracting-presets`: Turn brand material (PPTX templates and slide masters, PDF guidelines, icon libraries, example decks) into reusable presets: layered CSS variables, guidance files, assets, and self-contained example slides.
 
 Styling flows through presets (contract in `plugins/presentations/presets/README.md`). The plugin bundles a neutral `default` preset; project-local presets and a preset choice live under `.pgoell/presentations/` (`config.md` plus `presets/<name>/`) at the repo root of the project you are working in. Runtime dependencies (checked lazily, per branch): a Chromium-based browser, `uv`, and a container engine for preset extraction render checks.
+
+### prose-styles
+
+Four Claude Code output styles that govern how the agent writes prose. An output style goes into the system prompt for the whole session, so it shapes every reply, commit message, PR body, and doc until you switch it. Unlike a skill, you do not invoke it per task. All four keep Claude Code's coding instructions intact and change only the writing.
+
+| Style                  | What it does                                                                                                                                                              |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `prose-styles:orwell`  | Orwell's six rules from "Politics and the English Language" (1946). Short word over long, no stock phrase, active voice, cut every word that can go.                      |
+| `prose-styles:concise` | Maximum density. Fragments legal, articles droppable, no preamble, no closing summary. Grammar yields to brevity, facts never do.                                         |
+| `prose-styles:ste`     | Simplified Technical English, condensed from ASD-STE100. One meaning per word, one instruction per step, condition before instruction. Built for procedures and runbooks. |
+| `prose-styles:house`   | All three combined. Concision sets the shape, Orwell governs word choice, STE contributes vocabulary and ambiguity discipline only.                                       |
+
+Every style governs prose only. Code, identifiers, API names, CLI flags, config keys, and quoted output are exempt in all four.
+
+`house` resolves the conflict between STE and concision in concision's favor: STE demands full sentences, articles, and "never omit a word to shorten", and all three are dropped. What survives from STE is its precision layer, one word per concept and no ambiguous pronouns. Use `ste` on its own when the reader must not misread, such as migration steps or an incident runbook.
+
+**Setup:** select a style after install with `/output-style prose-styles:house`, or pick it from the Output style list in `/config`. The choice persists for the project. Revert with `/output-style default`. Claude Code only; Codex has no output-style mechanism, so the plugin is not in the Codex marketplace.
 
 ### ponytail
 
